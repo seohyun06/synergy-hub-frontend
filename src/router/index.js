@@ -28,13 +28,13 @@ import UserEdit from '../pages/user-manage/UserEdit';
 import Profile from '../pages/admin/Profile';
 import ProfileSettings from '../pages/admin/ProfileSettings';
 
-// ecommerce
-import Products from '../pages/ecommerce/Products';
-import Categories from '../pages/ecommerce/Categories';
-import AddProduct from '../pages/ecommerce/AddProduct';
-import EditProduct from '../pages/ecommerce/EditProduct';
-import AddCategory from '../pages/ecommerce/AddCategory';
-import EditCategory from '../pages/ecommerce/EditCategory';
+// // ecommerce
+// import Products from '../pages/ecommerce/Products';
+// import Categories from '../pages/ecommerce/Categories';
+// import AddProduct from '../pages/ecommerce/AddProduct';
+// import EditProduct from '../pages/ecommerce/EditProduct';
+// import AddCategory from '../pages/ecommerce/AddCategory';
+// import EditCategory from '../pages/ecommerce/EditCategory';
 
 // ui elements
 import Accordion from '../pages/components/Accordion';
@@ -110,7 +110,7 @@ function Router() {
           <Route path="blank" element={<Blank />} />
           <Route path="/" element={<Home />} />
           <Route path="/home" element={<Home />} />
-          <Route path="home-ecommerce" element={<HomeEcommerce />} />
+          {/*<Route path="home-ecommerce" element={<HomeEcommerce />} />*/}
           <Route path="home-project" element={<HomeProject />} />
           <Route path="home-marketing" element={<HomeMarketing />} />
           <Route path="home-nft" element={<HomeNFT />} />
@@ -135,14 +135,14 @@ function Router() {
             <Route path="profile-settings" element={<ProfileSettings />} />
           </Route>
 
-          <Route path="ecommerce">
-            <Route path="products" element={<Products />} />
-            <Route path="categories" element={<Categories />} />
-            <Route path="add-product" element={<AddProduct />} />
-            <Route path="edit-product/:id" element={<EditProduct />} />
-            <Route path="add-category" element={<AddCategory />} />
-            <Route path="edit-category/:id" element={<EditCategory />} />
-          </Route>
+          {/*<Route path="ecommerce">*/}
+          {/*  <Route path="products" element={<Products />} />*/}
+          {/*  <Route path="categories" element={<Categories />} />*/}
+          {/*  <Route path="add-product" element={<AddProduct />} />*/}
+          {/*  <Route path="edit-product/:id" element={<EditProduct />} />*/}
+          {/*  <Route path="add-category" element={<AddCategory />} />*/}
+          {/*  <Route path="edit-category/:id" element={<EditCategory />} />*/}
+          {/*</Route>*/}
 
           <Route path="ui-elements">
             <Route path="accordion" element={<Accordion />} />
