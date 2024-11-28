@@ -36,31 +36,31 @@ import ProfileSettings from '../pages/admin/ProfileSettings';
 // import AddCategory from '../pages/ecommerce/AddCategory';
 // import EditCategory from '../pages/ecommerce/EditCategory';
 
-// ui elements
-import Accordion from '../pages/components/Accordion';
-import Alert from '../pages/components/Alert';
-import Badge from '../pages/components/Badge';
-import Breadcrumb from '../pages/components/Breadcrumb';
-import Buttons from '../pages/components/Buttons';
-import ButtonGroup from '../pages/components/ButtonGroup';
-import Cards from '../pages/components/Cards';
-import Carousel from '../pages/components/Carousel';
-import CloseButton from '../pages/components/CloseButton';
-import Collapse from '../pages/components/Collapse';
-import Dropdowns from '../pages/components/Dropdowns';
-import ListGroup from '../pages/components/ListGroup';
-import Modal from '../pages/components/Modal';
-import Tabs from '../pages/components/Tabs';
-import Offcanvas from '../pages/components/Offcanvas';
-import Pagination from '../pages/components/Pagination';
-import Placeholders from '../pages/components/Placeholders';
-import Popovers from '../pages/components/Popovers';
-import Progress from '../pages/components/Progress';
-import Spinners from '../pages/components/Spinners';
-import Toasts from '../pages/components/Toasts';
-import Tooltips from '../pages/components/Tooltips';
+// // ui elements
+// import Accordion from '../pages/components/Accordion';
+// import Alert from '../pages/components/Alert';
+// import Badge from '../pages/components/Badge';
+// import Breadcrumb from '../pages/components/Breadcrumb';
+// import Buttons from '../pages/components/Buttons';
+// import ButtonGroup from '../pages/components/ButtonGroup';
+// import Cards from '../pages/components/Cards';
+// import Carousel from '../pages/components/Carousel';
+// import CloseButton from '../pages/components/CloseButton';
+// import Collapse from '../pages/components/Collapse';
+// import Dropdowns from '../pages/components/Dropdowns';
+// import ListGroup from '../pages/components/ListGroup';
+// import Modal from '../pages/components/Modal';
+// import Tabs from '../pages/components/Tabs';
+// import Offcanvas from '../pages/components/Offcanvas';
+// import Pagination from '../pages/components/Pagination';
+// import Placeholders from '../pages/components/Placeholders';
+// import Popovers from '../pages/components/Popovers';
+// import Progress from '../pages/components/Progress';
+// import Spinners from '../pages/components/Spinners';
+// import Toasts from '../pages/components/Toasts';
+// import Tooltips from '../pages/components/Tooltips';
 
-// utilities
+// // utilities
 import Misc from '../pages/utilities/Misc';
 import Typography from '../pages/utilities/Typography';
 import Images from '../pages/utilities/Images';
@@ -72,23 +72,23 @@ import Flex from '../pages/utilities/Flex';
 import Sizing from '../pages/utilities/Sizing';
 import Spacing from '../pages/utilities/Spacing';
 
-// layout
-import Breakpoints from '../pages/layout/Breakpoints';
-import Containers from '../pages/layout/Containers';
-import Gutters from '../pages/layout/Gutters';
-// fomrs
-import FormControl from '../pages/forms/FormControl';
-import FormSelect from '../pages/forms/FormSelect';
-import DateTime from '../pages/forms/DateTime';
-import FormUpload from '../pages/forms/FormUpload';
-import InputGroup from '../pages/forms/InputGroup';
-import FloatingLabels from '../pages/forms/FloatingLabels';
-import ChecksRadios from '../pages/forms/ChecksRadios';
-import FormRange from '../pages/forms/FormRange';
-import FormValidation from '../pages/forms/FormValidation';
-import FormLayout from '../pages/forms/FormLayout';
-import QuillPreview from '../pages/forms/editors/QuillPreview';
-import TinymcePreview from '../pages/forms/editors/TinymcePreview';
+// // layout
+// import Breakpoints from '../pages/layout/Breakpoints';
+// import Containers from '../pages/layout/Containers';
+// import Gutters from '../pages/layout/Gutters';
+// // fomrs
+// import FormControl from '../pages/forms/FormControl';
+// import FormSelect from '../pages/forms/FormSelect';
+// import DateTime from '../pages/forms/DateTime';
+// import FormUpload from '../pages/forms/FormUpload';
+// import InputGroup from '../pages/forms/InputGroup';
+// import FloatingLabels from '../pages/forms/FloatingLabels';
+// import ChecksRadios from '../pages/forms/ChecksRadios';
+// import FormRange from '../pages/forms/FormRange';
+// import FormValidation from '../pages/forms/FormValidation';
+// import FormLayout from '../pages/forms/FormLayout';
+// import QuillPreview from '../pages/forms/editors/QuillPreview';
+// import TinymcePreview from '../pages/forms/editors/TinymcePreview';
 
 // other pages
 import DataTablePreview from '../pages/DataTablePreview';
