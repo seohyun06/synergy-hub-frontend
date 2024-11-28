@@ -1,0 +1,68 @@
+.team-card {
+    background-color: white; /* 카드 박스 배경을 흰색으로 설정 */
+    border-radius: 10px; /* 카드 모서리를 부드럽게 */
+    padding: 15px 20px; /* 내부 여백 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 약간의 그림자 효과 */
+    transition: transform 0.2s ease, box-shadow 0.2s ease; /* 호버 시 애니메이션 */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 10px;
+    width: 232px; /* 카드의 고정된 너비 */
+    height: 200px; /* 카드의 고정된 높이 */
+    overflow: hidden; /* 내용이 넘칠 경우 숨김 처리 */
+}
+
+.team-card:hover {
+    transform: translateY(-5px); /* 호버 시 살짝 올라가는 효과 */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* 호버 시 그림자 강조 */
+}
+
+.team-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.team-id {
+    font-size: 0.85em;
+    color: #888; /* 팀 ID 색상 */
+}
+
+.team-card-body {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.team-status {
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 0.85em;
+    color: white;
+    background-color: #007bff; /* 상태 기본 색상 */
+}
+
+.team-status.todo {
+    background-color: #ff6b6b; /* "To Do" 상태 */
+}
+
+.team-status.inprocess {
+    background-color: #ffa502; /* "In Process" 상태 */
+}
+
+.team-status.completed {
+    background-color: #2ed573; /* "Completed" 상태 */
+}
+
+.team-category {
+    font-size: 0.85em;
+    color: #555;
+}
+
+.team-card-footer {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85em;
+    color: #555;
+}

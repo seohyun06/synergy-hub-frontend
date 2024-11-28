@@ -103,13 +103,20 @@ import AuthReset from '../pages/auths/AuthReset';
 import NotFound from '../pages/error/NotFound';
 import IconsPreview from '../pages/IconsPreview';
 
+// mainPage
+import MainPage from "../mainPage/pages/MainPage";
+
 function Router() {
   return (
     <ScrollToTop>
       <Routes>
           <Route path="blank" element={<Blank />} />
-          <Route path="/" element={<Home />} />
-          <Route path="/home" element={<Home />} />
+
+          <Route path="/" element={<MainPage />} />
+          {/*<Route path="/" element={<Home />} />*/}
+          {/*<Route path="/home" element={<Home />} />*/}
+
+
           {/*<Route path="home-ecommerce" element={<HomeEcommerce />} />*/}
           <Route path="home-project" element={<HomeProject />} />
           <Route path="home-marketing" element={<HomeMarketing />} />

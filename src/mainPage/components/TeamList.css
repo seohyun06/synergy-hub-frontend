@@ -1,0 +1,7 @@
+.team-list {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 한 줄에 4개씩 정렬 */
+    gap: 20px; /* 카드 간의 간격 */
+    padding: 20px 0; /* 리스트 전체 여백 */
+    justify-content: center; /* 카드들이 가운데 정렬되도록 설정 */
+}
