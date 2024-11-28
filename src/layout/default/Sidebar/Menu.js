@@ -163,18 +163,6 @@ function Menu() {
                     <MenuItem>
                         <MenuItemLink text="Default / Analytics" to="/home"/>
                     </MenuItem>
-                    <MenuItem>
-                        <MenuItemLink text="eCommerce" to="/home-ecommerce"/>
-                    </MenuItem>
-                    <MenuItem>
-                        <MenuItemLink text="Project Manage" to="/home-project"/>
-                    </MenuItem>
-                    <MenuItem>
-                        <MenuItemLink text="Marketing" to="/home-marketing"/>
-                    </MenuItem>
-                    <MenuItem>
-                        <MenuItemLink text="NFT" to="/home-nft"/>
-                    </MenuItem>
                 </MenuSub>
             </MenuItem>
             <MenuHeading text="Applications" />
