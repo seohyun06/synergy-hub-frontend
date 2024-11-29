@@ -1,7 +1,7 @@
 import React from 'react';
 import { Row, Col, Card, Form, Button } from 'react-bootstrap';
 import { Link } from "react-router-dom";
-import logo from '../assets/img/logo5.jpeg'; // 상대 경로를 사용하여 이미지 import
+import logo from '../assets/img/logo5.jpeg'; 
 import '../assets/css/style.css'
 
 const LoginPage = () => {
