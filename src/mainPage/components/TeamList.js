@@ -44,38 +44,79 @@
 // export default TeamList;
 
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import TeamCard from "./TeamCard";
 import "./TeamList.css";
+import axios from "axios";
 
 const TeamList = () => {
-    const teams = [
-        { id: "U1007", title: "Model Answer", status: "To Do", category: "Design", members: 5, comments: 3 },
-        { id: "U1003", title: "Create calendar, chat and email app pages", status: "Backlog", category: "Development", members: 5, comments: 4 },
-        { id: "U1002", title: "Product Design", status: "In Process", category: "Project", members: 5, comments: 2 },
-        { id: "U1008", title: "Team Alpha", status: "Completed", category: "Testing", members: 7, comments: 6 },
-        { id: "U1008", title: "Team Alpha", status: "Completed", category: "Testing", members: 7, comments: 6 },
-        { id: "U1008", title: "Team Alpha", status: "Completed", category: "Testing", members: 7, comments: 6 },
-        // { id: "U1008", title: "Team Alpha", status: "Completed", category: "Testing", members: 7, comments: 6 },
-        // { id: "U1008", title: "Team Alpha", status: "Completed", category: "Testing", members: 7, comments: 6 },
-        // { id: "U1008", title: "Team Alpha", status: "Completed", category: "Testing", members: 7, comments: 6 },
-        // { id: "U1008", title: "Team Alpha", status: "Completed", category: "Testing", members: 7, comments: 6 },
-        // { id: "U1008", title: "Team Alpha", status: "Completed", category: "Testing", members: 7, comments: 6 },
-    ];
+    const [teams, setTeams] = useState([]);
+    const [isFetching, setIsFetching] = useState(false);
+    const [page, setPage] = useState(0);
+    const [totalPages, setTotalPages] = useState(1);
+
+    const fetchTeams = async () => {
+        if (isFetching || page >= totalPages) return;
+        setIsFetching(true);
+
+        try {
+            const response = await axios.get("http://localhost:8080/teams", {
+                params: { page: page, size: 10 },
+            });
+
+            setTeams((prevTeams) => [
+                ...prevTeams,
+                ...response.data.content.filter(
+                    (team) => !prevTeams.some((prevTeam) => prevTeam.id === team.id)
+                ),
+            ]);
+
+            setTotalPages(response.data.totalPages);
+            setPage((prevPage) => prevPage + 1);
+        } catch (err) {
+            console.error("Error fetching teams:", err);
+        } finally {
+            setIsFetching(false);
+        }
+    };
+
+    useEffect(() => {
+        fetchTeams();
+    }, []);
+
+    const handleScroll = () => {
+        const scrollableHeight =
+            document.documentElement.scrollHeight -
+            document.documentElement.clientHeight;
+
+        if (
+            window.scrollY >= scrollableHeight - 300 && // 스크롤 하단 300px 여유
+            !isFetching
+        ) {
+            fetchTeams();
+        }
+    };
+
+    useEffect(() => {
+        window.addEventListener("scroll", handleScroll);
+        return () => {
+            window.removeEventListener("scroll", handleScroll);
+        };
+    }, [isFetching]);
 
     return (
         <div className="team-list">
             {teams.map((team) => (
                 <TeamCard
                     key={team.id}
-                    title={team.title}
                     id={team.id}
-                    category={team.category}
-                    status={team.status}
-                    members={team.members}
-                    comments={team.comments}
+                    name={team.name}
+                    labels={team.labels || []}
+                    members={team.members || []}
+                    comments={team.comments || 0}
                 />
             ))}
+            {isFetching && <div className="loading-indicator">Loading more teams...</div>}
         </div>
     );
 };
