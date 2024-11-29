@@ -47,6 +47,7 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import MainPage from "./mainPage/pages/MainPage";
 import TeamPage from "./mainPage/pages/TeamPage";
+import LoginPage from "./member/pages/loginPage"
 
 const App = () => {
     return (
@@ -54,6 +55,10 @@ const App = () => {
             <Routes>
                 <Route path="/" element={<MainPage />} />
                 <Route path="/team/:id" element={<TeamPage />} />
+
+                {/* 회원 */}
+                <Route path="/login" element={<LoginPage />} />
+
             </Routes>
         </Router>
     );
