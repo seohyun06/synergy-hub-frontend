@@ -48,6 +48,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import MainPage from "./mainPage/pages/MainPage";
 import CreateTeamPage from "./mainPage/pages/CreateTeamPage";
 import TeamPage from "./mainPage/pages/TeamPage";
+import Chat from "./chat/Chat"; // Chat.js 경로 추가
 
 const App = () => {
     return (
@@ -56,10 +57,12 @@ const App = () => {
                 <Route path="/" element={<MainPage />} />
                 <Route path="/create-team" element={<CreateTeamPage />} />
                 <Route path="/team/:id" element={<TeamPage />} />
+
+
+                <Route path="/chat" element={<Chat />} />
             </Routes>
         </Router>
     );
 };
 
 export default App;
-
