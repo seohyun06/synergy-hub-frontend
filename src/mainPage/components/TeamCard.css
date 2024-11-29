@@ -81,47 +81,70 @@
     background-color: #0056b3;
 }
 
-.team-labels {
-    margin: 16px 0;
-    width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-}
-
-.team-label {
-    background-color: #e0e0e0;
-    color: #333;
+/* 라벨 배지 스타일 */
+.team-label-badge {
+    display: inline-block;
     padding: 5px 10px;
-    border-radius: 5px;
-    font-size: 12px;
+    border-radius: 15px; /* 둥근 모서리 */
+    font-size: 12px; /* 텍스트 크기 */
+    font-weight: bold; /* 텍스트 강조 */
+    color: #000000; /* 텍스트 색상 */
+    text-align: center;
+    margin: 2px; /* 라벨 간격 */
+    white-space: nowrap; /* 텍스트 줄바꿈 방지 */
+    background-color: #888; /* 기본 배경색 (동적으로 설정 가능) */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 부드러운 그림자 */
+    transition: all 0.3s ease; /* 마우스 호버 시 부드러운 전환 */
 }
 
-.team-members {
-    display: flex;
-    align-items: center;
-    gap: 8px;
+/* 마우스 호버 시 라벨 효과 */
+.team-label-badge:hover {
+    transform: scale(1.05); /* 살짝 확대 */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* 그림자 강화 */
 }
 
-.team-member {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    overflow: hidden;
-    background-color: #ccc;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
 
-.team-comments {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    font-size: 14px;
-    color: #555;
-}
+/*.team-labels {*/
+/*    margin: 16px 0;*/
+/*    width: 100%;*/
+/*    display: flex;*/
+/*    flex-wrap: wrap;*/
+/*    gap: 8px;*/
+/*}*/
 
-.comments-icon {
-    font-size: 18px;
-}
+/*.team-label {*/
+/*    background-color: #e0e0e0;*/
+/*    color: #333;*/
+/*    padding: 5px 10px;*/
+/*    border-radius: 5px;*/
+/*    font-size: 12px;*/
+/*}*/
+
+/*.team-members {*/
+/*    display: flex;*/
+/*    align-items: center;*/
+/*    gap: 8px;*/
+/*}*/
+
+/*.team-member {*/
+/*    width: 32px;*/
+/*    height: 32px;*/
+/*    border-radius: 50%;*/
+/*    overflow: hidden;*/
+/*    background-color: #ccc;*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*}*/
+
+/*.team-comments {*/
+/*    display: flex;*/
+/*    align-items: center;*/
+/*    gap: 4px;*/
+/*    font-size: 14px;*/
+/*    color: #555;*/
+/*}*/
+
+/*.comments-icon {*/
+/*    font-size: 18px;*/
+/*}*/

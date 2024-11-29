@@ -46,7 +46,6 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import MainPage from "./mainPage/pages/MainPage";
-import CreateTeamPage from "./mainPage/pages/CreateTeamPage";
 import TeamPage from "./mainPage/pages/TeamPage";
 
 const App = () => {
@@ -54,7 +53,6 @@ const App = () => {
         <Router>
             <Routes>
                 <Route path="/" element={<MainPage />} />
-                {/*<Route path="/create-team" element={<CreateTeamPage />} />*/}
                 <Route path="/team/:id" element={<TeamPage />} />
             </Routes>
         </Router>
