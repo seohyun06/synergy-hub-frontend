@@ -1,10 +1,56 @@
-import React from 'react';
-import { Row, Col, Card, Form, Button } from 'react-bootstrap';
-import { Link } from "react-router-dom";
-import logo from '../assets/img/logo5.jpeg'; 
-import '../assets/css/style.css'
+import React, { useState } from 'react';
+import { Link, useNavigate } from "react-router-dom";
+import logo from '../assets/img/logo5.jpeg';
+import '../assets/css/style.css';
 
 const LoginPage = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const navigate = useNavigate();
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    const requestBody = {
+      username: email, // 서버에서 username으로 요청 받음 
+      password,
+    };
+
+    try {
+      const response = await fetch('members/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestBody),
+      });
+
+      if (response.ok) {
+
+        alert("로그인 성공");
+        // 응답 헤더에서 토큰 추출
+        const token = response.headers.get("Authorization"); // Authorization 헤더에서 토큰 가져오기
+
+        if (token) {
+        
+          const jwtToken = token.split(" ")[1]; // "Bearer " 부분제거
+
+          // 토큰을 로컬 스토리지에 저장
+          localStorage.setItem('jwtToken', jwtToken);
+
+          navigate('/'); 
+        } else {
+          alert("로그인 오류");
+        }
+      } else {
+        const errorData = await response.json();
+        alert(errorData.message || "로그인에 실패했습니다.");
+      }
+    } catch (error) {
+      alert("서버에 연결할 수 없습니다.");
+    }
+  };
+
   return (
     <section className="bg-custom py-3 py-md-5 py-xl-8">
       <div className="container">
@@ -14,7 +60,7 @@ const LoginPage = () => {
               <div className="col-12 col-xl-9">
                 <img className="img-fluid rounded mb-4" loading="lazy" src={logo} width="245" height="80" alt="synergyhub Logo" />
                 <hr className="border-white mb-4" />
-                <h2 className="h1 mb-4 text-white">시너지허브를 통해 효과적인 소통과 협력을 경험하세요</h2>
+                <h2 className="h1 mb-4 text-black">시너지 허브를 통해 효과적인 소통과 협력을 경험하세요</h2>
                 <p className="lead mb-5 text-white">You can manage team calendars, chat with team members, and check team announcements.</p>
                 <div className="text-end">
                   <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" className="bi bi-grip-horizontal" viewBox="0 0 16 16">
@@ -35,17 +81,35 @@ const LoginPage = () => {
                     </div>
                   </div>
                 </div>
-                <form>
+                <form onSubmit={handleSubmit}>
                   <div className="row gy-3 overflow-hidden">
                     <div className="col-12">
                       <div className="form-floating mb-3">
-                        <input type="email" className="form-control rounded-input" name="email" id="email" placeholder="name@example.com" required />
+                        <input
+                          type="email"
+                          className="form-control rounded-input"
+                          name="email"
+                          id="email"
+                          placeholder="name@example.com"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                          required
+                        />
                         <label htmlFor="email" className="form-label">Email</label>
                       </div>
                     </div>
                     <div className="col-12">
                       <div className="form-floating mb-3">
-                        <input type="password" className="form-control rounded-input" name="password" id="password" placeholder="Password" required />
+                        <input
+                          type="password"
+                          className="form-control rounded-input"
+                          name="password"
+                          id="password"
+                          placeholder="Password"
+                          value={password}
+                          onChange={(e) => setPassword(e.target.value)}
+                          required
+                        />
                         <label htmlFor="password" className="form-label">Password</label>
                       </div>
                     </div>
@@ -59,13 +123,12 @@ const LoginPage = () => {
                     </div>
                     <div className="col-12">
                       <div className="d-grid">
-                        <button className="btn btn-primary btn-lg  card-custom rounded-input" type="submit">Log in now</button>
+                        <button className="btn btn-primary btn-lg card-custom rounded-input" type="submit">Log in now</button>
                       </div>
                     </div>
                   </div>
                 </form>
-                <br></br>
-                <br></br>
+                <br />
                 <div className="row">
                   <div className="col-12">
                     <div className="text-center mb-4">
@@ -75,7 +138,6 @@ const LoginPage = () => {
                         <hr className="border-black" style={{ flex: 1, margin: '0 10px', borderColor: 'black' }} />
                       </div>
                     </div>
-
                     <div className="text-center">
                       <a href='#' className="btn btn-custom rounded-input">
                         <i className="fa fa-google"></i>
