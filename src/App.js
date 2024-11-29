@@ -54,7 +54,7 @@ const App = () => {
         <Router>
             <Routes>
                 <Route path="/" element={<MainPage />} />
-                <Route path="/create-team" element={<CreateTeamPage />} />
+                {/*<Route path="/create-team" element={<CreateTeamPage />} />*/}
                 <Route path="/team/:id" element={<TeamPage />} />
             </Routes>
         </Router>
