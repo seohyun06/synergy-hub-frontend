@@ -56,11 +56,11 @@ const TeamList = () => {
         { id: "U1008", title: "Team Alpha", status: "Completed", category: "Testing", members: 7, comments: 6 },
         { id: "U1008", title: "Team Alpha", status: "Completed", category: "Testing", members: 7, comments: 6 },
         { id: "U1008", title: "Team Alpha", status: "Completed", category: "Testing", members: 7, comments: 6 },
-        { id: "U1008", title: "Team Alpha", status: "Completed", category: "Testing", members: 7, comments: 6 },
-        { id: "U1008", title: "Team Alpha", status: "Completed", category: "Testing", members: 7, comments: 6 },
-        { id: "U1008", title: "Team Alpha", status: "Completed", category: "Testing", members: 7, comments: 6 },
-        { id: "U1008", title: "Team Alpha", status: "Completed", category: "Testing", members: 7, comments: 6 },
-        { id: "U1008", title: "Team Alpha", status: "Completed", category: "Testing", members: 7, comments: 6 },
+        // { id: "U1008", title: "Team Alpha", status: "Completed", category: "Testing", members: 7, comments: 6 },
+        // { id: "U1008", title: "Team Alpha", status: "Completed", category: "Testing", members: 7, comments: 6 },
+        // { id: "U1008", title: "Team Alpha", status: "Completed", category: "Testing", members: 7, comments: 6 },
+        // { id: "U1008", title: "Team Alpha", status: "Completed", category: "Testing", members: 7, comments: 6 },
+        // { id: "U1008", title: "Team Alpha", status: "Completed", category: "Testing", members: 7, comments: 6 },
     ];
 
     return (
