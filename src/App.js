@@ -48,6 +48,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import MainPage from "./mainPage/pages/MainPage";
 import TeamPage from "./mainPage/pages/TeamPage";
 import LoginPage from "./member/pages/loginPage"
+import SignUpPage from "./member/pages/signUpPage";
 
 const App = () => {
     return (
@@ -58,6 +59,8 @@ const App = () => {
 
                 {/* 회원 */}
                 <Route path="/login" element={<LoginPage />} />
+                <Route path="/signup" element={<SignUpPage />} />
+
 
             </Routes>
         </Router>
