@@ -48,6 +48,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import MainPage from "./mainPage/pages/MainPage";
 import CreateTeamPage from "./mainPage/pages/CreateTeamPage";
 import TeamPage from "./mainPage/pages/TeamPage";
+import LoginPage from "./member/pages/loginPage"
 
 const App = () => {
     return (
@@ -56,6 +57,10 @@ const App = () => {
                 <Route path="/" element={<MainPage />} />
                 <Route path="/create-team" element={<CreateTeamPage />} />
                 <Route path="/team/:id" element={<TeamPage />} />
+
+                {/* 회원 */}
+                <Route path="/login" element={<LoginPage />} />
+
             </Routes>
         </Router>
     );
