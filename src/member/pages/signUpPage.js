@@ -36,6 +36,7 @@ const SignUpPage = () => {
             });
 
             if (response.ok) {  //회원가입 성공
+                alert("회원 가입에 성공하셨습니다.")
                 navigate('/login');
             } else {  //회원가입 실패 
                 const errorData = await response.json();
