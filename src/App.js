@@ -47,43 +47,58 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import MainPage from "./mainPage/pages/MainPage";
 import TeamPage from "./mainPage/pages/TeamPage";
-import LoginPage from "./member/pages/loginPage"
+import LoginPage from "./member/pages/loginPage";
 import SignUpPage from "./member/pages/signUpPage";
-import Header from './global/Header/Header';  // 경로 수정
-import Sidebar from './global/Sidebar/Sidebar'; // 경로 수정
+import Header from './global/Header/Header';
+import Sidebar from './global/Sidebar/Sidebar';
 import Chat from "./chat/Chat";
-import ChatRoom from "./chat/ChatRoom"; // Chat.js 경로 추가
+import ChatRoom from "./chat/ChatRoom";
+
+const Layout = ({ children }) => {
+  return (
+    <div className="app">
+      <Header />
+      <div className="app-body">
+        <Sidebar />
+        <div className="main-content">{children}</div>
+      </div>
+    </div>
+  );
+};
 
 const App = () => {
-    return (
-        <Router>
-          <div className="app">
-            {/*헤더 추가*/}
-            <Header />
-            <div className="app">
-               {/* Sidebar 추가 */}
-               <div className="main-content">
-                  <Sidebar />
-            <Routes>
-                <Route path="/" element={<MainPage />} />
-                <Route path="/team/:id" element={<TeamPage />} />
+  return (
+    <Router>
+      <Routes>
+        {/* MainPage는 헤더와 사이드바 없이 렌더링 */}
+        <Route path="/" element={<MainPage />} />
 
-                {/* 회원 */}
-                <Route path="/login" element={<LoginPage />} />
-                <Route path="/signup" element={<SignUpPage />} />
-
-
-
-
-                <Route path="/chat" element={<Chat />} />
-                <Route path="/chat/:chatRoomId" element={<ChatRoom />} />
-            </Routes>
-            </div>
-            </div>
-            </div>
-        </Router>
-    );
+        {/* 그 외 페이지들은 Layout을 사용해 헤더와 사이드바 포함 */}
+        <Route
+          path="/team/:id"
+          element={<Layout><TeamPage /></Layout>}
+        />
+        <Route
+          path="/login"
+          element={<Layout><LoginPage /></Layout>}
+        />
+        <Route
+          path="/signup"
+          element={<Layout><SignUpPage /></Layout>}
+        />
+        <Route
+          path="/chat"
+          element={<Layout><Chat /></Layout>}
+        />
+        <Route
+          path="/chat/:chatRoomId"
+          element={<Layout><ChatRoom /></Layout>}
+        />
+      </Routes>
+    </Router>
+  );
 };
 
 export default App;
+
 
