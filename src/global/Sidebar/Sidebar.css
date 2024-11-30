@@ -1,0 +1,70 @@
+/* 사이드바 전체 스타일 */
+.sidebar {
+  width: 200px;
+  height: 100vh;
+  background-color: #ffffff; /* 배경색을 하얀색으로 설정 */
+  color: #333333; /* 기본 텍스트 색상 */
+  padding-top: 1rem;
+  box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.1); /* 약간의 그림자 추가 */
+}
+
+/* 메뉴 리스트 스타일 */
+.sidebar-menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* 메뉴 항목 스타일 */
+.menu-item {
+  padding: 1rem;
+  cursor: pointer;
+  font-size: 1rem;
+  color: #333333;
+  text-align: left;
+  transition: background-color 0.3s; /* 배경 색상 변경에 부드러운 전환 추가 */
+}
+
+/* 메뉴 항목에 활성화된 상태 */
+.menu-item.active {
+  background-color: #0414f01e;
+  color: rgb(0, 0, 0); /* 활성화된 항목은 텍스트 색상이 검정색 */
+  font-weight: bold; /* 텍스트를 굵게 */
+}
+
+
+
+/* 링크의 기본 색상 제거 및 원하는 색상 적용 */
+.sidebar-menu .menu-item a {
+  color: #000000;  /* 기본 텍스트 색상 설정 */
+  text-decoration: none;  /* 링크의 밑줄 제거 */
+}
+
+/* 전체 레이아웃 */
+.app-body {
+  display: flex; /* 사이드바와 메인 컨텐츠를 가로로 정렬 */
+  height: 100vh; /* 뷰포트 전체 높이를 사용 */
+}
+
+/* 사이드바 조정 */
+.sidebar {
+  width: 250px;
+  background-color: #f8f9fa; /* 기존 배경색 */
+  height: calc(100vh - 60px); /* 헤더 높이를 제외한 전체 높이 */
+  padding: 20px 0; /* 상단 여백 */
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* 기존 그림자 유지 */
+  position: fixed;
+  top: 60px; /* 헤더 바로 아래에서 시작 */
+  left: 0;
+  overflow-y: auto; /* 내용 스크롤 가능 */
+}
+
+/* 메인 컨텐츠 조정 */
+.main-content {
+  margin-left: 250px; /* 사이드바 너비만큼 왼쪽 여백 */
+  margin-top: 60px; /* 헤더 높이만큼 위쪽 여백 */
+  padding: 20px;
+  width: calc(100% - 250px); /* 사이드바를 제외한 나머지 너비 */
+  overflow-y: auto; /* 스크롤 가능 */
+}
+
