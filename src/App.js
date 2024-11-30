@@ -51,6 +51,8 @@ import LoginPage from "./member/pages/loginPage"
 import SignUpPage from "./member/pages/signUpPage";
 import Header from './global/Header/Header';  // 경로 수정
 import Sidebar from './global/Sidebar/Sidebar'; // 경로 수정
+import Chat from "./chat/Chat";
+import ChatRoom from "./chat/ChatRoom"; // Chat.js 경로 추가
 
 const App = () => {
     return (
@@ -71,6 +73,10 @@ const App = () => {
                 <Route path="/signup" element={<SignUpPage />} />
 
 
+
+
+                <Route path="/chat" element={<Chat />} />
+                <Route path="/chat/:chatRoomId" element={<ChatRoom />} />
             </Routes>
             </div>
             </div>
