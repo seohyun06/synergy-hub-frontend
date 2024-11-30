@@ -1,15 +1,129 @@
-/*.team-list {*/
-/*    display: grid;*/
-/*    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));*/
-/*    gap: 20px;*/
-/*    padding: 20px 0;*/
-/*}*/
-
-
 .team-list {
     display: grid;
     grid-template-columns: repeat(4, 1fr); /* 한 줄에 4개씩 정렬 */
     gap: 20px; /* 카드 간의 간격 */
     padding: 20px 0; /* 리스트 전체 여백 */
     justify-content: center; /* 카드들이 가운데 정렬되도록 설정 */
+}
+
+
+/*.team-card {*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*    justify-content: space-between;*/
+/*    width: 300px;*/
+/*    height: 200px;*/
+/*    padding: 20px;*/
+/*    border: 1px solid #ccc;*/
+/*    border-radius: 10px;*/
+/*    background-color: #f9f9f9;*/
+/*    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);*/
+/*    cursor: pointer;*/
+/*    transition: transform 0.3s;*/
+/*}*/
+
+.team-card:hover {
+    transform: scale(1.02);
+}
+
+.team-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.team-name {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.team-buttons {
+    display: flex;
+    gap: 5px;
+}
+
+.team-edit-button,
+.team-leave-button {
+    padding: 5px 10px;
+    font-size: 14px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #007bff;
+    color: #fff;
+    transition: background-color 0.3s;
+}
+
+.team-edit-button:hover {
+    background-color: #0056b3;
+}
+
+.team-leave-button:hover {
+    background-color: #d9534f;
+}
+
+.team-labels {
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.team-label {
+    padding: 5px 10px;
+    font-size: 12px;
+    background-color: #e0e0e0;
+    border-radius: 5px;
+}
+
+.no-label {
+    font-size: 12px;
+    color: #999;
+}
+
+.team-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 15px;
+}
+
+.team-members {
+    display: flex;
+    gap: 5px;
+}
+
+.team-member {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    overflow: hidden;
+    background-color: #ccc;
+}
+
+.member-avatar {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.team-member-add {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 32px;
+    height: 32px;
+    border: 2px dashed #ccc;
+    border-radius: 50%;
+    font-size: 18px;
+    color: #007bff;
+    cursor: pointer;
+}
+
+.team-comments {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 14px;
+    color: #666;
 }
