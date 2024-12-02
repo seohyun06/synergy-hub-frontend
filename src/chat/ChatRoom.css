@@ -1,0 +1,78 @@
+.chat-room-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background: #f9f9f9;
+}
+
+.chat-room-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    background: #007bff;
+    color: white;
+}
+
+.chat-room-header .back-button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.chat-body {
+    flex: 1;
+    padding: 10px;
+    overflow-y: auto;
+    background: #fff;
+}
+
+.chat-message {
+    padding: 8px 12px;
+    margin: 5px 0;
+    border-radius: 5px;
+    max-width: 70%;
+    word-wrap: break-word;
+}
+
+.chat-message.sent {
+    align-self: flex-end;
+    background: #dcf8c6;
+}
+
+.chat-message.received {
+    align-self: flex-start;
+    background: #f1f0f0;
+}
+
+.chat-input-container {
+    display: flex;
+    padding: 10px;
+    border-top: 1px solid #ccc;
+    background: #f9f9f9;
+}
+
+.chat-input-container input {
+    flex: 1;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+.chat-input-container .send-button {
+    padding: 10px 15px;
+    font-size: 14px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.chat-input-container .send-button:hover {
+    background: #0056b3;
+}

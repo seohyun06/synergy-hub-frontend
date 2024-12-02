@@ -1,0 +1,62 @@
+/* src/global/header/Header.css */
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #9fa6e61e; /* 기존 배경색 유지 */
+  color: rgba(36, 34, 34, 0.89); /* 기존 텍스트 색상 유지 */
+  padding: 10px 20px;
+  position: fixed; /* 페이지 상단에 고정 */
+  top: 0; /* 화면 상단에서 고정 */
+  left: 0; /* 화면 왼쪽 기준 */
+  width: 100%; /* 화면 전체 너비 사용 */
+  height: 60px; /* 고정된 높이 설정 */
+  z-index: 1000; /* 가장 위에 렌더링되도록 설정 */
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); /* 그림자 추가 */
+}
+
+  .header-left {
+    display: flex;
+    align-items: center;
+  }
+
+  .header-left h1 {
+    margin: 0;
+    font-size: 24px;
+    margin-right: 10px; /* 드롭다운과 여백 추가 */
+  }
+
+  .team-switcher {
+    padding: 5px;
+    font-size: 16px;
+    border-radius: 4px;
+    border: none;
+    background-color: #5958c273;
+    color: white;
+  }
+
+  .team-switcher:focus {
+    outline: none;
+  }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+  }
+
+  .profile-section {
+    display: flex;
+    align-items: center;
+  }
+
+  .profile-img {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+
+  .profile-name {
+    font-size: 16px;
+  }
