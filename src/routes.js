@@ -9,6 +9,8 @@ import Header from './global/Header/Header';
 import Sidebar from './global/Sidebar/Sidebar';
 import Chat from "./page/chat/Chat";
 import ChatRoom from "./page/chat/ChatRoom";
+import CreateNoticePage from "./page/notice/CreateNoticePage";
+
 
 // src/routes.js
 export const ROUTES = {
@@ -75,6 +77,15 @@ const router = createBrowserRouter([
             </Layout>
         ),
     },
+    {
+        path: "/notice/create",
+        element: (
+            <Layout>
+                <CreateNoticePage />
+            </Layout>
+        ),
+    },
+
 ]);
 
 export default router;
