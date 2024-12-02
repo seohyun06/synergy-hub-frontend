@@ -19,7 +19,6 @@ const MainPage = () => {
         setLabels([...labels, label]); // 기존 라벨 목록에 새 라벨 추가
     };
 
-    // 팀 생성 핸들러
     const handleCreateTeam = async () => {
         if (!teamName.trim()) {
             alert("팀 이름을 입력해주세요.");
@@ -27,19 +26,37 @@ const MainPage = () => {
         }
 
         try {
-            // 팀 생성 API 호출
-            const response = await axios.post("http://localhost:8080/teams", {
+            // 1. 팀 생성 API 호출
+            const teamResponse = await axios.post("http://localhost:8080/teams", {
                 name: teamName,
-                labels, // 전체 라벨 데이터를 전송
             });
 
-            console.log("팀 생성 성공:", response.data);
-            alert("팀이 성공적으로 생성되었습니다!");
+            console.log("팀 생성 성공:", teamResponse.data);
 
-            // 상태 초기화
-            setIsCreatingTeam(false);
-            setTeamName("");
-            setLabels([]);
+            // 2. 팀과 라벨 매핑 API 호출
+            console.log("Labels array:", labels);
+
+            console.log("Request URL:", `http://localhost:8080/teams/${teamResponse.data.id}/labels`);
+            console.log("Request payload:", { labelIds: labels.map(label => label.id) });
+
+            if (labels.length > 0) { // 라벨이 있는 경우에만 API 호출
+                const labelIds = labels.map(label => label.id); // 라벨 ID 리스트 추출
+                const mappingResponse = await axios.post(
+                    `http://localhost:8080/teams/${teamResponse.data.id}/labels`, // 팀 ID 사용
+                    { labelIds }, // 요청 본문에 라벨 ID 리스트 전달
+                    {
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                    }
+                );
+
+                console.log("라벨 매핑 성공:", mappingResponse.data);
+            }
+
+            // 3. 성공 메시지 및 새로고침
+            alert("팀이 성공적으로 생성되었습니다!");
+            window.location.reload(); // 새로고침
         } catch (error) {
             console.error("팀 생성 실패:", error);
             alert("팀 생성 중 오류가 발생했습니다.");
