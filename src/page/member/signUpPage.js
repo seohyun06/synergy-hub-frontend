@@ -3,6 +3,7 @@ import { Row, Col, Card, Form, Button } from 'react-bootstrap';
 import logo from './img/logo5.jpeg';
 import './css/style.css'
 import { Link, useNavigate } from "react-router-dom";
+import { ROUTES } from '../../global/Routes';
 
 const SignUpPage = () => {
 
@@ -27,7 +28,7 @@ const SignUpPage = () => {
         };
 
         try {
-            const response = await fetch('/members/signup', {
+            const response = await fetch(ROUTES.SIGNUP.link, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
