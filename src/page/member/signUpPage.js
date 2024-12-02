@@ -1,7 +1,7 @@
 import React, { useState}  from 'react';
 import { Row, Col, Card, Form, Button } from 'react-bootstrap';
-import logo from '../assets/img/logo5.jpeg'; 
-import '../assets/css/style.css'
+import logo from './img/logo5.jpeg';
+import './css/style.css'
 import { Link, useNavigate } from "react-router-dom";
 
 const SignUpPage = () => {

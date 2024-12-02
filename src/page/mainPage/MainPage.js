@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios"; // axios 추가
-import TeamList from "../components/TeamList";
-import LabelCreationForm from "../components/LabelCreationForm"; // 라벨 생성 폼 추가
+import TeamList from "../../component/mainPage/TeamList";
+import LabelCreationForm from "../../component/mainPage/LabelCreationForm"; // 라벨 생성 폼 추가
 import "./MainPage.css";
 
 const MainPage = () => {
