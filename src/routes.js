@@ -10,6 +10,14 @@ import Sidebar from './global/Sidebar/Sidebar';
 import Chat from "./page/chat/Chat";
 import ChatRoom from "./page/chat/ChatRoom";
 
+// src/routes.js
+export const ROUTES = {
+  HOME: '/',
+  CALENDAR: '/calendar',
+  CHAT: '/chat',
+  NOTICES: '/notices',
+};
+
 // Layout 컴포넌트
 const Layout = ({ children }) => (
     <div className="app">
