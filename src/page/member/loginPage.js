@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import logo from './img/logo5.jpeg';
 import './css/style.css';
-import { ROUTES } from '../../global/Routes';
+import { ROUTES } from '../../global/Links';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
