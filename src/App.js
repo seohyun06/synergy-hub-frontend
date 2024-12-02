@@ -45,14 +45,14 @@
 
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import MainPage from "./mainPage/pages/MainPage";
-import TeamPage from "./mainPage/pages/TeamPage";
-import LoginPage from "./member/pages/loginPage";
-import SignUpPage from "./member/pages/signUpPage";
+import MainPage from "./page/mainPage/MainPage";
+import TeamPage from "./page/mainPage/TeamPage";
+import LoginPage from "./page/member/loginPage";
+import SignUpPage from "./page/member/signUpPage";
 import Header from './global/Header/Header';
 import Sidebar from './global/Sidebar/Sidebar';
-import Chat from "./chat/Chat";
-import ChatRoom from "./chat/ChatRoom";
+import Chat from "./page/chat/Chat";
+import ChatRoom from "./page/chat/ChatRoom";
 
 const Layout = ({ children }) => {
   return (
