@@ -11,6 +11,9 @@ import Chat from "./page/chat/Chat";
 import ChatRoom from "./page/chat/ChatRoom";
 import MyCalendar from "./global/myCalendar/MyCalendar";
 import TeamCalendar from "./page/calendar/TeamCalendar";
+import CreateNoticePage from "./page/notice/CreateNoticePage";
+import NoticePage from "./page/notice/NoticePage";
+
 // src/routes.js
 export const ROUTES = {
   HOME: '/',
@@ -27,7 +30,16 @@ const Layout = ({ children }) => (
             <Sidebar />
             <div className="main-content">{children}</div>
             <MyCalendar />
+            <div className="main-content-full">{children}</div>
         </div>
+    </div>
+);
+
+// HeaderLayout 컴포넌트 (헤더만 표시)
+const HeaderLayout = ({ children }) => (
+    <div className="app">
+        <Header />
+        <div className="main-content-full">{children}</div>
     </div>
 );
 
@@ -35,7 +47,11 @@ const Layout = ({ children }) => (
 const router = createBrowserRouter([
     {
         path: "/",
-        element: <MainPage />, // MainPage는 Layout 없이 렌더링
+        element: (
+            <HeaderLayout>
+                <MainPage />
+            </HeaderLayout>
+        ),
     },
     {
         path: "/team/:id",
@@ -82,6 +98,22 @@ const router = createBrowserRouter([
         element: (
             <Layout>
                 <TeamCalendar />
+            </Layout>
+        ),
+    },
+    {
+        path: "/notice/create",
+        element: (
+            <Layout>
+                <CreateNoticePage />
+            </Layout>
+        ),
+    },
+    {
+        path: "/notices",
+        element: (
+            <Layout>
+                <NoticePage />
             </Layout>
         ),
     },
