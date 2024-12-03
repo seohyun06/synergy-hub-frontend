@@ -10,7 +10,7 @@ import Sidebar from './global/Sidebar/Sidebar';
 import Chat from "./page/chat/Chat";
 import ChatRoom from "./page/chat/ChatRoom";
 import CreateNoticePage from "./page/notice/CreateNoticePage";
-
+import NoticePage from "./page/notice/NoticePage";
 
 // src/routes.js
 export const ROUTES = {
@@ -26,8 +26,16 @@ const Layout = ({ children }) => (
         <Header />
         <div className="app-body">
             <Sidebar />
-            <div className="main-content">{children}</div>
+            <div className="main-content-full">{children}</div>
         </div>
+    </div>
+);
+
+// HeaderLayout 컴포넌트 (헤더만 표시)
+const HeaderLayout = ({ children }) => (
+    <div className="app">
+        <Header />
+        <div className="main-content-full">{children}</div>
     </div>
 );
 
@@ -35,7 +43,11 @@ const Layout = ({ children }) => (
 const router = createBrowserRouter([
     {
         path: "/",
-        element: <MainPage />, // MainPage는 Layout 없이 렌더링
+        element: (
+            <HeaderLayout>
+                <MainPage />
+            </HeaderLayout>
+        ),
     },
     {
         path: "/team/:id",
@@ -85,7 +97,14 @@ const router = createBrowserRouter([
             </Layout>
         ),
     },
-
+    {
+        path: "/notices",
+        element: (
+            <Layout>
+                <NoticePage />
+            </Layout>
+        ),
+    },
 ]);
 
 export default router;
