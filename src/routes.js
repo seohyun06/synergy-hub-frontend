@@ -9,7 +9,8 @@ import Header from './global/Header/Header';
 import Sidebar from './global/Sidebar/Sidebar';
 import Chat from "./page/chat/Chat";
 import ChatRoom from "./page/chat/ChatRoom";
-
+import MyCalendar from "./global/myCalendar/MyCalendar";
+import TeamCalendar from "./page/calendar/TeamCalendar";
 // src/routes.js
 export const ROUTES = {
   HOME: '/',
@@ -25,6 +26,7 @@ const Layout = ({ children }) => (
         <div className="app-body">
             <Sidebar />
             <div className="main-content">{children}</div>
+            <MyCalendar />
         </div>
     </div>
 );
@@ -72,6 +74,14 @@ const router = createBrowserRouter([
         element: (
             <Layout>
                 <ChatRoom />
+            </Layout>
+        ),
+    },
+    {
+        path: "/teamCalendar",
+        element: (
+            <Layout>
+                <TeamCalendar />
             </Layout>
         ),
     },
