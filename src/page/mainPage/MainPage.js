@@ -1,6 +1,7 @@
-import React, { useState } from "react";
-// import React, { useState, useEffect } from "react";
+// import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios"; // axios 추가
+import { ROUTES } from "../../global/Links";
 import apiClient from "../../api/axiosInstance"; // axios 인스턴스 가져오기
 import TeamList from "../../component/mainPage/TeamList";
 import LabelCreationForm from "../../component/mainPage/LabelCreationForm"; // 라벨 생성 폼 추가
@@ -11,30 +12,30 @@ const MainPage = () => {
     const [teamName, setTeamName] = useState("");
     const [labels, setLabels] = useState([]);
 
-    // useEffect(() => {
-    //     const fetchJwtHeader = async () => {
-    //         try {
-    //             const response = await fetch(ROUTES.JWTHEADER.link, {
-    //                 method: "POST",
-    //                 credentials: "include", // 쿠키 자동 전송
-    //             });
-    //
-    //             if (response.ok) {
-    //                 const token = response.headers.get("Authorization");
-    //                 if (token) {
-    //                     const jwtToken = token.split(" ")[1];
-    //                     localStorage.setItem("accessToken", jwtToken);
-    //                 }
-    //             } else {
-    //                 console.error("응답 오류:", response.status);
-    //             }
-    //         } catch (error) {
-    //             console.error("서버에 연결할 수 없습니다:", error);
-    //         }
-    //     };
-    //
-    //     fetchJwtHeader(); // 컴포넌트가 마운트될 때 fetch 호출
-    // }, []); // 빈 배열을 전달하여 한 번만 실행
+    useEffect(() => {
+        const fetchJwtHeader = async () => {
+            try {
+                const response = await fetch(ROUTES.JWTHEADER.link, {
+                    method: "POST",
+                    credentials: "include", // 쿠키 자동 전송
+                });
+
+                if (response.ok) {
+                    const token = response.headers.get("Authorization");
+                    if (token) {
+                        const jwtToken = token.split(" ")[1];
+                        localStorage.setItem("accessToken", jwtToken);
+                    }
+                } else {
+                    console.error("응답 오류:", response.status);
+                }
+            } catch (error) {
+                console.error("서버에 연결할 수 없습니다:", error);
+            }
+        };
+
+        fetchJwtHeader(); // 컴포넌트가 마운트될 때 fetch 호출
+    }, []); // 빈 배열을 전달하여 한 번만 실행
 
     const handleTeamNameChange = (e) => {
         setTeamName(e.target.value);
