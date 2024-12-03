@@ -12,7 +12,7 @@ import ChatRoom from "./page/chat/ChatRoom";
 import MyCalendar from "./global/myCalendar/MyCalendar";
 import TeamCalendar from "./page/calendar/TeamCalendar";
 import CreateNoticePage from "./page/notice/CreateNoticePage";
-import NoticePage from "./page/notice/NoticePage";
+/*import NoticePage from "./page/notice/NoticePage";*/
 
 // src/routes.js
 export const ROUTES = {
@@ -30,7 +30,6 @@ const Layout = ({ children }) => (
             <Sidebar />
             <div className="main-content">{children}</div>
             <MyCalendar />
-            <div className="main-content-full">{children}</div>
         </div>
     </div>
 );
@@ -109,14 +108,14 @@ const router = createBrowserRouter([
             </Layout>
         ),
     },
-    {
+/*    {
         path: "/notices",
         element: (
             <Layout>
                 <NoticePage />
             </Layout>
         ),
-    },
+    },*/
 ]);
 
 export default router;
