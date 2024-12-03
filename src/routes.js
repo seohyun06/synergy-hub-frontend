@@ -1,14 +1,14 @@
-// src/routes.js
 import React from "react";
 import { createBrowserRouter } from "react-router-dom";
 import MainPage from "./page/mainPage/MainPage";
 import TeamPage from "./page/mainPage/TeamPage";
 import LoginPage from "./page/member/loginPage";
 import SignUpPage from "./page/member/signUpPage";
-import Header from './global/Header/Header';
-import Sidebar from './global/Sidebar/Sidebar';
+import Header from "./global/Header/Header";
+import Sidebar from "./global/Sidebar/Sidebar";
 import Chat from "./page/chat/Chat";
 import ChatRoom from "./page/chat/ChatRoom";
+import TeamChatPage from "./page/chat/TeamChatPage";
 
 // Layout 컴포넌트
 const Layout = ({ children }) => (
@@ -25,7 +25,7 @@ const Layout = ({ children }) => (
 const router = createBrowserRouter([
     {
         path: "/",
-        element: <MainPage />, // MainPage는 Layout 없이 렌더링
+        element: <MainPage />,
     },
     {
         path: "/team/:id",
@@ -64,6 +64,14 @@ const router = createBrowserRouter([
         element: (
             <Layout>
                 <ChatRoom />
+            </Layout>
+        ),
+    },
+    {
+        path: "/team-chat/:teamId",
+        element: (
+            <Layout>
+                <TeamChatPage />
             </Layout>
         ),
     },
