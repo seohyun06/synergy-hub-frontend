@@ -1,85 +1,104 @@
-import React, { useState, useEffect, useCallback, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import useWebSocket from "./UseWebSocket";
-import { useNavigate, useParams } from "react-router-dom";
+import "./ChatRoom.css"; // 동일한 스타일 사용
 
 const TeamChatPage = () => {
-    const [messages, setMessages] = useState([]);
-    const [messageInput, setMessageInput] = useState("");
+    const { teamId } = useParams(); // URL에서 teamId 가져오기
     const navigate = useNavigate();
-    const { teamId } = useParams(); // URL 파라미터 가져오기
-    const chatBodyRef = useRef(null);
 
-    // 메시지 수신 처리
-    const handleMessageReceived = useCallback((message) => {
-        setMessages((prevMessages) => [...prevMessages, message]);
-        scrollToBottom();
-    }, []);
+    const [messages, setMessages] = useState([]); // 채팅 메시지 상태
+    const [messageInput, setMessageInput] = useState(""); // 입력 메시지 상태
+    const chatBodyRef = useRef(null); // 채팅창 스크롤 제어
 
-    // 메시지 업데이트 처리
-    const handleMessageUpdated = useCallback((updatedMessage) => {
-        setMessages((prevMessages) =>
-            prevMessages.map((msg) =>
-                msg.id === updatedMessage.id ? { ...msg, text: updatedMessage.message } : msg
-            )
-        );
-    }, []);
-
-    // 메시지 삭제 처리
-    const handleMessageDeleted = useCallback((deletedMessageId) => {
-        setMessages((prevMessages) =>
-            prevMessages.filter((msg) => msg.id !== deletedMessageId)
-        );
-    }, []);
-
-    // WebSocket 훅 사용
-    const { sendMessage, deleteMessage, getMessages } = useWebSocket(
+    // WebSocket Hook에서 필요한 함수와 콜백 가져오기
+    const { sendMessage, deleteMessage } = useWebSocket(
         teamId,
-        handleMessageReceived,
-        handleMessageUpdated,
-        handleMessageDeleted
+        (message) => {
+            console.log("Received message:", message);
+            setMessages((prevMessages) => [...prevMessages, message]); // 새 메시지를 메시지 목록에 추가
+        },
+        null, // 메시지 업데이트는 사용하지 않음
+        (deletedMessageId) => {
+            setMessages((prevMessages) =>
+                prevMessages.filter((msg) => msg.id !== deletedMessageId)
+            ); // 삭제된 메시지 제거
+        }
     );
 
-    // 메시지 전송 핸들러
-    const handleSendMessage = () => {
-        const newMessage = messageInput.trim();
-        if (newMessage) {
-            sendMessage({ message: newMessage, teamId });
-            setMessageInput("");
+    // 채팅 메시지를 로드하는 함수
+    const loadChatMessages = useCallback(async () => {
+        try {
+            const response = await fetch(`/api/chat/chat-message-history/${teamId}`, {
+                headers: { Authorization: `Bearer ${localStorage.getItem("access")}` },
+            });
+            if (!response.ok) throw new Error("Failed to load chat messages");
+            const chatMessages = await response.json();
+            setMessages(chatMessages);
+            // 채팅창 스크롤을 맨 아래로 이동
+            if (chatBodyRef.current) {
+                chatBodyRef.current.scrollTop = chatBodyRef.current.scrollHeight;
+            }
+        } catch (error) {
+            console.error("Error loading chat messages:", error);
         }
-    };
+    }, [teamId]);
 
-    const scrollToBottom = () => {
-        if (chatBodyRef.current) {
-            chatBodyRef.current.scrollTop = chatBodyRef.current.scrollHeight;
-        }
+    useEffect(() => {
+        loadChatMessages(); // 컴포넌트 마운트 시 채팅 메시지 로드
+    }, [loadChatMessages]);
+
+    // 메시지 전송 처리 함수
+    const handleSendMessage = () => {
+        const trimmedMessage = messageInput.trim();
+        if (trimmedMessage === "") return; // 빈 메시지 처리 방지
+
+        const tempMessage = {
+            id: `temp-${Date.now()}`,
+            text: trimmedMessage,
+            sent: true,
+            isTemp: true,
+        };
+
+        setMessages((prevMessages) => [...prevMessages, tempMessage]); // 임시 메시지를 추가
+        sendMessage({ message: trimmedMessage }); // WebSocket으로 메시지 전송
+        setMessageInput(""); // 입력창 초기화
     };
 
     return (
-        <div className="team-chat-page">
-            <header className="team-chat-header">
-                <h2>Team Chat Room: {teamId}</h2>
-                <button onClick={() => navigate("/")}>홈으로</button>
-            </header>
-            <div className="team-chat-body" ref={chatBodyRef}>
+        <div className="chat-room-container">
+            {/* 채팅방 헤더 */}
+            <div className="chat-room-header">
+                <button onClick={() => navigate("/")} className="back-button">
+                    ← 뒤로
+                </button>
+                <h2>팀 채팅방 {teamId}</h2>
+            </div>
+
+            {/* 채팅 메시지 목록 */}
+            <div className="chat-body" ref={chatBodyRef}>
                 {messages.map((msg) => (
                     <div
                         key={msg.id}
-                        className={`message ${msg.senderId === teamId ? "sent" : "received"}`}
+                        className={`chat-message ${msg.sent ? "sent" : "received"}`}
                     >
-                        <span className="sender">{msg.senderNickname}</span>
-                        <p>{msg.message}</p>
+                        {msg.text}
                     </div>
                 ))}
             </div>
-            <div className="team-chat-input">
+
+            {/* 메시지 입력창 */}
+            <div className="chat-input-container">
                 <input
                     type="text"
-                    placeholder="메시지를 입력하세요..."
                     value={messageInput}
                     onChange={(e) => setMessageInput(e.target.value)}
+                    placeholder="메시지를 입력하세요..."
                     onKeyUp={(e) => e.key === "Enter" && handleSendMessage()}
                 />
-                <button onClick={handleSendMessage}>전송</button>
+                <button onClick={handleSendMessage} className="send-button">
+                    전송
+                </button>
             </div>
         </div>
     );
