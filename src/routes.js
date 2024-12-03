@@ -9,6 +9,8 @@ import Header from './global/Header/Header';
 import Sidebar from './global/Sidebar/Sidebar';
 import Chat from "./page/chat/Chat";
 import ChatRoom from "./page/chat/ChatRoom";
+import MyCalendar from "./global/myCalendar/MyCalendar";
+import TeamCalendar from "./page/calendar/TeamCalendar";
 import CreateNoticePage from "./page/notice/CreateNoticePage";
 import NoticePage from "./page/notice/NoticePage";
 
@@ -26,6 +28,8 @@ const Layout = ({ children }) => (
         <Header />
         <div className="app-body">
             <Sidebar />
+            <div className="main-content">{children}</div>
+            <MyCalendar />
             <div className="main-content-full">{children}</div>
         </div>
     </div>
@@ -86,6 +90,14 @@ const router = createBrowserRouter([
         element: (
             <Layout>
                 <ChatRoom />
+            </Layout>
+        ),
+    },
+    {
+        path: "/teamCalendar",
+        element: (
+            <Layout>
+                <TeamCalendar />
             </Layout>
         ),
     },
