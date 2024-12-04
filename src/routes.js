@@ -31,7 +31,6 @@ const Layout = ({ children }) => (
             <Sidebar />
             <div className="main-content">{children}</div>
             <MyCalendar />
-            <div className="main-content-full">{children}</div>
         </div>
     </div>
 );
