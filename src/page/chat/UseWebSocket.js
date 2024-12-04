@@ -9,9 +9,14 @@ const useWebSocket = (chatRoomId, onMessageReceived, onMessageDeleted) => {
     useEffect(() => {
         if (!chatRoomId) return;
 
+        const authToken = localStorage.getItem('access'); // 인증 토큰 가져오기
+
         const stompClient = new Client({
             webSocketFactory: () => new SockJS('http://localhost:8080/ws'), // WebSocket 엔드포인트
             debug: (str) => console.log(str), // 디버그 메시지 출력
+            connectHeaders: {
+                Authorization: `Bearer ${authToken}`, // 헤더에 인증 토큰 추가
+            },
             onConnect: () => {
                 console.log('WebSocket 연결 성공');
                 setIsConnected(true); // 연결 상태 업데이트

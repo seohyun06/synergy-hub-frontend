@@ -13,6 +13,7 @@ import MyCalendar from "./global/myCalendar/MyCalendar";
 import TeamCalendar from "./page/calendar/TeamCalendar";
 import CreateNoticePage from "./page/notice/CreateNoticePage";
 import NoticePage from "./page/notice/NoticePage";
+import TeamChatPage from "./page/chat/TeamChatPage";
 
 // src/routes.js
 export const ROUTES = {

@@ -1,35 +1,35 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import useWebSocket from './UseWebSocket'; // WebSocket Hook
-import './ChatRoom.css'; // 스타일을 위한 CSS 파일
+import useWebSocket from './UseWebSocket';
+import './ChatRoom.css';
 
 const ChatRoom = () => {
-    const { chatRoomId } = useParams(); // URL에서 chatRoomId 가져오기
+    const { chatRoomId } = useParams();
     const navigate = useNavigate();
 
-    const [messages, setMessages] = useState([]); // 채팅 메시지 상태
-    const [messageInput, setMessageInput] = useState(''); // 입력 메시지 상태
-    const chatBodyRef = useRef(null); // 채팅창 스크롤 제어
+    const [messages, setMessages] = useState([]);
+    const [messageInput, setMessageInput] = useState('');
+    const [isSending, setIsSending] = useState(false);
+    const chatBodyRef = useRef(null);
 
-    // WebSocket Hook에서 필요한 함수와 콜백 가져오기
-    const { sendMessage, deleteMessage } = useWebSocket(
+    const { sendMessage } = useWebSocket(
         chatRoomId,
         (message) => {
-            console.log('Received message:', message);
-            setMessages((prevMessages) => [...prevMessages, message]); // 새 메시지를 메시지 목록에 추가
-        },
-        null, // 메시지 업데이트는 사용하지 않음
-        (deletedMessageId) => {
-            setMessages((prevMessages) =>
-                prevMessages.filter((msg) => msg.id !== deletedMessageId)
-            ); // 삭제된 메시지 제거
+            setMessages((prevMessages) => [
+                ...prevMessages,
+                {
+                    id: message.messageId,
+                    text: message.message,
+                    sent: message.nickname === "currentUserNickname",
+                    timestamp: message.createdAt,
+                },
+            ]);
         }
     );
 
-    // 메시지 전송 처리 함수
-    const handleSendMessage = () => {
+    const handleSendMessage = async () => {
         const trimmedMessage = messageInput.trim();
-        if (trimmedMessage === '') return; // 빈 메시지 처리 방지
+        if (trimmedMessage === '') return;
 
         const tempMessage = {
             id: `temp-${Date.now()}`,
@@ -38,14 +38,28 @@ const ChatRoom = () => {
             isTemp: true,
         };
 
-        setMessages((prevMessages) => [...prevMessages, tempMessage]); // 임시 메시지를 추가
-        sendMessage({ message: trimmedMessage }); // WebSocket으로 메시지 전송
-        setMessageInput(''); // 입력창 초기화
+        setMessages((prevMessages) => [...prevMessages, tempMessage]);
+        setIsSending(true);
+
+        try {
+            await sendMessage({ message: trimmedMessage, type: "TALK" });
+        } catch (error) {
+            console.error("메시지 전송 실패:", error);
+        } finally {
+            setIsSending(false);
+        }
+
+        setMessageInput('');
     };
+
+    useEffect(() => {
+        if (chatBodyRef.current) {
+            chatBodyRef.current.scrollTop = chatBodyRef.current.scrollHeight;
+        }
+    }, [messages]);
 
     return (
         <div className="chat-room-container">
-            {/* 채팅방 헤더 */}
             <div className="chat-room-header">
                 <button onClick={() => navigate('/chat')} className="back-button">
                     ← 뒤로
@@ -53,11 +67,10 @@ const ChatRoom = () => {
                 <h2>채팅방 {chatRoomId}</h2>
             </div>
 
-            {/* 채팅 메시지 목록 */}
             <div className="chat-body" ref={chatBodyRef}>
-                {messages.map((msg) => (
+                {messages.map((msg, index) => (
                     <div
-                        key={msg.id}
+                        key={msg.id || `temp-${index}`}
                         className={`chat-message ${msg.sent ? 'sent' : 'received'}`}
                     >
                         {msg.text}
@@ -65,7 +78,6 @@ const ChatRoom = () => {
                 ))}
             </div>
 
-            {/* 메시지 입력창 */}
             <div className="chat-input-container">
                 <input
                     type="text"
@@ -74,8 +86,8 @@ const ChatRoom = () => {
                     placeholder="메시지를 입력하세요..."
                     onKeyUp={(e) => e.key === 'Enter' && handleSendMessage()}
                 />
-                <button onClick={handleSendMessage} className="send-button">
-                    전송
+                <button onClick={handleSendMessage} className="send-button" disabled={isSending}>
+                    {isSending ? "전송 중..." : "전송"}
                 </button>
             </div>
         </div>
