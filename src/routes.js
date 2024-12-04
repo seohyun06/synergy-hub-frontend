@@ -19,10 +19,10 @@ import OAuth2Redirect from "./page/member/Oauth2Redirect";
 
 // src/routes.js
 export const ROUTES = {
-  HOME: '/',
-  CALENDAR: '/calendar',
-  CHAT: '/chat',
-  NOTICES: '/notices',
+    HOME: '/',
+    CALENDAR: '/calendar',
+    CHAT: '/chat',
+    NOTICES: '/notices',
 };
 
 // Layout 컴포넌트
@@ -115,6 +115,31 @@ const router = createBrowserRouter([
             </Layout>
         ),
     },
+    {
+        path: "/notice/:id",
+        element: (
+            <Layout>
+                <NoticeDetailsPage />
+            </Layout>
+        ),
+    },
+    {
+        path: "/notice/edit/:id",  // 수정 페이지 경로 추가
+        element: (
+            <Layout>
+                <EditNoticePage />
+            </Layout>
+        ),
+    },
+
+    {
+        path: "/oauth2-jwt-header",  // 수정 페이지 경로 추가
+        element: (
+                <OAuth2Redirect />
+        ),
+    },
+
+
 ]);
 
 export default router;
