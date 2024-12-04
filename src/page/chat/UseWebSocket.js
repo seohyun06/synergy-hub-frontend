@@ -1,57 +1,46 @@
 import { useEffect, useState, useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { Client } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
 
-const useWebSocket = (
-    chatRoomId,
-    onMessageReceived,
-    onMessagesReceived,
-    onMessageDeleted,
-    userId,
-    nickname
-) => {
+const useWebSocket = (chatRoomId, onMessageReceived, onMessageDeleted) => {
     const [client, setClient] = useState(null);
-    const navigate = useNavigate();
+    const [isConnected, setIsConnected] = useState(false); // 연결 상태 확인
 
     useEffect(() => {
-        if (!chatRoomId || !userId || !nickname) return;
+        if (!chatRoomId) return;
+
+        const authToken = localStorage.getItem('access'); // 인증 토큰 가져오기
 
         const stompClient = new Client({
-            webSocketFactory: () => new SockJS('http://localhost:8080/ws'),
+            webSocketFactory: () => new SockJS('http://localhost:8080/ws'), // WebSocket 엔드포인트
+            debug: (str) => console.log(str), // 디버그 메시지 출력
             connectHeaders: {
-                user: userId.toString(),
+                Authorization: `Bearer ${authToken}`, // 헤더에 인증 토큰 추가
             },
             onConnect: () => {
-                console.log('STOMP connected');
+                console.log('WebSocket 연결 성공');
+                setIsConnected(true); // 연결 상태 업데이트
 
-                // 메시지 수신
+                // 메시지 수신 구독
                 stompClient.subscribe(`/topic/messages/${chatRoomId}`, (message) => {
                     const parsedMessage = JSON.parse(message.body);
-                    if (typeof onMessageReceived === 'function') {
-                        onMessageReceived(parsedMessage);
-                    }
+                    if (onMessageReceived) onMessageReceived(parsedMessage);
                 });
 
-                // 채팅방 별 메시지 조회
-                stompClient.subscribe(`/topic/messages/${chatRoomId}`, (message) => {
-                    const parsedMessages = JSON.parse(message.body);
-                    if (typeof onMessagesReceived === 'function') {
-                        onMessagesReceived(parsedMessages);
-                    }
-                });
-
-                // 메시지 삭제
+                // 메시지 삭제 구독
                 stompClient.subscribe(`/topic/message-deletions/${chatRoomId}`, (message) => {
                     const deletedMessageId = JSON.parse(message.body);
-                    if (typeof onMessageDeleted === 'function') {
-                        onMessageDeleted(deletedMessageId);
-                    }
+                    if (onMessageDeleted) onMessageDeleted(deletedMessageId);
                 });
             },
+            onDisconnect: () => {
+                console.log('WebSocket 연결 종료');
+                setIsConnected(false); // 연결 상태 업데이트
+            },
             onStompError: (frame) => {
-                console.error('Broker error: ' + frame.headers['message']);
-                console.error('Details: ' + frame.body);
+                console.error('STOMP 에러:', frame.headers['message']);
+                console.error('상세 내용:', frame.body);
+                setIsConnected(false); // 연결 상태 업데이트
             },
         });
 
@@ -61,59 +50,45 @@ const useWebSocket = (
         return () => {
             if (stompClient.active) {
                 stompClient.deactivate();
+                console.log('WebSocket 연결 종료');
             }
         };
-    }, [chatRoomId, userId, nickname, onMessageReceived, onMessagesReceived, onMessageDeleted]);
+    }, [chatRoomId]);
 
-    // 메시지 전송
     const sendMessage = useCallback(
-        (messageText, type = 'TALK') => {
-            if (client && client.active) {
-                const message = {
-                    message: messageText,
-                    type: type,
-                    nickname: nickname,
-                };
-
+        (messageContent) => {
+            if (isConnected && client && client.active) {
                 client.publish({
                     destination: `/app/chat/message/sendMessage/${chatRoomId}`,
-                    body: JSON.stringify(message),
-                    headers: { user: userId.toString() },
+                    body: JSON.stringify({
+                        message: messageContent,
+                        type: 'TALK', // 메시지 타입 (예: TALK)
+                    }),
                 });
+            } else {
+                console.error('WebSocket 클라이언트가 활성 상태가 아니거나 연결되지 않았습니다.');
             }
         },
-        [client, chatRoomId, userId, nickname]
+        [client, chatRoomId, isConnected]
     );
 
-    // 채팅방 별 메시지 조회 요청
-    const fetchMessagesByRoom = useCallback(() => {
-        if (client && client.active) {
-            client.publish({
-                destination: `/app/chat/message/getMessagesByRoom/${chatRoomId}`,
-                headers: { user: userId.toString() },
-            });
-        }
-    }, [client, chatRoomId, userId]);
-
-    // 메시지 삭제
     const deleteMessage = useCallback(
         (messageId) => {
-            if (client && client.active) {
+            if (isConnected && client && client.active) {
                 client.publish({
                     destination: `/app/chat/message/deleteMessage/${chatRoomId}`,
-                    body: JSON.stringify({ id: messageId }),
-                    headers: { user: userId.toString() },
+                    body: JSON.stringify({
+                        id: messageId,
+                    }),
                 });
+            } else {
+                console.error('WebSocket 클라이언트가 활성 상태가 아니거나 연결되지 않았습니다.');
             }
         },
-        [client, chatRoomId, userId]
+        [client, chatRoomId, isConnected]
     );
 
-    return {
-        sendMessage,
-        fetchMessagesByRoom,
-        deleteMessage,
-    };
+    return { sendMessage, deleteMessage, isConnected }; // 연결 상태를 반환
 };
 
 export default useWebSocket;
