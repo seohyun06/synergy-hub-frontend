@@ -66,18 +66,56 @@ const MainPage = () => {
         setLabels(updatedLabels);
     };
 
+    // const handleCreateTeam = async () => {
+    //     if (!teamName.trim()) {
+    //         alert("팀 이름을 입력해주세요.");
+    //         return;
+    //     }
+    //
+    //     try {
+    //         // 1. 팀 생성 API 호출
+    //         const teamResponse = await apiClient.post("/teams", {
+    //             name: teamName,
+    //         });
+    //
+    //         console.log("팀 생성 성공:", teamResponse.data);
+    //
+    //         // 2. 팀과 라벨 매핑 API 호출
+    //         if (labels.length > 0) {
+    //             const labelIds = labels.map((label) => label.id);
+    //             const mappingResponse = await apiClient.post(
+    //                 `/teams/${teamResponse.data.id}/labels`,
+    //                 { labelIds }
+    //             );
+    //
+    //             console.log("라벨 매핑 성공:", mappingResponse.data);
+    //         }
+    //
+    //         alert("팀이 성공적으로 생성되었습니다!");
+    //         window.location.reload();
+    //     } catch (error) {
+    //         console.error("팀 생성 실패:", error);
+    //         alert("팀 생성 중 오류가 발생했습니다.");
+    //     }
+    // };
+
     const handleCreateTeam = async () => {
         if (!teamName.trim()) {
             alert("팀 이름을 입력해주세요.");
             return;
         }
 
+        const headers = {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        };
+
         try {
             // 1. 팀 생성 API 호출
-            const teamResponse = await apiClient.post("/teams", {
-                name: teamName,
-            });
-
+            const teamResponse = await apiClient.post(
+                "/teams",
+                { name: teamName },
+                { headers }
+            );
             console.log("팀 생성 성공:", teamResponse.data);
 
             // 2. 팀과 라벨 매핑 API 호출
@@ -85,9 +123,9 @@ const MainPage = () => {
                 const labelIds = labels.map((label) => label.id);
                 const mappingResponse = await apiClient.post(
                     `/teams/${teamResponse.data.id}/labels`,
-                    { labelIds }
+                    { labelIds },
+                    { headers }
                 );
-
                 console.log("라벨 매핑 성공:", mappingResponse.data);
             }
 
