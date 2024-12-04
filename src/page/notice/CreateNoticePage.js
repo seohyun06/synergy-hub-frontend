@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Card, Form, Button, Container, Row, Col, Image } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom'; // useNavigate 추가
 import './CreateNoticePage.css';
 
 function CreateNoticePage() {
@@ -7,6 +8,7 @@ function CreateNoticePage() {
   const [imageFile, setImageFile] = useState(null); // 이미지 파일 상태
   const [content, setContent] = useState('');
   const [title, setTitle] = useState(''); // 제목 상태 추가
+  const navigate = useNavigate(); // useNavigate 함수 초기화
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -20,7 +22,7 @@ function CreateNoticePage() {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const formData = new FormData();
@@ -29,16 +31,25 @@ function CreateNoticePage() {
     formData.append('memberNickname', '사용자 닉네임'); // 필요한 경우 사용자 닉네임 추가
     formData.append('memberId', 1); // 필요한 경우 사용자 ID 추가
     formData.append('teamId', 1); // 필요한 경우 팀 ID 추가
-    formData.append('image', imageFile); // 선택된 이미지 파일
+
+    // 이미지가 선택되었을 경우에만 FormData에 추가
+    if (imageFile) {
+      formData.append('image', imageFile); // 선택된 파일을 FormData에 추가
+    }
 
     // 공지사항 생성 API 호출
     fetch('http://localhost:8080/notices', {
       method: 'POST',
+      headers: {
+        // 인증이 필요한 경우 여기에 Authorization 헤더 추가
+        // "Authorization": "Bearer " + token,
+      },
       body: formData, // FormData 객체를 직접 보냄
     })
       .then((response) => response.json())
       .then((data) => {
         console.log('공지사항 생성 완료:', data);
+        navigate('/notices'); // 공지사항 생성 후 NoticePage로 리디렉션
       })
       .catch((error) => {
         console.error('공지사항 생성 실패:', error);
@@ -78,7 +89,7 @@ function CreateNoticePage() {
                 </Form.Group>
 
                 <Form.Group className="mb-3">
-                  <Form.Label>이미지 업로드</Form.Label>
+                  <Form.Label>이미지 업로드 (선택)</Form.Label>
                   <Form.Control
                     type="file"
                     accept="image/*"
