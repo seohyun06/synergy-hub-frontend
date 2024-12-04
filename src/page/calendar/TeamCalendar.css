@@ -1,0 +1,23 @@
+/* 날짜 색상 설정 */
+.fc-daygrid-day-number {
+  color: inherit; /* 날짜와 일수의 색상을 기본 색상으로 설정 */
+  text-decoration: none; /* 밑줄 제거 */
+}
+
+/* 요일 생상 설정 */
+.fc-daygrid-day-number,
+.fc-toolbar-title,
+.fc-col-header-cell-cushion {
+  color: inherit; /* 색상을 기본 색상으로 설정 */
+  text-decoration: none; /* 밑줄 제거 */
+}
+
+/* 토요일 파란색 설정 */
+.fc-day-sat a {
+    color: blue;
+}
+
+/* 일요일 빨간색 설정 */
+.fc-day-sun a {
+    color: red;
+}
