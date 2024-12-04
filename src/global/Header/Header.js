@@ -1,7 +1,13 @@
 import React from "react";
 import "./Header.css";
+import { useAuth } from "../AuthContext";
 
 const Header = ({ onTeamSwitch }) => {
+  const { isLoggedIn, user } = useAuth(); // 로그인 상태와 사용자 정보 가져오기
+  console.log("isLoggedIn:", isLoggedIn);
+  console.log("user:", user);
+  console.log("Profile Image URL:", user.profileImageUrl);
+
   return (
     <header className="header">
       <div className="header-left">
@@ -14,12 +20,18 @@ const Header = ({ onTeamSwitch }) => {
       </div>
       <div className="header-right">
         <div className="profile-section">
-          <img
-            className="profile-img"
-            src="/path/to/profile.jpg" // 프로필 이미지 경로
-            alt="Profile"
-          />
-          <span className="profile-name">Username</span>
+          {isLoggedIn ? (
+            <>
+              <img
+                className="profile-img"
+                src={user.profileImageUrl} // 프로필 이미지 경로
+                alt="Profile"
+              />
+              <span className="profile-name">{user.nickname}</span>
+            </>
+          ) : (
+            <button className="login-button">로그인</button> // 로그인 버튼
+          )}
         </div>
       </div>
     </header>
