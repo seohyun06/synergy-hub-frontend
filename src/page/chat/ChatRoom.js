@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import useWebSocket from './UseWebSocket'; // WebSocket Hook
 import './ChatRoom.css'; // 스타일을 위한 CSS 파일
@@ -25,28 +25,6 @@ const ChatRoom = () => {
             ); // 삭제된 메시지 제거
         }
     );
-
-    // 채팅 메시지를 로드하는 함수
-    const loadChatMessages = useCallback(async () => {
-        try {
-            const response = await fetch(`/api/chat/chat-message-history/${chatRoomId}`, {
-                headers: { Authorization: `Bearer ${localStorage.getItem('access')}` },
-            });
-            if (!response.ok) throw new Error('Failed to load chat messages');
-            const chatMessages = await response.json();
-            setMessages(chatMessages);
-            // 채팅창 스크롤을 맨 아래로 이동
-            if (chatBodyRef.current) {
-                chatBodyRef.current.scrollTop = chatBodyRef.current.scrollHeight;
-            }
-        } catch (error) {
-            console.error('Error loading chat messages:', error);
-        }
-    }, [chatRoomId]);
-
-    useEffect(() => {
-        loadChatMessages(); // 컴포넌트 마운트 시 채팅 메시지 로드
-    }, [loadChatMessages]);
 
     // 메시지 전송 처리 함수
     const handleSendMessage = () => {
