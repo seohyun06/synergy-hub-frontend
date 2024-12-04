@@ -37,7 +37,7 @@ const LoginPage = () => {
           const jwtToken = token.split(" ")[1]; // "Bearer " 부분제거
 
           // 토큰을 로컬 스토리지에 저장
-          localStorage.setItem('jwtToken', jwtToken);
+          localStorage.setItem('accessToken', jwtToken);
 
           navigate('/'); 
         } else {

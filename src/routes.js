@@ -13,14 +13,17 @@ import MyCalendar from "./global/myCalendar/MyCalendar";
 import TeamCalendar from "./page/calendar/TeamCalendar";
 import CreateNoticePage from "./page/notice/CreateNoticePage";
 import NoticePage from "./page/notice/NoticePage";
+import NoticeDetailsPage from "./page/notice/NoticeDetailsPage";
+import EditNoticePage from "./page/notice/EditNoticePage";
+import OAuth2Redirect from "./page/member/Oauth2Redirect";
 import TeamChatPage from "./page/chat/TeamChatPage";
 
 // src/routes.js
 export const ROUTES = {
-  HOME: '/',
-  CALENDAR: '/calendar',
-  CHAT: '/chat',
-  NOTICES: '/notices',
+    HOME: '/',
+    CALENDAR: '/calendar',
+    CHAT: '/chat',
+    NOTICES: '/notices',
 };
 
 // Layout 컴포넌트
@@ -64,17 +67,13 @@ const router = createBrowserRouter([
     {
         path: "/login",
         element: (
-            <Layout>
                 <LoginPage />
-            </Layout>
         ),
     },
     {
         path: "/signup",
         element: (
-            <Layout>
                 <SignUpPage />
-            </Layout>
         ),
     },
     {
@@ -125,6 +124,31 @@ const router = createBrowserRouter([
             </Layout>
         ),
     },
+    {
+        path: "/notice/:id",
+        element: (
+            <Layout>
+                <NoticeDetailsPage />
+            </Layout>
+        ),
+    },
+    {
+        path: "/notice/edit/:id",  // 수정 페이지 경로 추가
+        element: (
+            <Layout>
+                <EditNoticePage />
+            </Layout>
+        ),
+    },
+
+    {
+        path: "/oauth2-jwt-header",  // 수정 페이지 경로 추가
+        element: (
+                <OAuth2Redirect />
+        ),
+    },
+
+
 ]);
 
 export default router;

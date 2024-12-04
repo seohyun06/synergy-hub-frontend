@@ -6,36 +6,52 @@ import apiClient from "../../api/axiosInstance"; // axios 인스턴스 가져오
 import TeamList from "../../component/mainPage/TeamList";
 import LabelCreationForm from "../../component/mainPage/LabelCreationForm"; // 라벨 생성 폼 추가
 import "./MainPage.css";
+import { useAuth } from "../../global/AuthContext";
 
 const MainPage = () => {
     const [isCreatingTeam, setIsCreatingTeam] = useState(false);
     const [teamName, setTeamName] = useState("");
     const [labels, setLabels] = useState([]);
 
-    useEffect(() => {
-        const fetchJwtHeader = async () => {
-            try {
-                const response = await fetch(ROUTES.JWTHEADER.link, {
-                    method: "POST",
-                    credentials: "include", // 쿠키 자동 전송
-                });
+    const { setIsLoggedIn, setUser } = useAuth(); // Context 사용
 
-                if (response.ok) {
-                    const token = response.headers.get("Authorization");
-                    if (token) {
-                        const jwtToken = token.split(" ")[1];
-                        localStorage.setItem("accessToken", jwtToken);
+    useEffect(() => {
+        const fetchMemberInfo = async () => {
+            console.log("회원 정보 요청 시작"); 
+            const jwtToken = localStorage.getItem("accessToken");
+            if (jwtToken) {
+                try {
+                    const response = await fetch(ROUTES.GETMEMBER.link, {
+                        headers: {
+                            Authorization: `Bearer ${jwtToken}`,
+                        },
+                    });
+                    
+                    if (response.ok) {
+                        const apiResponse = await response.json();
+                        console.log("API 응답:", apiResponse); 
+    
+                        // payload에서 사용자 정보 가져오기
+                        const memberData = apiResponse.payload;
+    
+                        setUser({
+                            email: memberData.email,
+                            nickname: memberData.nickname,
+                            profileImageUrl: memberData.profileImageUrl,
+                        });
+                        setIsLoggedIn(true);
+                    } else {
+                        console.error("회원정보 요청 오류:", response.status);
                     }
-                } else {
-                    console.error("응답 오류:", response.status);
+                } catch (error) {
+                    console.error("서버에 연결할 수 없습니다:", error);
                 }
-            } catch (error) {
-                console.error("서버에 연결할 수 없습니다:", error);
             }
         };
 
-        fetchJwtHeader(); // 컴포넌트가 마운트될 때 fetch 호출
-    }, []); // 빈 배열을 전달하여 한 번만 실행
+        fetchMemberInfo();
+    }, [setUser, setIsLoggedIn]); // 의존성 배열이 필요하다면 여기에 추가
+
 
     const handleTeamNameChange = (e) => {
         setTeamName(e.target.value);

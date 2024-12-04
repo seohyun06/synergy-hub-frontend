@@ -14,6 +14,10 @@ export const ROUTES = {
 
     JWTHEADER: {
         link: `${process.env.REACT_APP_API_URL}/oauth2/jwt-header`,
-    }
+    },
+
+    GETMEMBER: {
+        link: `${process.env.REACT_APP_API_URL}/members/me`,
+    },
     
 };
