@@ -4,16 +4,17 @@ import useWebSocket from './UseWebSocket'; // WebSocket Hook
 import './ChatRoom.css'; // 스타일을 위한 CSS 파일
 
 const ChatRoom = () => {
-    const { chatRoomId } = useParams(); // URL에서 chatRoomId 가져오기
+    const { teamId } = useParams(); // URL에서 teamId 가져오기
     const navigate = useNavigate();
 
+    const [chatRoom, setChatRoom] = useState(null); // 채팅방 정보 상태
     const [messages, setMessages] = useState([]); // 채팅 메시지 상태
     const [messageInput, setMessageInput] = useState(''); // 입력 메시지 상태
     const chatBodyRef = useRef(null); // 채팅창 스크롤 제어
 
     // WebSocket Hook에서 필요한 함수와 콜백 가져오기
     const { sendMessage, deleteMessage } = useWebSocket(
-        chatRoomId,
+        chatRoom?.roomId,
         (message) => {
             console.log('Received message:', message);
             setMessages((prevMessages) => [...prevMessages, message]); // 새 메시지를 메시지 목록에 추가
@@ -26,10 +27,26 @@ const ChatRoom = () => {
         }
     );
 
+    // 팀 ID에 기반한 채팅방 정보 로드
+    const loadChatRoom = useCallback(async () => {
+        try {
+            const response = await fetch(`/chat/room/get/${teamId}`, {
+                headers: { Authorization: `Bearer ${localStorage.getItem('access')}` },
+            });
+            if (!response.ok) throw new Error('Failed to load chat room');
+            const roomData = await response.json();
+            setChatRoom(roomData);
+        } catch (error) {
+            console.error('Error loading chat room:', error);
+            alert('채팅방 정보를 가져오지 못했습니다.');
+        }
+    }, [teamId]);
+
     // 채팅 메시지를 로드하는 함수
     const loadChatMessages = useCallback(async () => {
+        if (!chatRoom) return;
         try {
-            const response = await fetch(`/api/chat/chat-message-history/${chatRoomId}`, {
+            const response = await fetch(`/chat-message-history/${chatRoom.roomId}`, {
                 headers: { Authorization: `Bearer ${localStorage.getItem('access')}` },
             });
             if (!response.ok) throw new Error('Failed to load chat messages');
@@ -42,10 +59,14 @@ const ChatRoom = () => {
         } catch (error) {
             console.error('Error loading chat messages:', error);
         }
-    }, [chatRoomId]);
+    }, [chatRoom]);
 
     useEffect(() => {
-        loadChatMessages(); // 컴포넌트 마운트 시 채팅 메시지 로드
+        loadChatRoom(); // 팀 ID에 해당하는 채팅방 정보 로드
+    }, [loadChatRoom]);
+
+    useEffect(() => {
+        loadChatMessages(); // 채팅 메시지 로드
     }, [loadChatMessages]);
 
     // 메시지 전송 처리 함수
@@ -72,7 +93,7 @@ const ChatRoom = () => {
                 <button onClick={() => navigate('/chat')} className="back-button">
                     ← 뒤로
                 </button>
-                <h2>채팅방 {chatRoomId}</h2>
+                {/*<h2>{chatRoom ? `채팅방: ${chatRoom.teamName}` : '로딩 중...'}</h2>*/}
             </div>
 
             {/* 채팅 메시지 목록 */}
