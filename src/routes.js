@@ -13,6 +13,8 @@ import MyCalendar from "./global/myCalendar/MyCalendar";
 import TeamCalendar from "./page/calendar/TeamCalendar";
 import CreateNoticePage from "./page/notice/CreateNoticePage";
 import NoticePage from "./page/notice/NoticePage";
+import NoticeDetailsPage from "./page/notice/NoticeDetailsPage";
+import EditNoticePage from "./page/notice/EditNoticePage";
 
 // src/routes.js
 export const ROUTES = {
@@ -116,6 +118,22 @@ const router = createBrowserRouter([
             </Layout>
         ),
     },
+    {
+            path: "/notice/:id",
+            element: (
+                <Layout>
+                    <NoticeDetailsPage />
+                </Layout>
+            ),
+        },
+    {
+            path: "/notice/edit/:id",  // 수정 페이지 경로 추가
+            element: (
+                <Layout>
+                    <EditNoticePage />
+                </Layout>
+            ),
+        },
 ]);
 
 export default router;
