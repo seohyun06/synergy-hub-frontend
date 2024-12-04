@@ -13,6 +13,7 @@ import MyCalendar from "./global/myCalendar/MyCalendar";
 import TeamCalendar from "./page/calendar/TeamCalendar";
 import CreateNoticePage from "./page/notice/CreateNoticePage";
 import NoticePage from "./page/notice/NoticePage";
+import OAuth2Redirect from "./page/member/Oauth2Redirect";
 
 // src/routes.js
 export const ROUTES = {
@@ -64,17 +65,13 @@ const router = createBrowserRouter([
     {
         path: "/login",
         element: (
-            <Layout>
                 <LoginPage />
-            </Layout>
         ),
     },
     {
         path: "/signup",
         element: (
-            <Layout>
                 <SignUpPage />
-            </Layout>
         ),
     },
     {
@@ -117,6 +114,12 @@ const router = createBrowserRouter([
             </Layout>
         ),
     },
+    {
+        path: "/oauth2-jwt-header",
+        element: (
+                <OAuth2Redirect />
+        ),
+    }
 ]);
 
 export default router;
