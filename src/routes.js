@@ -16,6 +16,7 @@ import NoticePage from "./page/notice/NoticePage";
 import NoticeDetailsPage from "./page/notice/NoticeDetailsPage";
 import EditNoticePage from "./page/notice/EditNoticePage";
 import OAuth2Redirect from "./page/member/Oauth2Redirect";
+import TeamChatPage from "./page/chat/TeamChatPage";
 
 // src/routes.js
 export const ROUTES = {
@@ -88,6 +89,14 @@ const router = createBrowserRouter([
         element: (
             <Layout>
                 <ChatRoom />
+            </Layout>
+        ),
+    },
+    {
+        path: "/team-chat/:teamId",
+        element: (
+            <Layout>
+                <TeamChatPage />
             </Layout>
         ),
     },
