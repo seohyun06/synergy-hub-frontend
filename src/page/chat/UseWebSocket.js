@@ -9,7 +9,8 @@ const useWebSocket = (chatRoomId, onMessageReceived, onMessageDeleted) => {
     useEffect(() => {
         if (!chatRoomId) return;
 
-        const authToken = localStorage.getItem('access'); // 인증 토큰 가져오기
+        const authToken = localStorage.getItem('accessToken'); // 인증 토큰 가져오기
+        console.log("액세드 토큰 : ", authToken);
 
         const stompClient = new Client({
             webSocketFactory: () => new SockJS('http://localhost:8080/ws'), // WebSocket 엔드포인트
