@@ -61,8 +61,8 @@ function NoticePage() {
       ${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}:${String(second).padStart(2, '0')}`;
 
     // 변환 과정을 콘솔에 출력
-    console.log("Original Date Array:", dateArray);
-    console.log("Formatted Date:", formattedDate);
+    // console.log("Original Date Array:", dateArray);
+    // console.log("Formatted Date:", formattedDate);
 
     return formattedDate;
   };
