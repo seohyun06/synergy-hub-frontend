@@ -21,34 +21,44 @@ const MainPage = () => {
         const fetchMemberInfo = async () => {
             console.log("회원 정보 요청 시작");
             const jwtToken = localStorage.getItem("accessToken");
-            if (jwtToken) {
-                try {
-                    const response = await fetch(ROUTES.GETMEMBER.link, {
-                        headers: {
-                            Authorization: `Bearer ${jwtToken}`,
-                        },
+    
+            const requestHeaders = jwtToken
+                ? {
+                      Authorization: `Bearer ${jwtToken}`,
+                  }
+                : {};
+    
+            try {
+                let response = await fetch(ROUTES.GETMEMBER.link, {
+                    headers: requestHeaders,
+                });
+    
+                if (response.status === 401) {
+                    console.warn("401 Unauthorized 발생, 쿠키 포함 재요청");
+                    response = await fetch(ROUTES.GETMEMBER.link, {
+                        credentials: "include", // 쿠키를 포함한 요청
                     });
-
-                    if (response.ok) {
-                        const apiResponse = await response.json();
-                        console.log("API 응답:", apiResponse);
-
-                        const memberData = apiResponse.payload;
-                        setUser({
-                            email: memberData.email,
-                            nickname: memberData.nickname,
-                            profileImageUrl: memberData.profileImageUrl,
-                        });
-                        setIsLoggedIn(true);
-                    } else {
-                        console.error("회원정보 요청 오류:", response.status);
-                    }
-                } catch (error) {
-                    console.error("서버에 연결할 수 없습니다:", error);
                 }
+    
+                if (response.ok) {
+                    const apiResponse = await response.json();
+                    console.log("API 응답:", apiResponse);
+    
+                    const memberData = apiResponse.payload;
+                    setUser({
+                        email: memberData.email,
+                        nickname: memberData.nickname,
+                        profileImageUrl: memberData.profileImageUrl,
+                    });
+                    setIsLoggedIn(true);
+                } else {
+                    console.error("회원정보 요청 오류:", response.status);
+                }
+            } catch (error) {
+                console.error("서버에 연결할 수 없습니다:", error);
             }
         };
-
+    
         fetchMemberInfo();
     }, [setUser, setIsLoggedIn]);
 
