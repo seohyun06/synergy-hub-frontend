@@ -1,34 +1,29 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import "./NoticeDetailsPage.css";
 
 function NoticeDetailsPage() {
-  const { id } = useParams(); // URL에서 ID 추출
   const navigate = useNavigate(); // 페이지 이동을 위한 훅
+  const location = useLocation(); // URL에서 쿼리스트링 가져오기
   const [notice, setNotice] = useState(null); // 공지사항 데이터 상태
   const [error, setError] = useState(null); // 오류 상태 관리
   const [isLoading, setIsLoading] = useState(true); // 로딩 상태 관리
-  const noticeId = parseInt(id, 10); // 숫자로 변환
 
-  // 날짜 배열을 포맷팅하는 함수
-  const formatDate = (dateArray) => {
-    if (!Array.isArray(dateArray) || dateArray.length < 6) return "날짜 정보 없음";
-    const [year, month, day, hour, minute, second] = dateArray;
-
-    return `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")} 
-      ${String(hour).padStart(2, "0")}:${String(minute).padStart(2, "0")}:${String(second).padStart(2, "0")}`;
-  };
+  // 쿼리스트링에서 team과 notice 값 추출
+  const queryParams = new URLSearchParams(location.search);
+  const teamId = queryParams.get("team");
+  const noticeId = queryParams.get("notice");
 
   useEffect(() => {
-    // 잘못된 ID일 경우 처리
-    if (isNaN(noticeId)) {
-      setError("잘못된 공지사항 ID입니다.");
+    // 유효하지 않은 쿼리스트링 값 처리
+    if (!teamId || !noticeId) {
+      setError("유효하지 않은 팀 ID 또는 공지사항 ID입니다.");
       setIsLoading(false);
       return;
     }
 
     // 공지사항 상세 데이터 가져오기
-    fetch(`http://localhost:8080/notices/${noticeId}`)
+    fetch(`http://localhost:8080/notices/${noticeId}?team=${teamId}`)
         .then((response) => {
           if (!response.ok) {
             if (response.status === 404) {
@@ -47,18 +42,18 @@ function NoticeDetailsPage() {
           setError(err.message);
         })
         .finally(() => setIsLoading(false)); // 로딩 상태 해제
-  }, [noticeId]);
+  }, [teamId, noticeId]);
 
   const handleDelete = () => {
     const token = localStorage.getItem("accessToken");
     if (!token) {
       alert("로그인이 필요합니다.");
-      navigate("/login"); // 로그인 페이지로 이동
+      navigate("/login");
       return;
     }
 
     if (window.confirm("정말로 삭제하시겠습니까?")) {
-      fetch(`http://localhost:8080/notices/${noticeId}`, {
+      fetch(`http://localhost:8080/notices/${noticeId}?team=${teamId}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -68,7 +63,7 @@ function NoticeDetailsPage() {
           .then((response) => {
             if (response.ok) {
               alert("공지사항이 삭제되었습니다.");
-              navigate("/notices");
+              navigate(`/notices?team=${teamId}`);
             } else {
               return response.json().then((data) => {
                 throw new Error(data.message || "공지사항 삭제에 실패했습니다.");
@@ -82,14 +77,12 @@ function NoticeDetailsPage() {
     }
   };
 
-
-
   if (isLoading) {
-    return <div>공지사항 데이터를 불러오는 중...</div>; // 로딩 메시지
+    return <div>공지사항 데이터를 불러오는 중...</div>;
   }
 
   if (error) {
-    return <div className="error-message">{error}</div>; // 오류 메시지 출력
+    return <div className="error-message">{error}</div>;
   }
 
   return (
@@ -100,7 +93,7 @@ function NoticeDetailsPage() {
             <div className="notice-meta">
               <span className="notice-author">작성자: {notice.memberNickname}</span>
               <span className="notice-date">
-              작성일: {formatDate(notice.createdAt)}
+              작성일: {notice.createdAt}
             </span>
             </div>
             <hr />
@@ -108,7 +101,9 @@ function NoticeDetailsPage() {
             <div className="notice-actions">
               <button
                   className="btn btn-primary"
-                  onClick={() => navigate(`/notice/edit/${noticeId}`)}
+                  onClick={() =>
+                      navigate(`/notice/edit?team=${teamId}&notice=${noticeId}`)
+                  }
               >
                 수정
               </button>

@@ -1,16 +1,28 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom"; // useLocation 추가
 import { Card, Form, Button, Container, Row, Col } from "react-bootstrap";
 import "./EditNoticePage.css";
 
 function EditNoticePage() {
-  const { id } = useParams(); // URL에서 ID 추출
   const navigate = useNavigate();
+  const location = useLocation(); // 현재 URL에서 쿼리스트링 읽기
   const [notice, setNotice] = useState({ title: "", content: "", imageUrl: "" });
   const [error, setError] = useState(null); // 에러 상태 관리
   const [isLoading, setIsLoading] = useState(true); // 로딩 상태 관리
 
+  // 쿼리스트링에서 teamId와 noticeId 추출
+  const queryParams = new URLSearchParams(location.search);
+  const teamId = queryParams.get("team");
+  const noticeId = queryParams.get("notice");
+
   useEffect(() => {
+    // 유효하지 않은 쿼리스트링 값 처리
+    if (!teamId || !noticeId) {
+      setError("유효하지 않은 팀 ID 또는 공지사항 ID입니다.");
+      setIsLoading(false);
+      return;
+    }
+
     // 공지사항 데이터 가져오기
     const token = localStorage.getItem("accessToken");
     if (!token) {
@@ -19,7 +31,7 @@ function EditNoticePage() {
       return;
     }
 
-    fetch(`http://localhost:8080/notices/${id}`, {
+    fetch(`http://localhost:8080/notices/${noticeId}?team=${teamId}`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -45,7 +57,7 @@ function EditNoticePage() {
           setError(err.message);
         })
         .finally(() => setIsLoading(false));
-  }, [id, navigate]);
+  }, [teamId, noticeId, navigate]);
 
   const handleSave = () => {
     const token = localStorage.getItem("accessToken");
@@ -67,7 +79,7 @@ function EditNoticePage() {
       imageUrl: notice.imageUrl, // 기존 이미지 URL 유지
     };
 
-    fetch(`http://localhost:8080/notices/${id}`, {
+    fetch(`http://localhost:8080/notices/${noticeId}?team=${teamId}`, {
       method: "PUT",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -83,7 +95,7 @@ function EditNoticePage() {
         })
         .then(() => {
           alert("공지사항이 수정되었습니다.");
-          navigate(`/notice/${id}`);
+          navigate(`/notice/details?team=${teamId}&notice=${noticeId}`); // 수정된 공지사항 상세 페이지로 이동
         })
         .catch((error) => {
           console.error("수정 오류:", error);
