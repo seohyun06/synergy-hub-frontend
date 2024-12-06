@@ -19,5 +19,9 @@ export const ROUTES = {
     GETMEMBER: {
         link: `${process.env.REACT_APP_API_URL}/members/me`,
     },
+
+    LOGOUT: {
+        link: `${process.env.REACT_APP_API_URL}/logout`,
+    },
     
 };
