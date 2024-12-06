@@ -45,6 +45,24 @@ function NoticeDetailsPage() {
         });
   }, [noticeId]);
 
+  const handleDelete = () => {
+    if (window.confirm("정말로 삭제하시겠습니까?")) {
+      fetch(`http://localhost:8080/notices/${noticeId}`, { method: "DELETE" })
+          .then((response) => {
+            if (response.ok) {
+              alert("공지사항이 삭제되었습니다.");
+              navigate("/notices"); // 삭제 후 목록 페이지로 이동
+            } else {
+              alert("공지사항 삭제에 실패했습니다.");
+            }
+          })
+          .catch((error) => {
+            console.error("삭제 요청 중 오류 발생:", error);
+            alert("삭제 요청 중 오류가 발생했습니다.");
+          });
+    }
+  };
+
   if (error) {
     return <div className="error-message">{error}</div>; // 오류 메시지 출력
   }
@@ -65,6 +83,11 @@ function NoticeDetailsPage() {
             </span>
             </div>
             <div className="notice-content">{notice.content}</div>
+            <div className="notice-actions">
+              <button className="btn btn-danger" onClick={handleDelete}>
+                삭제
+              </button>
+            </div>
           </div>
         </main>
       </div>
