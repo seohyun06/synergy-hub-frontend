@@ -9,6 +9,15 @@ function NoticeDetailsPage() {
   const [error, setError] = useState(null); // 오류 상태 관리
   const noticeId = parseInt(id, 10); // 숫자 변환
 
+  // 날짜 배열을 포맷팅하는 함수
+  const formatDate = (dateArray) => {
+    if (!Array.isArray(dateArray) || dateArray.length < 6) return "날짜 정보 없음";
+    const [year, month, day, hour, minute, second] = dateArray;
+
+    return `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")} 
+      ${String(hour).padStart(2, "0")}:${String(minute).padStart(2, "0")}:${String(second).padStart(2, "0")}`;
+  };
+
   useEffect(() => {
     if (isNaN(noticeId)) {
       setError("잘못된 공지사항 ID입니다.");
@@ -52,7 +61,7 @@ function NoticeDetailsPage() {
             <div className="notice-meta">
               <span className="notice-author">작성자: {notice.memberNickname}</span>
               <span className="notice-date">
-              작성일: {new Date(notice.createdAt).toLocaleString()}
+              작성일: {formatDate(notice.createdAt)}
             </span>
             </div>
             <div className="notice-content">{notice.content}</div>
