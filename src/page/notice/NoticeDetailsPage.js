@@ -7,10 +7,16 @@ function NoticeDetailsPage() {
   const navigate = useNavigate(); // 페이지 이동을 위한 훅
   const [notice, setNotice] = useState(null); // 공지사항 데이터 상태
   const [error, setError] = useState(null); // 오류 상태 관리
+  const noticeId = parseInt(id, 10); // 숫자 변환
 
   useEffect(() => {
+    if (isNaN(noticeId)) {
+      setError("잘못된 공지사항 ID입니다.");
+      return;
+    }
+
     // 공지사항 상세 데이터 가져오기
-    fetch(`http://localhost:8080/notices/${id}`)
+    fetch(`http://localhost:8080/notices/${noticeId}`)
         .then((response) => {
           if (!response.ok) {
             if (response.status === 404) {
@@ -28,36 +34,7 @@ function NoticeDetailsPage() {
           console.error("데이터 불러오기 오류:", err.message);
           setError(err.message);
         });
-  }, [id]);
-
-  const handleEdit = () => {
-    navigate(`/notice/edit/${id}`); // 수정 페이지로 이동
-  };
-
-  const handleDelete = () => {
-    if (window.confirm("정말로 삭제하시겠습니까?")) {
-      fetch(`http://localhost:8080/notices/${id}`, { method: "DELETE" })
-          .then((response) => {
-            if (response.ok) {
-              alert("공지사항이 삭제되었습니다.");
-              navigate("/notices"); // 삭제 후 목록 페이지로 이동
-            } else {
-              alert("공지사항 삭제에 실패했습니다.");
-            }
-          })
-          .catch((error) => {
-            console.error("삭제 요청 중 오류 발생:", error);
-            alert("삭제 요청 중 오류가 발생했습니다.");
-          });
-    }
-  };
-
-  const formatDate = (dateArray) => {
-    if (!Array.isArray(dateArray) || dateArray.length < 6) return "";
-    const [year, month, day, hour, minute, second] = dateArray;
-    return `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")} 
-      ${String(hour).padStart(2, "0")}:${String(minute).padStart(2, "0")}:${String(second).padStart(2, "0")}`;
-  };
+  }, [noticeId]);
 
   if (error) {
     return <div className="error-message">{error}</div>; // 오류 메시지 출력
@@ -75,29 +52,10 @@ function NoticeDetailsPage() {
             <div className="notice-meta">
               <span className="notice-author">작성자: {notice.memberNickname}</span>
               <span className="notice-date">
-              작성일: {formatDate(notice.createdAt)}
+              작성일: {new Date(notice.createdAt).toLocaleString()}
             </span>
-              {notice.updatedAt && (
-                  <span className="notice-date">
-                수정일: {formatDate(notice.updatedAt)}
-              </span>
-              )}
             </div>
-            {notice.imageUrl && (
-                <div className="notice-image">
-                  <img src={notice.imageUrl} alt="공지 이미지" className="img-fluid" />
-                </div>
-            )}
-            <hr />
             <div className="notice-content">{notice.content}</div>
-            <div className="notice-actions">
-              <button className="btn btn-primary" onClick={handleEdit}>
-                수정
-              </button>
-              <button className="btn btn-danger" onClick={handleDelete}>
-                삭제
-              </button>
-            </div>
           </div>
         </main>
       </div>
