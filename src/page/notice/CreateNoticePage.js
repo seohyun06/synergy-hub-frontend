@@ -1,41 +1,20 @@
 import { useState, useEffect } from "react";
-import { Card, Form, Button, Container, Row, Col, Image } from "react-bootstrap";
+import { Card, Form, Button, Container, Row, Col } from "react-bootstrap";
 import { useNavigate, useLocation } from "react-router-dom"; // useLocation 추가
 import "./CreateNoticePage.css";
 
 function CreateNoticePage() {
-  const [image, setImage] = useState(null);
-  const [imageFile, setImageFile] = useState(null);
-  const [content, setContent] = useState("");
-  const [title, setTitle] = useState("");
+  const [content, setContent] = useState(""); // 내용 상태
+  const [title, setTitle] = useState(""); // 제목 상태
+  const [imageUrl, setImageUrl] = useState(""); // 이미지 URL 상태
   const [teamId, setTeamId] = useState(null); // teamId 상태
   const navigate = useNavigate();
   const location = useLocation();
 
-  // useEffect(() => {
-  //   const queryParams = new URLSearchParams(location.search);
-  //   const teamIdFromQuery = queryParams.get("team");
-  //   console.log("URL:", location.href); // 전체 URL 출력
-  //   console.log("Query Params:", queryParams.toString()); // 쿼리스트링 확인
-  //   console.log("Extracted teamId:", teamIdFromQuery); // teamId 확인
-  //
-  //   if (!teamIdFromQuery) {
-  //     alert("유효한 팀 ID가 필요합니다.");
-  //     navigate("/notices");
-  //     return;
-  //   }
-  //   setTeamId(teamIdFromQuery); // teamId 설정
-  // }, [location, navigate]);
-
   useEffect(() => {
+    // 쿼리스트링에서 teamId 추출
     const queryParams = new URLSearchParams(location.search);
     const teamIdFromQuery = queryParams.get("team");
-
-    // 수정된 부분: window.location.href 사용
-    console.log("URL:", window.location.href); // 전체 URL 출력
-    console.log("Query Params:", queryParams.toString()); // 쿼리스트링 확인
-    console.log("Extracted teamId:", teamIdFromQuery); // teamId 확인
-
     if (!teamIdFromQuery) {
       alert("유효한 팀 ID가 필요합니다.");
       navigate("/notices");
@@ -43,19 +22,6 @@ function CreateNoticePage() {
     }
     setTeamId(teamIdFromQuery); // teamId 설정
   }, [location, navigate]);
-
-
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setImageFile(file);
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImage(reader.result);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -65,25 +31,30 @@ function CreateNoticePage() {
       return;
     }
 
-    const formData = new FormData();
-    formData.append("title", title);
-    formData.append("content", content);
-
-    if (imageFile) {
-      formData.append("image", imageFile);
+    const token = localStorage.getItem("accessToken");
+    if (!token) {
+      alert("로그인이 필요합니다.");
+      navigate("/login"); // 로그인 페이지로 리디렉션
+      return;
     }
 
-    // 디버깅: 요청 URL과 데이터 출력
+    const requestBody = {
+      title,
+      content,
+      imageUrl,
+    };
+
     console.log("API 요청 URL:", `http://localhost:8080/notices/${teamId}`);
-    console.log("FormData 내용:");
-    for (let [key, value] of formData.entries()) {
-      console.log(`${key}: ${value}`);
-    }
+    console.log("요청 데이터:", requestBody);
 
     try {
       const response = await fetch(`http://localhost:8080/notices/${teamId}`, {
         method: "POST",
-        body: formData,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`, // 인증 토큰 추가
+        },
+        body: JSON.stringify(requestBody),
       });
 
       if (!response.ok) {
@@ -101,8 +72,6 @@ function CreateNoticePage() {
       alert("공지사항 생성 중 오류가 발생했습니다.");
     }
   };
-
-
 
 
   return (
@@ -138,19 +107,14 @@ function CreateNoticePage() {
                   </Form.Group>
 
                   <Form.Group className="mb-3">
-                    <Form.Label>이미지 업로드 (선택)</Form.Label>
                     <Form.Control
-                        type="file"
-                        accept="image/*"
-                        onChange={handleImageChange}
+                        type="text"
+                        placeholder="이미지 URL을 입력하세요 (선택)"
+                        className="p-3 border-2"
+                        value={imageUrl}
+                        onChange={(e) => setImageUrl(e.target.value)}
                     />
                   </Form.Group>
-
-                  {image && (
-                      <div className="mb-3">
-                        <Image src={image} alt="미리보기 이미지" fluid />
-                      </div>
-                  )}
 
                   <Button variant="dark" className="float-end px-4" type="submit">
                     등록
