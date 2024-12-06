@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 import { Card, Form, Button, Container, Row, Col } from "react-bootstrap";
-import { useNavigate, useLocation } from "react-router-dom"; // useLocation 추가
+import { useNavigate, useLocation } from "react-router-dom";
 import "./CreateNoticePage.css";
 
 function CreateNoticePage() {
   const [content, setContent] = useState(""); // 내용 상태
   const [title, setTitle] = useState(""); // 제목 상태
-  const [imageUrl, setImageUrl] = useState(""); // 이미지 URL 상태
+  const [imageFile, setImageFile] = useState(null); // 이미지 파일 상태
   const [teamId, setTeamId] = useState(null); // teamId 상태
   const navigate = useNavigate();
   const location = useLocation();
@@ -23,6 +23,33 @@ function CreateNoticePage() {
     setTeamId(teamIdFromQuery); // teamId 설정
   }, [location, navigate]);
 
+  const handleImageUpload = async (file) => {
+    const formData = new FormData();
+    formData.append("image", file);
+
+    try {
+      const response = await fetch("http://localhost:8080/images/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error("이미지 업로드 실패:", errorData);
+        alert("이미지 업로드 실패: " + errorData.message);
+        return null;
+      }
+
+      const imageUrl = await response.text();
+      console.log("이미지 업로드 성공:", imageUrl);
+      return imageUrl; // 업로드된 이미지 URL 반환
+    } catch (error) {
+      console.error("이미지 업로드 중 오류 발생:", error);
+      alert("이미지 업로드 중 오류가 발생했습니다.");
+      return null;
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -38,14 +65,18 @@ function CreateNoticePage() {
       return;
     }
 
+    // 이미지 업로드 후 공지사항 생성
+    let uploadedImageUrl = "";
+    if (imageFile) {
+      uploadedImageUrl = await handleImageUpload(imageFile);
+      if (!uploadedImageUrl) return; // 이미지 업로드 실패 시 중단
+    }
+
     const requestBody = {
       title,
       content,
-      imageUrl,
+      imageUrl: uploadedImageUrl, // 업로드된 이미지 URL
     };
-
-    console.log("API 요청 URL:", `http://localhost:8080/notices/${teamId}`);
-    console.log("요청 데이터:", requestBody);
 
     try {
       const response = await fetch(`http://localhost:8080/notices/${teamId}`, {
@@ -59,7 +90,7 @@ function CreateNoticePage() {
 
       if (!response.ok) {
         const errorData = await response.json();
-        console.error("API 요청 실패:", errorData);
+        console.error("공지사항 생성 실패:", errorData);
         alert("공지사항 생성 실패: " + errorData.message);
         return;
       }
@@ -72,7 +103,6 @@ function CreateNoticePage() {
       alert("공지사항 생성 중 오류가 발생했습니다.");
     }
   };
-
 
   return (
       <div className="create-notice-page">
@@ -108,11 +138,9 @@ function CreateNoticePage() {
 
                   <Form.Group className="mb-3">
                     <Form.Control
-                        type="text"
-                        placeholder="이미지 URL을 입력하세요 (선택)"
+                        type="file"
                         className="p-3 border-2"
-                        value={imageUrl}
-                        onChange={(e) => setImageUrl(e.target.value)}
+                        onChange={(e) => setImageFile(e.target.files[0])}
                     />
                   </Form.Group>
 
