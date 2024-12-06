@@ -92,11 +92,18 @@ function NoticeDetailsPage() {
             <h1 className="notice-title">{notice.title}</h1>
             <div className="notice-meta">
               <span className="notice-author">작성자: {notice.memberNickname}</span>
-              <span className="notice-date">
-              작성일: {notice.createdAt}
-            </span>
+              <span className="notice-date">작성일: {notice.createdAt}</span>
             </div>
             <hr />
+            {notice.imageUrl && (
+                <div className="notice-image">
+                  <img
+                      src={notice.imageUrl}
+                      alt="공지사항 이미지"
+                      className="img-fluid"
+                  />
+                </div>
+            )}
             <div className="notice-content">{notice.content}</div>
             <div className="notice-actions">
               <button
