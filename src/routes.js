@@ -101,7 +101,7 @@ const router = createBrowserRouter([
         ),
     },
     {
-        path: "/teamCalendar",
+        path: "//team/:id/calendar",
         element: (
             <Layout>
                 <TeamCalendar />

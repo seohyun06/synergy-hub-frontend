@@ -5,50 +5,61 @@ import "./MyCalendar.css";
 import moment from "moment";
 import axios from "axios";
 
-const MyCalendar = ({ memberId }) => {
+const MyCalendar = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
-  const [events, setEvents] = useState([]);
+  const [allEvents, setAllEvents] = useState([]);
   const [dailyEvents, setDailyEvents] = useState([]);
-
 
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const response = await axios.get(`/user/${memberId}/events`);
-        setEvents(response.data);
+        // 직접 API URL 작성 (memberId 값을 대체하여 사용)
+        const currentMemberId = localStorage.getItem("memberId"); // 사용자 ID 가져오기
+        const apiUrl = `http://localhost:8080/calendar/user/${currentMemberId}/events`; // API URL
+
+        // API 호출
+        const response = await axios.get(apiUrl, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`, // JWT 토큰 포함
+          },
+        });
+
+        // 이벤트 데이터 저장
+        setAllEvents(response.data);
       } catch (error) {
-        console.error("Failed to fetch events", error);
+        console.error("이벤트를 가져오는 중 오류 발생:", error);
+        alert("일정을 가져오는 데 실패했습니다. 다시 시도해주세요.");
       }
     };
 
     fetchEvents();
-  }, [memberId]);
-
+  }, []);
 
   useEffect(() => {
-    const filteredEvents = events.filter((event) =>
-      moment(event.startDate).isSame(selectedDate, "day")
-    );
-    setDailyEvents(filteredEvents);
-  }, [selectedDate, events]);
+    const filteredEvents = allEvents.filter((event) => {
+      const eventDate = moment(event.startDate).format("YYYY-MM-DD");
+      const selectedFormatted = moment(selectedDate).format("YYYY-MM-DD");
+      return eventDate === selectedFormatted;
+    });
 
+    setDailyEvents(filteredEvents);
+  }, [selectedDate, allEvents]);
 
   const renderTileContent = ({ date }) => {
-    const dayEvents = events.filter((event) =>
-      moment(event.startDate).isSame(date, "day")
+    const dateString = moment(date).format("YYYY-MM-DD");
+    const hasEvent = allEvents.some(
+      (event) => moment(event.startDate).format("YYYY-MM-DD") === dateString
     );
 
-    return dayEvents.length > 0 ? (
-      <div className="event-dots">
-        {dayEvents.map((event, index) => (
-          <span
-            key={index}
-            className="event-dot"
-            style={{ backgroundColor: event.color }}
-          ></span>
-        ))}
-      </div>
-    ) : null;
+    if (hasEvent) {
+      return (
+        <div className="event-dots">
+          <div className="event-dot" style={{ backgroundColor: "blue" }}></div>
+        </div>
+      );
+    }
+
+    return null;
   };
 
   return (
@@ -62,7 +73,7 @@ const MyCalendar = ({ memberId }) => {
         prevLabel="<"
         calendarType="gregory"
         formatDay={(locale, date) => moment(date).format("D")}
-        tileContent={renderTileContent} // 동그라미 표시
+        tileContent={renderTileContent}
       />
       <div className="calendar-event-list">
         <h3>
