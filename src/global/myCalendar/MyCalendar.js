@@ -5,64 +5,83 @@ import "./MyCalendar.css";
 import moment from "moment";
 import axios from "axios";
 
-const MyCalendar = ({ memberId }) => {
-  const [selectedDate, setSelectedDate] = useState(new Date());
-  const [events, setEvents] = useState([]);
-  const [dailyEvents, setDailyEvents] = useState([]);
+const MyCalendar = () => {
+  const [selectedDate, setSelectedDate] = useState(new Date()); // 선택된 날짜 상태
+  const [allEvents, setAllEvents] = useState([]); // 모든 이벤트 데이터
+  const [dailyEvents, setDailyEvents] = useState([]); // 선택된 날짜의 이벤트
 
-
+  // 초기 이벤트 데이터 가져오기
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const response = await axios.get(`/user/${memberId}/events`);
-        setEvents(response.data);
+        const apiUrl = `http://localhost:8080/calendar/my-events`;
+        const response = await axios.get(apiUrl, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`, // JWT 인증 토큰
+          },
+        });
+
+        console.log("가져온 이벤트 데이터:", response.data);
+        setAllEvents(response.data); // 가져온 이벤트 데이터 설정
       } catch (error) {
-        console.error("Failed to fetch events", error);
+        console.error("이벤트를 가져오는 중 오류 발생:", error);
+        alert("일정을 가져오는 데 실패했습니다. 다시 시도해주세요.");
       }
     };
 
-    fetchEvents();
-  }, [memberId]);
+    fetchEvents(); // API 호출
+  }, []);
 
-
+  // 선택된 날짜의 이벤트 필터링
   useEffect(() => {
-    const filteredEvents = events.filter((event) =>
-      moment(event.startDate).isSame(selectedDate, "day")
-    );
-    setDailyEvents(filteredEvents);
-  }, [selectedDate, events]);
+    const filteredEvents = allEvents.filter((event) => {
+      const eventDate = moment(event.startDate).utcOffset(9).format("YYYY-MM-DD");
+      const selectedFormatted = moment(selectedDate).utcOffset(9).format("YYYY-MM-DD");
 
 
+      console.log("이벤트 날짜:", eventDate);
+      console.log("선택된 날짜:", selectedFormatted);
+
+      return eventDate === selectedFormatted; // 날짜가 일치하는 이벤트만 필터링
+
+      console.log("비교하려는 이벤트 날짜:", moment(event.startDate).format("YYYY-MM-DD"));
+      console.log("선택된 날짜:", moment(selectedDate).format("YYYY-MM-DD"));
+
+    });
+
+    setDailyEvents(filteredEvents); // 필터링된 데이터 설정
+  }, [selectedDate, allEvents]);
+
+  // 캘린더 타일에 표시할 내용 렌더링
   const renderTileContent = ({ date }) => {
-    const dayEvents = events.filter((event) =>
-      moment(event.startDate).isSame(date, "day")
+    const dateString = moment(date).utcOffset(9).format("YYYY-MM-DD");
+    const hasEvent = allEvents.some(
+      (event) => moment(event.startDate).utcOffset(9).format("YYYY-MM-DD") === dateString
     );
 
-    return dayEvents.length > 0 ? (
-      <div className="event-dots">
-        {dayEvents.map((event, index) => (
-          <span
-            key={index}
-            className="event-dot"
-            style={{ backgroundColor: event.color }}
-          ></span>
-        ))}
-      </div>
-    ) : null;
+    if (hasEvent) {
+      return (
+        <div className="event-dots">
+          <div className="event-dot" style={{ backgroundColor: "blue" }}></div>
+        </div>
+      );
+    }
+
+    return null; // 이벤트가 없는 경우 표시하지 않음
   };
 
   return (
     <div className="my-calendar">
       <h2>내 일정</h2>
       <Calendar
-        onChange={setSelectedDate}
-        value={selectedDate}
-        locale="ko-KR"
-        nextLabel=">"
-        prevLabel="<"
-        calendarType="gregory"
-        formatDay={(locale, date) => moment(date).format("D")}
-        tileContent={renderTileContent} // 동그라미 표시
+        onChange={setSelectedDate} // 날짜 선택 시 상태 변경
+        value={selectedDate} // 현재 선택된 날짜
+        locale="ko-KR" // 한국어 설정
+        nextLabel=">" // 다음 월 버튼
+        prevLabel="<" // 이전 월 버튼
+        calendarType="gregory" // 양력 캘린더
+        formatDay={(locale, date) => moment(date).format("D")} // 날짜 포맷
+        tileContent={renderTileContent} // 타일에 이벤트 표시
       />
       <div className="calendar-event-list">
         <h3>
