@@ -20,6 +20,7 @@ const LoginPage = () => {
     try {
       const response = await fetch(ROUTES.LOGIN.link, {
         method: 'POST',
+        credentials: "include",
         headers: {
           'Content-Type': 'application/json',
         },
