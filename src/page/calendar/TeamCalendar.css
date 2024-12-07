@@ -1,6 +1,6 @@
 /* 날짜 색상 설정 */
 .fc-daygrid-day-number {
-  color: inherit; /* 날짜와 일수의 색상을 기본 색상으로 설정 */
+  color: inherit; /* 날짜의 색상을 기본 색상으로 설정 */
   text-decoration: none; /* 밑줄 제거 */
 }
 
