@@ -17,7 +17,7 @@ import NoticeDetailsPage from "./page/notice/NoticeDetailsPage";
 import EditNoticePage from "./page/notice/EditNoticePage";
 import OAuth2Redirect from "./page/member/Oauth2Redirect";
 import TeamChatPage from "./page/chat/TeamChatPage";
-
+import Comment from "./page/notice/Comment";
 // src/routes.js
 export const ROUTES = {
     HOME: '/',
@@ -151,6 +151,14 @@ const router = createBrowserRouter([
                 <OAuth2Redirect />
         ),
     },
+     {
+                path: "/comments/:noticeId",  // 댓글 페이지 경로 추가
+                element: (
+                    <Layout>
+                        <Comment /> {/* 댓글 페이지 컴포넌트 */}
+                    </Layout>
+                ),
+            },
 
 
 ]);

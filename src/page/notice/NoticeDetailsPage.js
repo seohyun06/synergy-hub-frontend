@@ -77,6 +77,12 @@ function NoticeDetailsPage() {
     }
   };
 
+ const handleGoToComment = () => {
+   // 댓글 페이지로 이동 (noticeId와 teamId를 쿼리 파라미터로 전달)
+   navigate(`/comments/noticeId=${noticeId}&team=${teamId}`);
+ };
+
+
   if (isLoading) {
     return <div>공지사항 데이터를 불러오는 중...</div>;
   }
@@ -116,6 +122,10 @@ function NoticeDetailsPage() {
               </button>
               <button className="btn btn-danger" onClick={handleDelete}>
                 삭제
+              </button>
+              {/* 댓글 보기 버튼 추가 */}
+              <button className="btn btn-info" onClick={handleGoToComment}>
+                댓글 보기
               </button>
             </div>
           </div>
