@@ -101,7 +101,7 @@ const router = createBrowserRouter([
         ),
     },
     {
-        path: "/teamCalendar",
+        path: "//team/:id/calendar",
         element: (
             <Layout>
                 <TeamCalendar />
@@ -109,12 +109,13 @@ const router = createBrowserRouter([
         ),
     },
     {
-        path: "/notice/create",
+        path: "/notice",
         element: (
             <Layout>
                 <CreateNoticePage />
             </Layout>
         ),
+        query: "team={teamId}",
     },
     {
         path: "/notices",
@@ -123,22 +124,25 @@ const router = createBrowserRouter([
                 <NoticePage />
             </Layout>
         ),
+        query: "team={teamId}",
     },
     {
-        path: "/notice/:id",
+        path: "/notice/details",
         element: (
             <Layout>
                 <NoticeDetailsPage />
             </Layout>
         ),
+        query: "team={teamId}&notice={noticeId}",
     },
     {
-        path: "/notice/edit/:id",  // 수정 페이지 경로 추가
+        path: "/notice/edit",
         element: (
             <Layout>
                 <EditNoticePage />
             </Layout>
         ),
+        query: "team={teamId}&notice={noticeId}",
     },
 
     {

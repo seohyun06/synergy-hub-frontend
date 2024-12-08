@@ -2,11 +2,13 @@ import React, { useState } from "react";
 import "./Header.css";
 import { useAuth } from "../AuthContext";
 import { useNavigate } from "react-router-dom";
+import { ROUTES } from "../../global/Links";
 
 const Header = ({ onTeamSwitch }) => {
   const { isLoggedIn, user } = useAuth(); // 로그인 상태와 사용자 정보 가져오기
   const navigate = useNavigate();
   const [isProfileOpen, setIsProfileOpen] = useState(false); // 프로필 정보 표시 여부 상태
+  const { setIsLoggedIn} = useAuth();
 
   const handleLoginClick = () => {
     navigate("/login"); // /login 경로로 이동
@@ -14,6 +16,27 @@ const Header = ({ onTeamSwitch }) => {
 
   const toggleProfileDropdown = () => {
     setIsProfileOpen((prev) => !prev); // 프로필 드롭다운 토글
+  };
+
+  const handleLogout = async () => {
+    try {
+      const response = await fetch(ROUTES.LOGOUT.link, {
+        method: "POST",
+        credentials: "include", // 쿠키 포함
+      });
+
+      if (response.ok) {
+        console.log("로그아웃 성공");
+
+        localStorage.removeItem("accessToken");
+        setIsLoggedIn(false); // 로그인 상태 업데이트
+        navigate("/login"); // /login 경로로 이동
+      } else {
+        console.error("로그아웃 실패:", response.status);
+      }
+    } catch (error) {
+      console.error("로그아웃 중 오류 발생:", error);
+    }
   };
 
   return (
@@ -63,7 +86,9 @@ const Header = ({ onTeamSwitch }) => {
                     </div>
 
 
-                    <button className="logout-button">로그아웃</button>
+                    <button className="logout-button" onClick={handleLogout}>
+                      로그아웃
+                    </button>
                   </div>
                 </div>
               )}
