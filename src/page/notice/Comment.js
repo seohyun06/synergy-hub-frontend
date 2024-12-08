@@ -28,7 +28,7 @@ function Comment() {
       });
   }, [noticeId]);
 
-  // 날짜 포맷 함수
+
   // 날짜 포맷 함수
   const formatDate = (dateArray) => {
     if (!dateArray || dateArray.length < 6) return "";
