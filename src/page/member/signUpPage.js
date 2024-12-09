@@ -1,33 +1,45 @@
 import React, { useState}  from 'react';
 import { Row, Col, Card, Form, Button } from 'react-bootstrap';
-import logo from '../assets/img/logo5.jpeg'; 
-import '../assets/css/style.css'
+import logo from './img/logo5.jpeg';
+import './css/style.css'
 import { Link, useNavigate } from "react-router-dom";
+import { ROUTES } from '../../global/Links';
 
 const SignUpPage = () => {
 
-    const [nickname, setNickname] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
+    const [form, setForm] = useState({
+        nickname: '',
+        email: '',
+        password: '',
+        confirmPassword: ''
+    });
+
     const navigate = useNavigate(); // useNavigate 훅 사용
+
+    const handleChange = (event) => {
+        const { name, value } = event.target;
+        setForm({
+            ...form,
+            [name]: value
+        });
+    };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        if (password !== confirmPassword) {
+        if (form.password !== form.confirmPassword) {
             alert("비밀번호가 일치하지 않습니다.");
             return;
         }
 
         const requestBody = {
-            nickname,
-            email,
-            password,
+            nickname: form.nickname,
+            email: form.email,
+            password: form.password,
         };
 
         try {
-            const response = await fetch('/members/signup', {
+            const response = await fetch(ROUTES.SIGNUP.link, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -91,7 +103,8 @@ const SignUpPage = () => {
                                                     name="nickname"
                                                     id="nickname"
                                                     placeholder="닉네임"
-                                                    onChange={(e) => setNickname(e.target.value)}
+                                                    value={form.nickname}
+                                                    onChange={handleChange}
                                                     required
                                                 />
                                                 <label htmlFor="nickname" className="form-label">닉네임</label>
@@ -105,7 +118,8 @@ const SignUpPage = () => {
                                                     name="email"
                                                     id="email"
                                                     placeholder="name@example.com"
-                                                    onChange={(e) => setEmail(e.target.value)}
+                                                    value={form.email}
+                                                    onChange={handleChange}
                                                     required
                                                 />
                                                 <label htmlFor="email" className="form-label">이메일</label>
@@ -119,7 +133,8 @@ const SignUpPage = () => {
                                                     name="password"
                                                     id="password"
                                                     placeholder="비밀번호"
-                                                    onChange={(e) => setPassword(e.target.value)}
+                                                    value={form.password}
+                                                    onChange={handleChange}
                                                     required
                                                 />
                                                 <label htmlFor="password" className="form-label">비밀번호</label>
@@ -130,10 +145,11 @@ const SignUpPage = () => {
                                                 <input
                                                     type="password"
                                                     className="form-control rounded-input"
-                                                    name="confirm_password"
+                                                    name="confirmPassword"
                                                     id="confirm_password"
                                                     placeholder="비밀번호 확인"
-                                                    onChange={(e) => setConfirmPassword(e.target.value)}
+                                                    value={form.confirmPassword}
+                                                    onChange={handleChange}
                                                     required
                                                 />
                                                 <label htmlFor="confirm_password" className="form-label">비밀번호 확인</label>
