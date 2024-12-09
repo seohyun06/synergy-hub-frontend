@@ -15,6 +15,7 @@ const ChatRoom = () => {
     const { sendMessage } = useWebSocket(
         chatRoomId,
         (message) => {
+            console.log("수신된 메시지:", message);
             setMessages((prevMessages) => [
                 ...prevMessages,
                 {
@@ -24,6 +25,7 @@ const ChatRoom = () => {
                     timestamp: message.createdAt,
                 },
             ]);
+            console.log(messages);
         }
     );
 
@@ -42,7 +44,7 @@ const ChatRoom = () => {
         setIsSending(true);
 
         try {
-            await sendMessage({ message: trimmedMessage, type: "TALK" });
+            await sendMessage({ text: trimmedMessage });
         } catch (error) {
             console.error("메시지 전송 실패:", error);
         } finally {
@@ -81,7 +83,7 @@ const ChatRoom = () => {
             <div className="chat-input-container">
                 <input
                     type="text"
-                    value={messageInput}
+                    value={messageInput.content}
                     onChange={(e) => setMessageInput(e.target.value)}
                     placeholder="메시지를 입력하세요..."
                     onKeyUp={(e) => e.key === 'Enter' && handleSendMessage()}
