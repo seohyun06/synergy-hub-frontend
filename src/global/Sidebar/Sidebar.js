@@ -28,8 +28,8 @@ function Sidebar() {
           캘린더
         </li>
         <li
-          className={`menu-item ${activeMenu === ROUTES.CHAT ? 'active' : ''}`}
-          onClick={() => handleMenuClick(ROUTES.CHAT)}  // 메뉴 클릭 시 active 상태 변경 및 경로 이동
+          className={`menu-item ${activeMenu === ROUTES.CHAT_ROOM ? 'active' : ''}`}
+          onClick={() => handleMenuClick(ROUTES.CHAT_ROOM)}  // 메뉴 클릭 시 active 상태 변경 및 경로 이동
         >
           채팅
         </li>

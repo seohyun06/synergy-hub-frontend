@@ -4,15 +4,15 @@ import { useNavigate, useLocation } from "react-router-dom";
 import "./CreateNoticePage.css";
 
 function CreateNoticePage() {
-  const [content, setContent] = useState(""); // 내용 상태
-  const [title, setTitle] = useState(""); // 제목 상태
+  const [title, setTitle] = useState("");        // 제목 상태
+  const [content, setContent] = useState("");    // 내용 상태
   const [imageFile, setImageFile] = useState(null); // 이미지 파일 상태
-  const [teamId, setTeamId] = useState(null); // teamId 상태
+  const [teamId, setTeamId] = useState(null);   // teamId 상태
   const navigate = useNavigate();
   const location = useLocation();
 
+  // 쿼리스트링에서 teamId 추출
   useEffect(() => {
-    // 쿼리스트링에서 teamId 추출
     const queryParams = new URLSearchParams(location.search);
     const teamIdFromQuery = queryParams.get("team");
     if (!teamIdFromQuery) {
@@ -20,9 +20,10 @@ function CreateNoticePage() {
       navigate("/notices");
       return;
     }
-    setTeamId(teamIdFromQuery); // teamId 설정
+    setTeamId(teamIdFromQuery);
   }, [location, navigate]);
 
+  // 이미지 업로드 핸들러
   const handleImageUpload = async (file) => {
     const formData = new FormData();
     formData.append("image", file);
@@ -34,22 +35,21 @@ function CreateNoticePage() {
       });
 
       if (!response.ok) {
-        const errorData = await response.json();
-        console.error("이미지 업로드 실패:", errorData);
-        alert("이미지 업로드 실패: " + errorData.message);
-        return null;
+        const errorText = await response.text();
+        throw new Error(errorText);
       }
 
       const imageUrl = await response.text();
       console.log("이미지 업로드 성공:", imageUrl);
       return imageUrl; // 업로드된 이미지 URL 반환
     } catch (error) {
-      console.error("이미지 업로드 중 오류 발생:", error);
-      alert("이미지 업로드 중 오류가 발생했습니다.");
+      console.error("이미지 업로드 중 오류 발생:", error.message);
+      alert("이미지 업로드 실패: " + error.message);
       return null;
     }
   };
 
+  // 공지사항 제출 핸들러
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -61,11 +61,11 @@ function CreateNoticePage() {
     const token = localStorage.getItem("accessToken");
     if (!token) {
       alert("로그인이 필요합니다.");
-      navigate("/login"); // 로그인 페이지로 리디렉션
+      navigate("/login");
       return;
     }
 
-    // 이미지 업로드 후 공지사항 생성
+    // 이미지 업로드 수행
     let uploadedImageUrl = "";
     if (imageFile) {
       uploadedImageUrl = await handleImageUpload(imageFile);
@@ -75,7 +75,7 @@ function CreateNoticePage() {
     const requestBody = {
       title,
       content,
-      imageUrl: uploadedImageUrl, // 업로드된 이미지 URL
+      imageUrl: uploadedImageUrl || "",
     };
 
     try {
@@ -83,23 +83,28 @@ function CreateNoticePage() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`, // 인증 토큰 추가
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(requestBody),
       });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        console.error("공지사항 생성 실패:", errorData);
-        alert("공지사항 생성 실패: " + errorData.message);
+      if (response.status === 401) {
+        alert("인증이 만료되었습니다. 다시 로그인해 주세요.");
+        localStorage.removeItem("accessToken");
+        navigate("/login");
         return;
       }
 
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(errorText);
+      }
+
       const responseData = await response.json();
-      console.log("공지사항 생성 완료:", responseData);
+      console.log("공지사항 생성 성공:", responseData);
       navigate(`/notices?team=${teamId}`);
     } catch (error) {
-      console.error("API 요청 중 오류 발생:", error);
+      console.error("API 요청 중 오류 발생:", error.message);
       alert("공지사항 생성 중 오류가 발생했습니다.");
     }
   };
@@ -107,7 +112,7 @@ function CreateNoticePage() {
   return (
       <div className="create-notice-page">
         <div className="notice-header">
-          <h1 className="fw-bold">공지사항</h1>
+          <h1 className="fw-bold">공지사항 등록</h1>
         </div>
 
         <Container fluid>
@@ -122,6 +127,7 @@ function CreateNoticePage() {
                         className="p-3 border-2"
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
+                        required
                     />
                   </Form.Group>
 
@@ -133,6 +139,7 @@ function CreateNoticePage() {
                         className="p-3 border-2"
                         value={content}
                         onChange={(e) => setContent(e.target.value)}
+                        required
                     />
                   </Form.Group>
 
