@@ -131,7 +131,7 @@ const TeamEditModal = ({ team, onClose, onSave }) => {
                         type="text"
                         value={newLabelName}
                         onChange={handleNewLabelNameChange}
-                        placeholder="라벨 이름 입력"
+                        placeholder="추가 라벨 이름 입력"
                         className="label-input"
                     />
                     <div className="color-options">
