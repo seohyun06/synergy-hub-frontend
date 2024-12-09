@@ -61,13 +61,24 @@
 }
 
 /* 라벨 추가 섹션 */
+/*.add-label-section {*/
+/*    display: flex; !* 플렉스 박스를 사용해 정렬 *!*/
+/*    flex-direction: column; !* 요소들을 세로로 배치 *!*/
+/*    align-items: flex-start; !* 왼쪽 정렬 *!*/
+/*    margin-top: 10px; !* 상단 간격 추가 *!*/
+/*    margin-bottom: 20px; !* 하단 간격 추가 *!*/
+/*}*/
 .add-label-section {
     display: flex; /* 플렉스 박스를 사용해 정렬 */
     flex-direction: column; /* 요소들을 세로로 배치 */
-    align-items: flex-start; /* 왼쪽 정렬 */
+    align-items: center; /* 가로 방향 중앙 정렬 */
+    justify-content: center; /* 세로 방향 중앙 정렬 */
     margin-top: 10px; /* 상단 간격 추가 */
     margin-bottom: 20px; /* 하단 간격 추가 */
+    height: 100%; /* 높이를 부모 컨테이너에 맞춤 (필요 시 추가) */
+    width: 100%; /* 너비를 부모 컨테이너에 맞춤 (필요 시 추가) */
 }
+
 
 /* 라벨 입력 필드 */
 .label-input {

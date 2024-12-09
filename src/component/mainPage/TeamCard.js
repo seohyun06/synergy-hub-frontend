@@ -212,7 +212,7 @@ const TeamCard = ({ id, name, members = [], comments = 0 }) => {
                             </span>
                         ))
                     ) : (
-                        <span className="no-label">라벨 없음</span>
+                        <span className="no-label"></span>
                     )}
                 </div>
 
