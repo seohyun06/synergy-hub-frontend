@@ -7,9 +7,9 @@
     display: flex; /* 팀 카드를 플렉스 박스로 설정하여 내부 콘텐츠를 정렬 */
     flex-direction: column; /* 내부 콘텐츠를 세로로 정렬 */
     justify-content: space-between; /* 상단과 하단 요소 사이의 공간을 고르게 배치 */
-    gap: 10px; /* 내부 요소 간의 간격 설정 */
+    gap: 2px; /* 내부 요소 간의 간격 설정 */
     width: 245px; /* 카드의 고정된 너비를 설정 */
-    height: 200px; /* 카드의 고정된 높이를 설정 */
+    height: 220px; /* 카드의 고정된 높이를 설정 */
     overflow: hidden; /* 내용이 넘칠 경우 숨김 처리 */
     margin-left: 10px; /* 팀 카드와 team-container 간의 왼쪽 간격을 설정 */
 }
@@ -77,8 +77,8 @@
 }
 
 .team-label-badge:hover {
-    transform: scale(1.05); /* 호버 시 라벨을 살짝 확대 */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* 그림자 강화 */
+    /*transform: scale(1.05); !* 호버 시 라벨을 살짝 확대 *!*/
+    /*box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); !* 그림자 강화 *!*/
 }
 
 .team-members {
