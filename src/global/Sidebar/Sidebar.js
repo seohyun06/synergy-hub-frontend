@@ -16,8 +16,8 @@ function Sidebar() {
     <aside className="sidebar">
       <ul className="sidebar-menu">
         <li
-          className={`menu-item ${activeMenu === ROUTES.HOME ? 'active' : ''}`}
-          onClick={() => handleMenuClick(ROUTES.HOME)}  // 메뉴 클릭 시 active 상태 변경 및 경로 이동
+          className={`menu-item ${activeMenu === ROUTES.TEAM_VIEW ? 'active' : ''}`}
+          onClick={() => handleMenuClick(ROUTES.TEAM_VIEW)}  // 메뉴 클릭 시 active 상태 변경 및 경로 이동
         >
           모아보기
         </li>
