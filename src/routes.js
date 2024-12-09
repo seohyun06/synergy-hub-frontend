@@ -25,6 +25,7 @@ export const ROUTES = {
     CHAT: '/chat',
     NOTICES: '/notices',
 };
+
 // Layout 컴포넌트
 const Layout = ({ children }) => (
     <div className="app">
@@ -36,6 +37,7 @@ const Layout = ({ children }) => (
         </div>
     </div>
 );
+
 // HeaderLayout 컴포넌트 (헤더만 표시)
 const HeaderLayout = ({ children }) => (
     <div className="app">
@@ -43,6 +45,7 @@ const HeaderLayout = ({ children }) => (
         <div className="main-content-full">{children}</div>
     </div>
 );
+
 // 라우터 정의
 const router = createBrowserRouter([
     {
@@ -64,13 +67,13 @@ const router = createBrowserRouter([
     {
         path: "/login",
         element: (
-            <LoginPage />
+                <LoginPage />
         ),
     },
     {
         path: "/signup",
         element: (
-            <SignUpPage />
+                <SignUpPage />
         ),
     },
     {
@@ -141,19 +144,23 @@ const router = createBrowserRouter([
         ),
         query: "team={teamId}&notice={noticeId}",
     },
+
     {
         path: "/oauth2-jwt-header",  // 수정 페이지 경로 추가
         element: (
-            <OAuth2Redirect />
+                <OAuth2Redirect />
         ),
     },
-    {
-        path: "/comments/:noticeId",  // 댓글 페이지 경로 추가
-        element: (
-            <Layout>
-                <Comment /> {/* 댓글 페이지 컴포넌트 */}
-            </Layout>
-        ),
-    },
+     {
+                path: "/comments/:noticeId",  // 댓글 페이지 경로 추가
+                element: (
+                    <Layout>
+                        <Comment /> {/* 댓글 페이지 컴포넌트 */}
+                    </Layout>
+                ),
+            },
+
+
 ]);
+
 export default router;
