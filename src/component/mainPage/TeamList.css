@@ -6,22 +6,6 @@
     justify-content: center; /* 카드들이 가운데 정렬되도록 설정 */
 }
 
-
-/*.team-card {*/
-/*    display: flex;*/
-/*    flex-direction: column;*/
-/*    justify-content: space-between;*/
-/*    width: 300px;*/
-/*    height: 200px;*/
-/*    padding: 20px;*/
-/*    border: 1px solid #ccc;*/
-/*    border-radius: 10px;*/
-/*    background-color: #f9f9f9;*/
-/*    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);*/
-/*    cursor: pointer;*/
-/*    transition: transform 0.3s;*/
-/*}*/
-
 .team-card:hover {
     transform: scale(1.02);
 }
@@ -49,13 +33,13 @@
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    background-color: #007bff;
+    background-color: #7E57C2;
     color: #fff;
     transition: background-color 0.3s;
 }
 
 .team-edit-button:hover {
-    background-color: #0056b3;
+    background-color: #4527A0;
 }
 
 .team-leave-button:hover {
@@ -85,7 +69,9 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 15px;
+    /*margin-top: 15px;*/
+    margin-top: 2px; /* 상단 여백을 줄임 */
+    padding: 1px; /* 내부 여백을 줄임 */
 }
 
 .team-members {
@@ -111,12 +97,12 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 32px;
-    height: 32px;
+    width: 40px;
+    height: 40px;
     border: 2px dashed #ccc;
     border-radius: 50%;
-    font-size: 18px;
-    color: #007bff;
+    font-size: 13px;
+    color: #4527A0;
     cursor: pointer;
 }
 
