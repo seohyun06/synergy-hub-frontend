@@ -24,15 +24,16 @@ export const ROUTES = {
     TEAM_MAIN: '/team/main',
     TEAM_VIEW: '/team/view',
     CALENDAR: '/calendar',
-    CHAT_ROOM: '/chat/room',
+    CHAT_ROOM: '/chat/:chatRoomId',
     NOTICES: '/notices',
     NOTICE_CREATE: '/notice',
     NOTICE_DETAILS: '/notice/details',
     NOTICE_EDIT: '/notice/edit',
     OAUTH2_REDIRECT: '/oauth2-jwt-header',
+    COMMENTS: '/comments/:noticeId'
 };
 
-// 레이아웃 컴포넌트 정의
+// 공통 레이아웃 정의
 const Layout = ({ children }) => (
     <div className="app">
         <Header />
@@ -53,7 +54,10 @@ const HeaderLayout = ({ children }) => (
 
 // 라우터 정의
 const router = createBrowserRouter([
+    // 메인 페이지
     { path: ROUTES.HOME, element: <HeaderLayout><MainPage /></HeaderLayout> },
+
+    // 로그인 및 회원가입
     { path: ROUTES.LOGIN, element: <LoginPage /> },
     { path: ROUTES.SIGNUP, element: <SignUpPage /> },
 
@@ -64,14 +68,17 @@ const router = createBrowserRouter([
     // 캘린더 관련 경로
     { path: `${ROUTES.CALENDAR}?team=:teamId`, element: <Layout><TeamCalendar /></Layout> },
 
-    // 채팅 관련 경로
-    { path: `${ROUTES.CHAT_ROOM}?team=:teamId&chatRoom=:chatRoomId`, element: <Layout><ChatRoom /></Layout> },
+    // 채팅방 관련 경로
+    { path: ROUTES.CHAT_ROOM, element: <Layout><ChatRoom /></Layout> },
 
     // 공지사항 관련 경로
-    { path: `${ROUTES.NOTICES}?team=:teamId`, element: <Layout><NoticePage /></Layout> },
-    { path: `${ROUTES.NOTICE_CREATE}?team=:teamId`, element: <Layout><CreateNoticePage /></Layout> },
-    { path: `${ROUTES.NOTICE_DETAILS}?team=:teamId&notice=:noticeId`, element: <Layout><NoticeDetailsPage /></Layout> },
-    { path: `${ROUTES.NOTICE_EDIT}?team=:teamId&notice=:noticeId`, element: <Layout><EditNoticePage /></Layout> },
+    { path: ROUTES.NOTICES, element: <Layout><NoticePage /></Layout> },
+    { path: ROUTES.NOTICE_CREATE, element: <Layout><CreateNoticePage /></Layout> },
+    { path: ROUTES.NOTICE_DETAILS, element: <Layout><NoticeDetailsPage /></Layout> },
+    { path: ROUTES.NOTICE_EDIT, element: <Layout><EditNoticePage /></Layout> },
+
+    // 댓글 페이지
+    { path: ROUTES.COMMENTS, element: <Layout><Comment /></Layout> },
 
     // OAuth2 리다이렉트
     { path: ROUTES.OAUTH2_REDIRECT, element: <OAuth2Redirect /> },
