@@ -18,15 +18,23 @@ import EditNoticePage from "./page/notice/EditNoticePage";
 import OAuth2Redirect from "./page/member/Oauth2Redirect";
 import TeamChatPage from "./page/chat/TeamChatPage";
 
-// src/routes.js
+// 라우트 상수 정의
 export const ROUTES = {
     HOME: '/',
+    LOGIN: '/login',
+    SIGNUP: '/signup',
+    TEAM_MAIN: '/team/main',
+    TEAM_VIEW: '/team/view',
     CALENDAR: '/calendar',
     CHAT: '/chat',
+    CHAT_ROOM: '/chat/room',
     NOTICES: '/notices',
+    NOTICE_DETAILS: '/notice/details',
+    NOTICE_EDIT: '/notice/edit',
+    OAUTH2_REDIRECT: '/oauth2-jwt-header',
 };
 
-// Layout 컴포넌트
+// 레이아웃 컴포넌트 정의
 const Layout = ({ children }) => (
     <div className="app">
         <Header />
@@ -38,7 +46,6 @@ const Layout = ({ children }) => (
     </div>
 );
 
-// HeaderLayout 컴포넌트 (헤더만 표시)
 const HeaderLayout = ({ children }) => (
     <div className="app">
         <Header />
@@ -48,111 +55,18 @@ const HeaderLayout = ({ children }) => (
 
 // 라우터 정의
 const router = createBrowserRouter([
-    {
-        path: "/",
-        element: (
-            <HeaderLayout>
-                <MainPage />
-            </HeaderLayout>
-        ),
-    },
-    {
-        path: "/team/:id",
-        element: (
-            <Layout>
-                <TeamPage />
-            </Layout>
-        ),
-    },
-    {
-        path: "/login",
-        element: (
-                <LoginPage />
-        ),
-    },
-    {
-        path: "/signup",
-        element: (
-                <SignUpPage />
-        ),
-    },
-    {
-        path: "/chat",
-        element: (
-            <Layout>
-                <Chat />
-            </Layout>
-        ),
-    },
-    {
-        path: "/chat/:chatRoomId",
-        element: (
-            <Layout>
-                <ChatRoom />
-            </Layout>
-        ),
-    },
-    {
-        path: "/team-chat/:teamId",
-        element: (
-            <Layout>
-                <TeamChatPage />
-            </Layout>
-        ),
-    },
-    {
-        path: "/teamCalendar",
-        element: (
-            <Layout>
-                <TeamCalendar />
-            </Layout>
-        ),
-    },
-    {
-        path: "/notice",
-        element: (
-            <Layout>
-                <CreateNoticePage />
-            </Layout>
-        ),
-        query: "team={teamId}",
-    },
-    {
-        path: "/notices",
-        element: (
-            <Layout>
-                <NoticePage />
-            </Layout>
-        ),
-        query: "team={teamId}",
-    },
-    {
-        path: "/notice/details",
-        element: (
-            <Layout>
-                <NoticeDetailsPage />
-            </Layout>
-        ),
-        query: "team={teamId}&notice={noticeId}",
-    },
-    {
-        path: "/notice/edit",
-        element: (
-            <Layout>
-                <EditNoticePage />
-            </Layout>
-        ),
-        query: "team={teamId}&notice={noticeId}",
-    },
-
-    {
-        path: "/oauth2-jwt-header",  // 수정 페이지 경로 추가
-        element: (
-                <OAuth2Redirect />
-        ),
-    },
-
-
+    { path: ROUTES.HOME, element: <HeaderLayout><MainPage /></HeaderLayout> },
+    { path: ROUTES.LOGIN, element: <LoginPage /> },
+    { path: ROUTES.SIGNUP, element: <SignUpPage /> },
+    { path: `${ROUTES.TEAM_MAIN}?member=:memberId`, element: <Layout><MainPage /></Layout> },
+    { path: `${ROUTES.TEAM_VIEW}?team=:teamId`, element: <Layout><TeamPage /></Layout> },
+    { path: `${ROUTES.CALENDAR}?team=:teamId`, element: <Layout><TeamCalendar /></Layout> },
+    { path: ROUTES.CHAT, element: <Layout><Chat /></Layout> },
+    { path: `${ROUTES.CHAT_ROOM}?team=:teamId&chatRoom=:chatRoomId`, element: <Layout><ChatRoom /></Layout> },
+    { path: `${ROUTES.NOTICES}?team=:teamId`, element: <Layout><NoticePage /></Layout> },
+    { path: `${ROUTES.NOTICE_DETAILS}?team=:teamId&notice=:noticeId`, element: <Layout><NoticeDetailsPage /></Layout> },
+    { path: `${ROUTES.NOTICE_EDIT}?team=:teamId&notice=:noticeId`, element: <Layout><EditNoticePage /></Layout> },
+    { path: ROUTES.OAUTH2_REDIRECT, element: <OAuth2Redirect /> },
 ]);
 
 export default router;
