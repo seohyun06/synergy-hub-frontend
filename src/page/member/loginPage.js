@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from "react-router-dom";
-import logo from '../assets/img/logo5.jpeg';
-import '../assets/css/style.css';
+import logo from './img/logo5.jpeg';
+import './css/style.css';
+import { ROUTES } from '../../global/Links';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
@@ -17,8 +18,9 @@ const LoginPage = () => {
     };
 
     try {
-      const response = await fetch('members/login', {
+      const response = await fetch(ROUTES.LOGIN.link, {
         method: 'POST',
+        credentials: "include",
         headers: {
           'Content-Type': 'application/json',
         },
@@ -36,7 +38,7 @@ const LoginPage = () => {
           const jwtToken = token.split(" ")[1]; // "Bearer " 부분제거
 
           // 토큰을 로컬 스토리지에 저장
-          localStorage.setItem('jwtToken', jwtToken);
+          localStorage.setItem('accessToken', jwtToken);
 
           navigate('/'); 
         } else {
@@ -139,7 +141,7 @@ const LoginPage = () => {
                       </div>
                     </div>
                     <div className="text-center">
-                      <a href='#' className="btn btn-custom rounded-input">
+                      <a href={ROUTES.GOOGLEURL.link} className="btn btn-custom rounded-input">
                         <i className="fa fa-google"></i>
                         Sign in with <b>Google</b>
                       </a>

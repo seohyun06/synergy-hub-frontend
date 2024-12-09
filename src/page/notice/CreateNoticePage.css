@@ -1,0 +1,66 @@
+/* 페이지 제목 */
+.notice-header {
+    margin-bottom: 30px;
+    text-align: center;
+  }
+
+  .notice-header h1 {
+    font-size: 2rem;
+    font-weight: bold;
+  }
+
+  /* 공지사항 콘텐츠 영역 */
+  .card {
+    border-radius: 8px;
+    border: 1px solid #ddd;
+  }
+
+  /* 폼 입력 필드 */
+  .form-control {
+    border-radius: 4px;
+    border: 1px solid #ddd;
+  }
+
+  /* 이미지 미리보기 영역 */
+  .mb-3 img {
+    max-width: 100%;
+    border-radius: 8px;
+  }
+
+  /* 등록 버튼 */
+  button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 4px;
+  }
+
+  /* 내 일정 영역 */
+  .schedule-section {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+
+  .schedule-box {
+    background-color: #f1f1f1;
+    padding: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+    border-radius: 8px;
+  }
+
+  .schedule-box p {
+    margin: 0;
+  }
+
+  .schedule-box .fw-bold {
+    font-size: 1.2rem;
+    color: #333;
+  }
+
+  .schedule-box .fs-4 {
+    font-size: 3rem;
+    font-weight: bold;
+    color: #2a9d8f;
+  }

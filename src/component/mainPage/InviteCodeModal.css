@@ -1,0 +1,120 @@
+/*.modal-overlay {*/
+/*    position: fixed;*/
+/*    top: 0;*/
+/*    left: 0;*/
+/*    width: 100%;*/
+/*    height: 100%;*/
+/*    background-color: rgba(0, 0, 0, 0.5);*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*    z-index: 1000;*/
+/*}*/
+
+/*.modal-content {*/
+/*    background-color: white;*/
+/*    border-radius: 8px;*/
+/*    padding: 20px;*/
+/*    width: 300px;*/
+/*    max-height: 80%;*/
+/*    overflow-y: auto;*/
+/*    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);*/
+/*    position: relative;*/
+/*    text-align: center;*/
+/*}*/
+
+/*h2 {*/
+/*    font-size: 18px;*/
+/*    margin-bottom: 16px;*/
+/*}*/
+
+/*.invite-code-text {*/
+/*    font-size: 16px;*/
+/*    font-weight: bold;*/
+/*    margin: 16px 0;*/
+/*    word-wrap: break-word;*/
+/*}*/
+
+/*.copy-button,*/
+/*.close-button {*/
+/*    padding: 10px 20px;*/
+/*    margin: 5px;*/
+/*    background-color: #007bff;*/
+/*    color: white;*/
+/*    border: none;*/
+/*    border-radius: 4px;*/
+/*    cursor: pointer;*/
+/*}*/
+
+/*.copy-button:hover,*/
+/*.close-button:hover {*/
+/*    background-color: #0056b3;*/
+/*}*/
+
+/* InviteCodeModal 내부 스타일 - 구체적인 선택자 사용 */
+.modal-overlay.InviteCodeModal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content.InviteCodeModal {
+    background-color: white;
+    border-radius: 8px;
+    padding: 20px;
+    width: 300px;
+    max-height: 80%;
+    overflow-y: auto;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    position: relative;
+    text-align: center;
+}
+
+.InviteCodeModal h2 {
+    font-size: 18px;
+    margin-bottom: 16px;
+}
+
+.invite-code-text.InviteCodeModal {
+    font-size: 16px;
+    font-weight: bold;
+    margin: 16px 0;
+    word-wrap: break-word;
+}
+
+.copy-button.InviteCodeModal{
+    padding: 10px 20px;
+    margin: 5px;
+    background-color: #7E57C2;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+
+.close-button.InviteCodeModal {
+    padding: 10px 20px;
+    margin: 5px;
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.copy-button.InviteCodeModal:hover{
+    background-color: #4527A0;
+}
+.close-button.InviteCodeModal:hover {
+    background-color: #5a6268;
+}
+
+
