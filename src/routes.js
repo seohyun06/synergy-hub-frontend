@@ -56,14 +56,24 @@ const router = createBrowserRouter([
     { path: ROUTES.HOME, element: <HeaderLayout><MainPage /></HeaderLayout> },
     { path: ROUTES.LOGIN, element: <LoginPage /> },
     { path: ROUTES.SIGNUP, element: <SignUpPage /> },
+
+    // 팀 관련 경로
     { path: `${ROUTES.TEAM_MAIN}?member=:memberId`, element: <Layout><MainPage /></Layout> },
     { path: `${ROUTES.TEAM_VIEW}?team=:teamId`, element: <Layout><TeamPage /></Layout> },
+
+    // 캘린더 관련 경로
     { path: `${ROUTES.CALENDAR}?team=:teamId`, element: <Layout><TeamCalendar /></Layout> },
+
+    // 채팅 관련 경로
     { path: `${ROUTES.CHAT_ROOM}?team=:teamId&chatRoom=:chatRoomId`, element: <Layout><ChatRoom /></Layout> },
+
+    // 공지사항 관련 경로
     { path: `${ROUTES.NOTICES}?team=:teamId`, element: <Layout><NoticePage /></Layout> },
     { path: `${ROUTES.NOTICE_CREATE}?team=:teamId`, element: <Layout><CreateNoticePage /></Layout> },
     { path: `${ROUTES.NOTICE_DETAILS}?team=:teamId&notice=:noticeId`, element: <Layout><NoticeDetailsPage /></Layout> },
     { path: `${ROUTES.NOTICE_EDIT}?team=:teamId&notice=:noticeId`, element: <Layout><EditNoticePage /></Layout> },
+
+    // OAuth2 리다이렉트
     { path: ROUTES.OAUTH2_REDIRECT, element: <OAuth2Redirect /> },
 ]);
 
