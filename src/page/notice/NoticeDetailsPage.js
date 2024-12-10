@@ -16,6 +16,7 @@ function NoticeDetailsPage() {
     const teamId = queryParams.get("team");
     const noticeId = queryParams.get("notice");
 
+    // 공지사항 상세 데이터 가져오기
     useEffect(() => {
         // 유효하지 않은 쿼리스트링 값 처리
         if (!teamId || !noticeId) {
@@ -40,14 +41,14 @@ function NoticeDetailsPage() {
                 setError(null); // 오류 상태 초기화
             })
             .catch((err) => {
-                console.error("데이터 불러오기 오류:", err.message);
+                console.error("공지사항 데이터 불러오기 오류:", err.message);
                 setError(err.message);
             })
             .finally(() => setIsLoading(false)); // 로딩 상태 해제
     }, [teamId, noticeId]);
 
+    // 댓글 리스트 가져오기
     useEffect(() => {
-        // 댓글 리스트 가져오기
         if (noticeId) {
             fetch(`http://localhost:8080/comments/notice/${noticeId}`)
                 .then((response) => {
@@ -60,11 +61,12 @@ function NoticeDetailsPage() {
                     setComments(data);
                 })
                 .catch((err) => {
-                    console.error("댓글 불러오기 오류:", err.message);
+                    console.error("댓글 데이터 불러오기 오류:", err.message);
                 });
         }
     }, [noticeId]);
 
+    // 댓글 작성 핸들러
     const handleAddComment = () => {
         const token = localStorage.getItem("accessToken");
         if (!token) {
@@ -89,16 +91,21 @@ function NoticeDetailsPage() {
                 content: newComment,
             }),
         })
-            .then((response) => {
+            .then(async (response) => {
                 if (!response.ok) {
-                    return response.json().then((data) => {
-                        throw new Error(data.message || "댓글 추가에 실패했습니다.");
-                    });
+                    const errorText = await response.text();
+                    if (response.status === 401 && errorText.includes("Access token expired")) {
+                        alert("세션이 만료되었습니다. 다시 로그인해주세요.");
+                        navigate("/login");
+                    } else {
+                        throw new Error(errorText || "댓글 작성에 실패했습니다.");
+                    }
+                } else {
+                    return response.json();
                 }
-                return response.json();
             })
-            .then((newComment) => {
-                setComments((prevComments) => [...prevComments, newComment]);
+            .then((newCommentData) => {
+                setComments((prevComments) => [...prevComments, newCommentData]);
                 setNewComment(""); // 입력 필드 초기화
             })
             .catch((error) => {
