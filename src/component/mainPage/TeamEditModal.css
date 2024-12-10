@@ -1,253 +1,173 @@
-/*.modal-backdrop {*/
-/*    position: fixed;*/
-/*    top: 0;*/
-/*    left: 0;*/
-/*    width: 100%;*/
-/*    height: 100%;*/
-/*    background: rgba(0, 0, 0, 0.5);*/
-/*    display: flex;*/
-/*    justify-content: center;*/
-/*    align-items: center;*/
-/*    z-index: 1000;*/
-/*}*/
-
-/*.modal-container {*/
-/*    background: white;*/
-/*    padding: 20px;*/
-/*    border-radius: 8px;*/
-/*    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);*/
-/*    width: 400px;*/
-/*    text-align: center;*/
-/*}*/
-
-/*.modal-input {*/
-/*    width: 100%;*/
-/*    margin-bottom: 20px;*/
-/*    padding: 10px;*/
-/*    font-size: 16px;*/
-/*    border: 1px solid #ddd;*/
-/*    border-radius: 4px;*/
-/*}*/
-
-/*.label-list {*/
-/*    display: flex;*/
-/*    flex-wrap: wrap;*/
-/*    justify-content: center;*/
-/*    margin-bottom: 20px;*/
-/*}*/
-
-/*.label-badge {*/
-/*    display: inline-flex;*/
-/*    align-items: center;*/
-/*    background-color: #eee;*/
-/*    color: black;*/
-/*    margin: 5px;*/
-/*    padding: 5px 10px;*/
-/*    border-radius: 5px;*/
-/*}*/
-
-/*.label-delete-button {*/
-/*    margin-left: 5px;*/
-/*    background: none;*/
-/*    border: none;*/
-/*    color: red;*/
-/*    font-weight: bold;*/
-/*    cursor: pointer;*/
-/*}*/
-
-/*.add-label-button {*/
-/*    margin-top: 10px;*/
-/*    background: #007bff;*/
-/*    color: white;*/
-/*    border: none;*/
-/*    padding: 5px 10px;*/
-/*    border-radius: 5px;*/
-/*    cursor: pointer;*/
-/*}*/
-
-/*.modal-buttons {*/
-/*    display: flex;*/
-/*    justify-content: space-between;*/
-/*}*/
-
-/*.cancel-button,*/
-/*.save-button {*/
-/*    background: #007bff;*/
-/*    color: white;*/
-/*    border: none;*/
-/*    padding: 10px 20px;*/
-/*    border-radius: 5px;*/
-/*    cursor: pointer;*/
-/*}*/
-
-/*.cancel-button {*/
-/*    background: #6c757d;*/
-/*}*/
-
-/*.save-button:hover {*/
-/*    background: #0056b3;*/
-/*}*/
-
-/*.cancel-button:hover {*/
-/*    background: #5a6268;*/
-/*}*/
-
 /* 모달 백드롭 (배경) */
 .modal-backdrop {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
+    position: fixed; /* 화면에서 스크롤과 관계없이 항상 동일한 위치에 고정 */
+    top: 0; /* 화면 상단에서 시작 */
+    left: 0; /* 화면 왼쪽에서 시작 */
+    width: 100%; /* 화면의 전체 너비를 차지 */
+    height: 100%; /* 화면의 전체 높이를 차지 */
+    background: rgba(0, 0, 0, 0.5); /* 반투명한 검정 배경으로 설정 */
+    display: flex; /* 플렉스 박스를 사용하여 자식 요소 정렬 */
+    justify-content: center; /* 자식 요소를 수평 중앙 정렬 */
+    align-items: center; /* 자식 요소를 수직 중앙 정렬 */
+    z-index: 1000; /* 다른 요소 위에 표시되도록 높은 z-index 설정 */
 }
 
 /* 모달 컨테이너 */
 .modal-container {
-    background: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    width: 400px;
-    text-align: center;
+    background: white; /* 모달 내부 배경을 흰색으로 설정 */
+    padding: 20px; /* 내부 여백 설정 */
+    border-radius: 8px; /* 모서리를 부드럽게 만듦 */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* 그림자 효과 추가 */
+    width: 400px; /* 모달의 고정된 너비 */
+    text-align: center; /* 텍스트와 콘텐츠를 중앙 정렬 */
 }
 
 /* 입력 필드 스타일 */
 .modal-input {
-    width: 100%;
-    margin-bottom: 20px;
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+    width: 100%; /* 입력 필드가 부모 요소의 전체 너비를 차지 */
+    margin-bottom: 20px; /* 하단에 간격 추가 */
+    padding: 10px; /* 내부 여백 */
+    font-size: 16px; /* 텍스트 크기 설정 */
+    border: 1px solid #ddd; /* 연한 회색 테두리 설정 */
+    border-radius: 4px; /* 모서리를 약간 둥글게 설정 */
 }
 
 /* 라벨 리스트 */
 .label-list {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin-bottom: 20px;
+    display: flex; /* 플렉스 박스를 사용해 정렬 */
+    flex-wrap: wrap; /* 라벨을 여러 줄로 나열 가능하도록 설정 */
+    justify-content: center; /* 중앙 정렬 */
+    margin-bottom: 20px; /* 하단에 간격 추가 */
 }
 
-/* 개별 라벨 배지 */
 .label-badge {
-    display: inline-flex;
-    align-items: center;
-    background-color: #eee;
-    color: black;
-    margin: 5px;
+    display: inline-flex; /* 플렉스 정렬 */
+    align-items: center; /* 수직 중앙 정렬 */
+    justify-content: space-between; /* 텍스트는 왼쪽, 버튼은 오른쪽 */
     padding: 5px 10px;
+    background-color: #eee;
     border-radius: 5px;
+    width: auto; /* 자동 너비 조정 */
 }
 
-/* 라벨 삭제 버튼 */
 .label-delete-button {
-    margin-left: 5px;
+    margin-left: auto; /* 버튼을 오른쪽 끝으로 밀어냄 */
+    font-size: 16px;
     background: none;
     border: none;
-    color: #000000;
+    color: black;
     font-weight: bold;
     cursor: pointer;
 }
 
 /* 라벨 추가 섹션 */
+/*.add-label-section {*/
+/*    display: flex; !* 플렉스 박스를 사용해 정렬 *!*/
+/*    flex-direction: column; !* 요소들을 세로로 배치 *!*/
+/*    align-items: flex-start; !* 왼쪽 정렬 *!*/
+/*    margin-top: 10px; !* 상단 간격 추가 *!*/
+/*    margin-bottom: 20px; !* 하단 간격 추가 *!*/
+/*}*/
 .add-label-section {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    margin-top: 10px;
-    margin-bottom: 20px;
+    display: flex; /* 플렉스 박스를 사용해 정렬 */
+    flex-direction: column; /* 요소들을 세로로 배치 */
+    align-items: center; /* 가로 방향 중앙 정렬 */
+    justify-content: center; /* 세로 방향 중앙 정렬 */
+    margin-top: 10px; /* 상단 간격 추가 */
+    margin-bottom: 20px; /* 하단 간격 추가 */
+    height: 100%; /* 높이를 부모 컨테이너에 맞춤 (필요 시 추가) */
+    width: 100%; /* 너비를 부모 컨테이너에 맞춤 (필요 시 추가) */
 }
+
 
 /* 라벨 입력 필드 */
 .label-input {
-    width: 100%;
-    margin-bottom: 10px;
-    padding: 5px;
-    font-size: 14px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+    width: 100%; /* 입력 필드가 부모 요소의 전체 너비를 차지 */
+    margin-bottom: 10px; /* 하단 간격 추가 */
+    padding: 5px; /* 내부 여백 */
+    font-size: 14px; /* 텍스트 크기 설정 */
+    border: 1px solid #ddd; /* 연한 회색 테두리 */
+    border-radius: 4px; /* 모서리를 둥글게 설정 */
 }
 
 /* 색상 선택 옵션 */
 .color-options {
-    display: flex;
-    justify-content: flex-start;
-    margin-bottom: 10px;
+    display: flex; /* 플렉스 박스를 사용해 정렬 */
+    justify-content: flex-start; /* 왼쪽 정렬 */
+    margin-bottom: 10px; /* 하단 간격 추가 */
 }
 
 /* 색상 선택 원형 */
 .color-circle {
-    width: 30px;
-    height: 30px;
-    margin-right: 5px;
-    border: 2px solid transparent;
-    border-radius: 50%;
-    cursor: pointer;
+    width: 30px; /* 원형의 고정된 너비 */
+    height: 30px; /* 원형의 고정된 높이 */
+    margin-right: 5px; /* 오른쪽 간격 */
+    border: 2px solid transparent; /* 기본적으로 투명한 테두리 */
+    border-radius: 50%; /* 완전한 원형으로 설정 */
+    cursor: pointer; /* 포인터 커서로 변경 */
 }
 
 .color-circle:hover {
-    opacity: 0.8;
+    opacity: 0.8; /* 마우스 오버 시 투명도 변경 */
 }
 
 .color-circle.selected {
-    border: 2px solid black; /* 선택된 색상 강조 */
+    border: 2px solid black; /* 선택된 색상의 테두리를 검정으로 표시 */
 }
 
 /* 라벨 추가 버튼 */
 .add-label-button {
     display: inline-block; /* 버튼이 부모 요소의 크기에 영향을 받지 않도록 설정 */
-    margin-top: 10px;
-    background: #007bff;
-    color: white;
-    border: none;
-    padding: 8px 16px; /* 상하 8px, 좌우 16px 여백 설정 */
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 18px; /* 텍스트 크기 조정 */
+    margin-top: 10px; /* 상단 간격 추가 */
+    background: #007bff; /* 파란색 배경 */
+    color: white; /* 흰색 텍스트 */
+    border: none; /* 테두리 없음 */
+    padding: 8px 16px; /* 내부 여백 설정 (상하 8px, 좌우 16px) */
+    border-radius: 5px; /* 모서리를 부드럽게 설정 */
+    cursor: pointer; /* 포인터 커서로 변경 */
+    font-size: 15px; /* 텍스트 크기 설정 */
     min-width: 100px; /* 버튼 최소 너비 설정 */
     text-align: center; /* 텍스트 중앙 정렬 */
 }
 
 .add-label-button:hover {
-    background: #0056b3;
+    background: #0056b3; /* 마우스 오버 시 배경색 변경 */
 }
 
 /* 모달 버튼 섹션 */
 .modal-buttons {
-    display: flex;
-    justify-content: space-between;
+    display: flex; /* 플렉스 박스를 사용해 정렬 */
+    justify-content: space-between; /* 버튼들을 양쪽 끝에 배치 */
 }
 
 /* 취소 버튼 */
 .cancel-button {
-    background: #6c757d;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
+    background: #6c757d; /* 회색 배경 */
+    color: white; /* 흰색 텍스트 */
+    border: none; /* 테두리 없음 */
+    padding: 10px 20px; /* 내부 여백 설정 */
+    border-radius: 5px; /* 모서리를 부드럽게 설정 */
+    cursor: pointer; /* 포인터 커서로 변경 */
+    width: 170px !important; /* 버튼 가로 크기 */
+    height: 50px !important; /* 버튼 세로 크기 */
+}
+
+.cancel-button:hover {
+    background: #5a6268; /* 마우스 오버 시 배경색 변경 */
 }
 
 /* 저장 버튼 */
 .save-button {
-    background: #007bff;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
+    background: #007bff; /* 파란색 배경 */
+    color: white; /* 흰색 텍스트 */
+    border: none; /* 테두리 없음 */
+    padding: 10px 20px; /* 내부 여백 설정 */
+    border-radius: 5px; /* 모서리를 부드럽게 설정 */
+    cursor: pointer; /* 포인터 커서로 변경 */
+    width: 170px; /* 버튼 가로 크기 */
+    height: 50px; /* 버튼 세로 크기 */
 }
 
 .save-button:hover {
-    background: #0056b3;
-}
-
-.cancel-button:hover {
-    background: #5a6268;
+    background: #0056b3; /* 마우스 오버 시 배경색 변경 */
 }

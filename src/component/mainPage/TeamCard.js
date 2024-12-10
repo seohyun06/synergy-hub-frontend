@@ -43,7 +43,33 @@ const TeamCard = ({ id, name, members = [], comments = 0 }) => {
         }
     };
 
+    // // 멤버 수 가져오는 함수
+    // const fetchMemberCount = async () => {
+    //     try {
+    //         const token = localStorage.getItem("accessToken");
+    //         if (!token) {
+    //             alert("인증 정보가 없습니다. 다시 로그인해주세요.");
+    //             return;
+    //         }
+    //
+    //         const response = await fetch(`http://localhost:8080/member-teams/${id}/members`, {
+    //             headers: {
+    //                 Authorization: `Bearer ${token}`,
+    //             },
+    //         });
+    //
+    //         if (!response.ok) {
+    //             throw new Error("Failed to fetch member count");
+    //         }
+    //
+    //         const data = await response.json();
+    //         setMemberCount(data.length);
+    //     } catch (error) {
+    //         console.error("Error fetching member count:", error);
+    //     }
+    // };
     // 멤버 수 가져오는 함수
+
     const fetchMemberCount = async () => {
         try {
             const token = localStorage.getItem("accessToken");
@@ -63,11 +89,15 @@ const TeamCard = ({ id, name, members = [], comments = 0 }) => {
             }
 
             const data = await response.json();
-            setMemberCount(data.length);
+            setMemberCount(data.length); // 상태에 멤버 수 저장
         } catch (error) {
             console.error("Error fetching member count:", error);
         }
     };
+
+    useEffect(() => {
+        fetchMemberCount(); // 컴포넌트가 렌더링될 때 멤버 수 가져오기
+    }, [id]); // id가 변경될 때도 다시 호출
 
     // 라벨 데이터 가져오기
     useEffect(() => {
@@ -213,14 +243,14 @@ const TeamCard = ({ id, name, members = [], comments = 0 }) => {
                             </span>
                         ))
                     ) : (
-                        <span className="no-label">라벨 없음</span>
+                        <span className="no-label"></span>
                     )}
                 </div>
 
                 <div className="team-footer">
                     <div className="team-members">
                         <div className="team-member-add" onClick={handleMemberClick}>
-                            +{memberCount}
+                            👤{memberCount} {/* 멤버 수 표시 */}
                         </div>
                         <button
                             className="invite-code-button"

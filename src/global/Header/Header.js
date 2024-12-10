@@ -1,14 +1,58 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Header.css";
 import { useAuth } from "../AuthContext";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../global/Links";
 
-const Header = ({ onTeamSwitch }) => {
+const Header = () => {
   const { isLoggedIn, user } = useAuth(); // 로그인 상태와 사용자 정보 가져오기
   const navigate = useNavigate();
   const [isProfileOpen, setIsProfileOpen] = useState(false); // 프로필 정보 표시 여부 상태
-  const { setIsLoggedIn} = useAuth();
+  const [teams, setTeams] = useState([]); // 팀 목록 상태
+  const [selectedTeamId, setSelectedTeamId] = useState(""); // 선택된 팀 ID 상태
+  const { setIsLoggedIn } = useAuth();
+
+  // 팀 목록 가져오기
+  const fetchTeams = async () => {
+    try {
+      const token = localStorage.getItem("accessToken");
+      if (!token) {
+        alert("인증 정보가 없습니다. 다시 로그인해주세요.");
+        return;
+      }
+
+      const response = await fetch("http://localhost:8080/teams/member", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("팀 목록 가져오기에 실패했습니다.");
+      }
+
+      const data = await response.json();
+      setTeams(data); // 팀 목록 상태 업데이트
+
+      // 팀이 하나일 경우 자동으로 선택된 팀 ID 설정
+      if (data.length === 1) {
+        setSelectedTeamId(data[0].id); // 자동으로 첫 팀을 선택
+      }
+    } catch (error) {
+      console.error("팀 목록 가져오기 오류:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchTeams(); // 컴포넌트 로드 시 팀 목록 가져오기
+  }, []);
+
+  // 선택된 팀 변경
+  const handleTeamSwitch = (event) => {
+    const selectedTeamId = event.target.value; // 선택된 팀 ID
+    setSelectedTeamId(selectedTeamId); // 선택된 팀 ID 상태 업데이트
+    navigate(`/team/view?team=${selectedTeamId}`); // 해당 팀 상세 페이지로 이동
+  };
 
   const handleLoginClick = () => {
     navigate("/login"); // /login 경로로 이동
@@ -43,11 +87,21 @@ const Header = ({ onTeamSwitch }) => {
     <header className="header">
       <div className="header-left">
         <h1>Synergy Hub</h1>
-        <select className="team-switcher" onChange={onTeamSwitch}>
-          <option>Team A</option>
-          <option>Team B</option>
-          <option>Team C</option>
-        </select>
+        {teams.length > 1 ? (
+          <select
+            className="team-switcher"
+            value={selectedTeamId} // 선택된 팀 ID로 드롭다운 값 설정
+            onChange={handleTeamSwitch}
+          >
+            {teams.map((team) => (
+              <option key={team.id} value={team.id}>
+                {team.name}
+              </option>
+            ))}
+          </select>
+        ) : (
+          <span>{teams.length === 1 && teams[0].name}</span> // 팀이 하나일 경우 팀 이름만 표시
+        )}
       </div>
       <div className="header-right">
         <div className="profile-section">
@@ -85,7 +139,6 @@ const Header = ({ onTeamSwitch }) => {
                       <span className="profile-email">{user.email}</span>
                     </div>
 
-
                     <button className="logout-button" onClick={handleLogout}>
                       로그아웃
                     </button>
@@ -94,7 +147,9 @@ const Header = ({ onTeamSwitch }) => {
               )}
             </>
           ) : (
-            <button className="login-button" onClick={handleLoginClick}>로그인</button>
+            <button className="login-button" onClick={handleLoginClick}>
+              로그인
+            </button>
           )}
         </div>
       </div>

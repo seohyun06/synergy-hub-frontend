@@ -15,8 +15,7 @@ import NoticePage from "./page/notice/NoticePage";
 import NoticeDetailsPage from "./page/notice/NoticeDetailsPage";
 import EditNoticePage from "./page/notice/EditNoticePage";
 import OAuth2Redirect from "./page/member/Oauth2Redirect";
-import Comment from "./page/notice/Comment";
-
+import Comment from "./page/notice/Comment"
 
 // 라우트 상수 정의
 export const ROUTES = {
@@ -24,7 +23,7 @@ export const ROUTES = {
     LOGIN: '/login',
     SIGNUP: '/signup',
     TEAM_MAIN: '/team/main',
-    TEAM_VIEW: '/team/:teamId',
+    TEAM_VIEW: '/team/:teamId', // 동적 경로로 변경
     CALENDAR: '/calendar',
     CHAT_ROOM: '/chat/:chatRoomId',
     NOTICES: '/notices',
@@ -34,6 +33,7 @@ export const ROUTES = {
     OAUTH2_REDIRECT: '/oauth2-jwt-header',
     COMMENTS: '/comments/:noticeId'
 };
+
 
 // 공통 레이아웃 정의
 const Layout = ({ children }) => (
@@ -64,11 +64,11 @@ const router = createBrowserRouter([
     { path: ROUTES.SIGNUP, element: <SignUpPage /> },
 
     // 팀 관련 경로
-    { path: `${ROUTES.TEAM_MAIN}?member=:memberId`, element: <Layout><MainPage /></Layout> },
-    { path: ROUTES.TEAM_VIEW,element: <Layout><TeamPage /></Layout> },
+    { path: ROUTES.TEAM_MAIN, element: <Layout><MainPage /></Layout> },
+    { path: ROUTES.TEAM_VIEW, element: <Layout><TeamPage /></Layout> }, // 동적 경로 추가
 
     // 캘린더 관련 경로
-    { path: `${ROUTES.CALENDAR}?team=:teamId`, element: <Layout><TeamCalendar /></Layout> },
+    { path: ROUTES.CALENDAR, element: <Layout><TeamCalendar /></Layout> },
 
     // 채팅방 관련 경로
     { path: ROUTES.CHAT_ROOM, element: <Layout><ChatRoom /></Layout> },
@@ -85,5 +85,6 @@ const router = createBrowserRouter([
     // OAuth2 리다이렉트
     { path: ROUTES.OAUTH2_REDIRECT, element: <OAuth2Redirect /> },
 ]);
+
 
 export default router;
