@@ -3,13 +3,15 @@ import { useNavigate, useLocation } from "react-router-dom";
 import "./NoticeDetailsPage.css";
 
 function NoticeDetailsPage() {
-    const navigate = useNavigate(); // 페이지 이동을 위한 훅
-    const location = useLocation(); // URL에서 쿼리스트링 가져오기
-    const [notice, setNotice] = useState(null); // 공지사항 데이터 상태
-    const [comments, setComments] = useState([]); // 댓글 리스트 상태
-    const [newComment, setNewComment] = useState(""); // 새 댓글 상태
-    const [error, setError] = useState(null); // 오류 상태 관리
-    const [isLoading, setIsLoading] = useState(true); // 로딩 상태 관리
+    const navigate = useNavigate();
+    const location = useLocation();
+    const [notice, setNotice] = useState(null);
+    const [comments, setComments] = useState([]);
+    const [newComment, setNewComment] = useState("");
+    const [editingCommentId, setEditingCommentId] = useState(null); // 현재 수정 중인 댓글 ID
+    const [editingContent, setEditingContent] = useState(""); // 수정 중인 댓글 내용
+    const [error, setError] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
 
     // 쿼리스트링에서 team과 notice 값 추출
     const queryParams = new URLSearchParams(location.search);
@@ -182,6 +184,56 @@ function NoticeDetailsPage() {
         }
     };
 
+    const handleEditComment = (commentId, currentContent) => {
+        setEditingCommentId(commentId);
+        setEditingContent(currentContent);
+    };
+
+    const handleUpdateComment = (commentId) => {
+        const token = localStorage.getItem("accessToken");
+        if (!token) {
+            alert("로그인이 필요합니다.");
+            navigate("/login");
+            return;
+        }
+
+        if (editingContent.trim() === "") {
+            alert("수정할 내용을 입력해주세요.");
+            return;
+        }
+
+        fetch(`http://localhost:8080/comments/${commentId}`, {
+            method: "PUT",
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                content: editingContent,
+            }),
+        })
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error("댓글 수정에 실패했습니다.");
+                }
+                return response.json();
+            })
+            .then((updatedComment) => {
+                setComments((prevComments) =>
+                    prevComments.map((comment) =>
+                        comment.commentId === commentId ? updatedComment : comment
+                    )
+                );
+                setEditingCommentId(null);
+                setEditingContent("");
+                alert("댓글이 수정되었습니다.");
+            })
+            .catch((error) => {
+                console.error("댓글 수정 오류:", error.message);
+                alert(`댓글 수정 중 오류가 발생했습니다: ${error.message}`);
+            });
+    };
+
     if (isLoading) {
         return <div>공지사항 데이터를 불러오는 중...</div>;
     }
@@ -230,16 +282,48 @@ function NoticeDetailsPage() {
                     <ul className="comments-list">
                         {comments.map((comment) => (
                             <li key={comment.commentId} className="comment-item">
-                                <p>{comment.content}</p>
-                                <span className="comment-meta">
-                                    작성자: {comment.memberId} | 작성일: {comment.createdAt}
-                                </span>
-                                <button
-                                    className="btn btn-danger btn-sm"
-                                    onClick={() => handleDeleteComment(comment.commentId)}
-                                >
-                                    삭제
-                                </button>
+                                {editingCommentId === comment.commentId ? (
+                                    <div>
+                                        <textarea
+                                            className="form-control"
+                                            value={editingContent}
+                                            onChange={(e) => setEditingContent(e.target.value)}
+                                        />
+                                        <button
+                                            className="btn btn-success btn-sm"
+                                            onClick={() => handleUpdateComment(comment.commentId)}
+                                        >
+                                            저장
+                                        </button>
+                                        <button
+                                            className="btn btn-secondary btn-sm"
+                                            onClick={() => setEditingCommentId(null)}
+                                        >
+                                            취소
+                                        </button>
+                                    </div>
+                                ) : (
+                                    <div>
+                                        <p>{comment.content}</p>
+                                        <span className="comment-meta">
+                                            작성자: {comment.memberId} | 작성일: {comment.createdAt}
+                                        </span>
+                                        <button
+                                            className="btn btn-primary btn-sm"
+                                            onClick={() =>
+                                                handleEditComment(comment.commentId, comment.content)
+                                            }
+                                        >
+                                            수정
+                                        </button>
+                                        <button
+                                            className="btn btn-danger btn-sm"
+                                            onClick={() => handleDeleteComment(comment.commentId)}
+                                        >
+                                            삭제
+                                        </button>
+                                    </div>
+                                )}
                             </li>
                         ))}
                     </ul>
