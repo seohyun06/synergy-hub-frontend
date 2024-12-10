@@ -111,10 +111,16 @@ const Header = () => {
     }
   };
 
+  const handleTitleClick = () => {
+    navigate("/"); // Synergy Hub 클릭 시 메인 페이지로 이동
+  };
+
   return (
     <header className="header">
       <div className="header-left">
-        <h1>Synergy Hub</h1>
+        <h1 onClick={handleTitleClick} style={{ cursor: "pointer" }}>
+          Synergy Hub
+        </h1>
         {/* 조건에 따라 팀 드롭다운 표시 */}
         {shouldShowTeamDropdown &&
           (teams.length > 1 ? (
