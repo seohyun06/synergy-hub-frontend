@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { ROUTES } from "../../routes";
 import "./TeamCard.css";
 import TeamEditModal from "./TeamEditModal";
 import MemberListModal from "./MemberListModal";
@@ -179,7 +180,8 @@ const TeamCard = ({ id, name, members = [], comments = 0 }) => {
     };
 
     const handleCardClick = () => {
-        navigate(`/team/view?team=${id}`);
+        // navigate(`/team/view?team=${id}`);
+        navigate(`${ROUTES.TEAM_VIEW}?team=${id}`);
     };
 
 
