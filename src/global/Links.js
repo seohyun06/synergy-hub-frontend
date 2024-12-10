@@ -24,6 +24,10 @@ export const ROUTES = {
         link: `${process.env.REACT_APP_API_URL}/logout`,
     },
 
+    REISSUE: {
+        link: `${process.env.REACT_APP_API_URL}/reissue`,
+    },
+
     /* 팀 캘린더 */
     CREATE_EVENT: (calendarId) => `${process.env.REACT_APP_API_URL}/calendar/${calendarId}/events`,
     GET_TEAM_EVENTS: (teamId) => `${process.env.REACT_APP_API_URL}/calendar/team/${teamId}/events`,
