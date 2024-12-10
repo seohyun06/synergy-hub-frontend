@@ -12,6 +12,7 @@
     height: 220px; /* 카드의 고정된 높이를 설정 */
     overflow: hidden; /* 내용이 넘칠 경우 숨김 처리 */
     margin-left: 10px; /* 팀 카드와 team-container 간의 왼쪽 간격을 설정 */
+    overflow-y: auto; /* 스크롤 활성화 */
 }
 
 .team-card-header {
