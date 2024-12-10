@@ -7,7 +7,6 @@ import LoginPage from "./page/member/loginPage";
 import SignUpPage from "./page/member/signUpPage";
 import Header from './global/Header/Header';
 import Sidebar from './global/Sidebar/Sidebar';
-import Chat from "./page/chat/Chat";
 import ChatRoom from "./page/chat/ChatRoom";
 import MyCalendar from "./global/myCalendar/MyCalendar";
 import TeamCalendar from "./page/calendar/TeamCalendar";
@@ -16,17 +15,27 @@ import NoticePage from "./page/notice/NoticePage";
 import NoticeDetailsPage from "./page/notice/NoticeDetailsPage";
 import EditNoticePage from "./page/notice/EditNoticePage";
 import OAuth2Redirect from "./page/member/Oauth2Redirect";
-import TeamChatPage from "./page/chat/TeamChatPage";
+import Comment from "./page/notice/Comment"
 
-// src/routes.js
+// 라우트 상수 정의
 export const ROUTES = {
     HOME: '/',
+    LOGIN: '/login',
+    SIGNUP: '/signup',
+    TEAM_MAIN: '/team/main',
+    TEAM_VIEW: '/team/:teamId', // 동적 경로로 변경
     CALENDAR: '/calendar',
-    CHAT: '/chat',
+    CHAT_ROOM: '/chat/:chatRoomId',
     NOTICES: '/notices',
+    NOTICE_CREATE: '/notice',
+    NOTICE_DETAILS: '/notice/details',
+    NOTICE_EDIT: '/notice/edit',
+    OAUTH2_REDIRECT: '/oauth2-jwt-header',
+    COMMENTS: '/comments/:noticeId'
 };
 
-// Layout 컴포넌트
+
+// 공통 레이아웃 정의
 const Layout = ({ children }) => (
     <div className="app">
         <Header />
@@ -38,7 +47,6 @@ const Layout = ({ children }) => (
     </div>
 );
 
-// HeaderLayout 컴포넌트 (헤더만 표시)
 const HeaderLayout = ({ children }) => (
     <div className="app">
         <Header />
@@ -48,111 +56,35 @@ const HeaderLayout = ({ children }) => (
 
 // 라우터 정의
 const router = createBrowserRouter([
-    {
-        path: "/",
-        element: (
-            <HeaderLayout>
-                <MainPage />
-            </HeaderLayout>
-        ),
-    },
-    {
-        path: "/team/:id",
-        element: (
-            <Layout>
-                <TeamPage />
-            </Layout>
-        ),
-    },
-    {
-        path: "/login",
-        element: (
-            <LoginPage />
-        ),
-    },
-    {
-        path: "/signup",
-        element: (
-            <SignUpPage />
-        ),
-    },
-    {
-        path: "/chat",
-        element: (
-            <Layout>
-                <Chat />
-            </Layout>
-        ),
-    },
-    {
-        path: "/chat/:chatRoomId",
-        element: (
-            <Layout>
-                <ChatRoom />
-            </Layout>
-        ),
-    },
-    {
-        path: "/team-chat/:teamId",
-        element: (
-            <Layout>
-                <TeamChatPage />
-            </Layout>
-        ),
-    },
-    {
-        path: "/teamCalendar",
-        element: (
-            <Layout>
-                <TeamCalendar />
-            </Layout>
-        ),
-    },
-    {
-        path: "/notice",
-        element: (
-            <Layout>
-                <CreateNoticePage />
-            </Layout>
-        ),
-        query: "team={teamId}",
-    },
-    {
-        path: "/notices",
-        element: (
-            <Layout>
-                <NoticePage />
-            </Layout>
-        ),
-        query: "team={teamId}",
-    },
-    {
-        path: "/notice/details",
-        element: (
-            <Layout>
-                <NoticeDetailsPage />
-            </Layout>
-        ),
-        query: "team={teamId}&notice={noticeId}",
-    },
-    {
-        path: "/notice/edit",
-        element: (
-            <Layout>
-                <EditNoticePage />
-            </Layout>
-        ),
-        query: "team={teamId}&notice={noticeId}",
-    },
+    // 메인 페이지
+    { path: ROUTES.HOME, element: <HeaderLayout><MainPage /></HeaderLayout> },
 
-    {
-        path: "/oauth2-jwt-header",  // 수정 페이지 경로 추가
-        element: (
-            <OAuth2Redirect />
-        ),
-    },
+    // 로그인 및 회원가입
+    { path: ROUTES.LOGIN, element: <LoginPage /> },
+    { path: ROUTES.SIGNUP, element: <SignUpPage /> },
 
+    // 팀 관련 경로
+    { path: ROUTES.TEAM_MAIN, element: <Layout><MainPage /></Layout> },
+    { path: ROUTES.TEAM_VIEW, element: <Layout><TeamPage /></Layout> }, // 동적 경로 추가
 
+    // 캘린더 관련 경로
+    { path: ROUTES.CALENDAR, element: <Layout><TeamCalendar /></Layout> },
+
+    // 채팅방 관련 경로
+    { path: ROUTES.CHAT_ROOM, element: <Layout><ChatRoom /></Layout> },
+
+    // 공지사항 관련 경로
+    { path: ROUTES.NOTICES, element: <Layout><NoticePage /></Layout> },
+    { path: ROUTES.NOTICE_CREATE, element: <Layout><CreateNoticePage /></Layout> },
+    { path: ROUTES.NOTICE_DETAILS, element: <Layout><NoticeDetailsPage /></Layout> },
+    { path: ROUTES.NOTICE_EDIT, element: <Layout><EditNoticePage /></Layout> },
+
+    // 댓글 페이지
+    { path: ROUTES.COMMENTS, element: <Layout><Comment /></Layout> },
+
+    // OAuth2 리다이렉트
+    { path: ROUTES.OAUTH2_REDIRECT, element: <OAuth2Redirect /> },
 ]);
+
 
 export default router;
