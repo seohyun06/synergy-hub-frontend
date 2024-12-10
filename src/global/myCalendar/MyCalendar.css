@@ -1,8 +1,10 @@
+
 .my-calendar {
-  top: 60px;
+  position: absolute; /* 또는 relative, 필요에 따라 선택 */
+  top: 60px; /* 헤더 아래로 이동 */
   right: 0;
-  width: 400px;
-  height: calc(100vh - 60px);
+  width: 300px;
+  height: calc(100vh - 60px); /* 헤더 높이를 제외한 높이 */
   background-color: #f8f9fa;
   border-left: 1px solid #ddd;
   padding: 10px;
@@ -10,6 +12,7 @@
   overflow-y: auto;
   z-index: 1000;
 }
+
 
 
 .my-calendar h2,
