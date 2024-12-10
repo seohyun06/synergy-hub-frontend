@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { useParams, useNavigate } from 'react-router-dom';
+import { useSearchParams, useParams, useNavigate } from 'react-router-dom';
 import { Client } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
 import './ChatRoom.css';
@@ -7,8 +7,12 @@ import './ChatRoom.css';
 
 const ChatRoom4 = () => {
 
-    const { chatRoomId } = useParams();
+    const [searchParams] = useSearchParams();
     const navigate = useNavigate();
+
+    //teamId와 chatRoomId 동기화
+    const teamId = searchParams.get("team");
+    const chatRoomId = teamId ? parseInt(teamId, 10) : null;
 
     // console.log("roomId:", chatRoomId);
     const chatBodyRef = useRef(null);
@@ -95,8 +99,10 @@ const ChatRoom4 = () => {
                 console.error('WebSocket 클라이언트가 활성 상태가 아니거나 연결되지 않았습니다.');
             }
         }
-        setNewChat('')
+        setMessageInput('')
     }
+
+    const userEmail = localStorage.getItem('userEmail');
 
     useEffect(() => {
         if (chatBodyRef.current) {
@@ -109,41 +115,48 @@ const ChatRoom4 = () => {
             <div className="chat-room-header">
                 <h2>CHAT</h2>
             </div>
-        
+
             <div className="chat-body" ref={chatBodyRef}>
-                {messages.map((msg, index) => (
-                    <div
-                        key={msg.id || `temp-${index}`}
-                        className={msg.userEmail !== localStorage.getItem('userEmail') 
-                            ? 'chat-message received' 
-                            : 'chat-message sent'}
-                    >
-                        {msg.userEmail !== localStorage.getItem('userEmail') && (
-                            <div className="user-info">
-                                <img 
-                                    src={msg.userProfile || 'default-profile.png'} 
-                                    alt={`${msg.nickname}'s profile`} 
-                                    className="profile-image"
-                                />
-                                <span className="user-name">{msg.nickname}</span>
+                {messages.map((msg, index) => {
+                    const isReceived = msg.userEmail !== userEmail;
+                    return (
+                        <div
+                            key={msg.id || `temp-${index}`}
+                            className={`chat-message ${isReceived ? 'received' : 'sent'}`}
+                        >
+                            {isReceived && (
+                                <div className="user-info">
+                                    <img
+                                        src={msg.userProfile || 'default-profile.png'}
+                                        alt={`${msg.nickname}'s profile`}
+                                        className="profile-image"
+                                    />
+                                    <span className="user-name">{msg.nickname}</span>
+                                </div>
+                            )}
+                            <div className="message-content">
+                                {msg.message}
                             </div>
-                        )}
-                        <div className="message-content">
-                            {msg.message}
                         </div>
-                    </div>
-                ))}
+                    );
+                })}
             </div>
-        
+
             <div className="chat-input-container">
                 <input
                     type="text"
                     value={messageInput}
                     onChange={(e) => setMessageInput(e.target.value)}
                     placeholder="메시지를 입력하세요..."
+                    aria-placeholder="메시지 입력창"
                     onKeyUp={(e) => e.key === 'Enter' && handleSubmit()}
                 />
-                <button onClick={handleSubmit} className="send-button" disabled={isSending}>
+                <button
+                    onClick={handleSubmit}
+                    className="send-button"
+                    disabled={isSending}
+                    aria-label="메시지 전송 버튼"
+                >
                     {isSending ? "전송 중..." : "전송"}
                 </button>
             </div>
