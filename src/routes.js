@@ -15,7 +15,8 @@ import NoticePage from "./page/notice/NoticePage";
 import NoticeDetailsPage from "./page/notice/NoticeDetailsPage";
 import EditNoticePage from "./page/notice/EditNoticePage";
 import OAuth2Redirect from "./page/member/Oauth2Redirect";
-import Comment from "./page/notice/Comment"
+import Comment from "./page/notice/Comment";
+
 
 // 라우트 상수 정의
 export const ROUTES = {
@@ -23,7 +24,7 @@ export const ROUTES = {
     LOGIN: '/login',
     SIGNUP: '/signup',
     TEAM_MAIN: '/team/main',
-    TEAM_VIEW: '/team/view',
+    TEAM_VIEW: '/team/:teamId',
     CALENDAR: '/calendar',
     CHAT_ROOM: '/chat/:chatRoomId',
     NOTICES: '/notices',
@@ -64,7 +65,7 @@ const router = createBrowserRouter([
 
     // 팀 관련 경로
     { path: `${ROUTES.TEAM_MAIN}?member=:memberId`, element: <Layout><MainPage /></Layout> },
-    { path: `${ROUTES.TEAM_VIEW}?team=:teamId`, element: <Layout><TeamPage /></Layout> },
+    { path: ROUTES.TEAM_VIEW,element: <Layout><TeamPage /></Layout> },
 
     // 캘린더 관련 경로
     { path: `${ROUTES.CALENDAR}?team=:teamId`, element: <Layout><TeamCalendar /></Layout> },
