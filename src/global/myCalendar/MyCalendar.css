@@ -1,6 +1,6 @@
 
 .my-calendar {
-  position: absolute; /* 또는 relative, 필요에 따라 선택 */
+  position: relative; /* 또는 relative, 필요에 따라 선택 */
   top: 60px; /* 헤더 아래로 이동 */
   right: 0;
   width: 300px;
@@ -10,7 +10,7 @@
   padding: 10px;
   box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
   overflow-y: auto;
-  z-index: 0;
+  z-index: 400;
 }
 
 
