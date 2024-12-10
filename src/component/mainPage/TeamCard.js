@@ -179,8 +179,9 @@ const TeamCard = ({ id, name, members = [], comments = 0 }) => {
     };
 
     const handleCardClick = () => {
-        navigate(`/team/${id}`);
+        navigate(`/team/view?team=${id}`);
     };
+
 
     const handleEditTeam = (e) => {
         e.stopPropagation();
