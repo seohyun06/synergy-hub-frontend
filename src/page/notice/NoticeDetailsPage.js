@@ -6,6 +6,8 @@ function NoticeDetailsPage() {
     const navigate = useNavigate(); // 페이지 이동을 위한 훅
     const location = useLocation(); // URL에서 쿼리스트링 가져오기
     const [notice, setNotice] = useState(null); // 공지사항 데이터 상태
+    const [comments, setComments] = useState([]); // 댓글 리스트 상태
+    const [newComment, setNewComment] = useState(""); // 새 댓글 상태
     const [error, setError] = useState(null); // 오류 상태 관리
     const [isLoading, setIsLoading] = useState(true); // 로딩 상태 관리
 
@@ -43,6 +45,67 @@ function NoticeDetailsPage() {
             })
             .finally(() => setIsLoading(false)); // 로딩 상태 해제
     }, [teamId, noticeId]);
+
+    useEffect(() => {
+        // 댓글 리스트 가져오기
+        if (noticeId) {
+            fetch(`http://localhost:8080/comments/notice/${noticeId}`)
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error("댓글 데이터를 불러오는 중 오류가 발생했습니다.");
+                    }
+                    return response.json();
+                })
+                .then((data) => {
+                    setComments(data);
+                })
+                .catch((err) => {
+                    console.error("댓글 불러오기 오류:", err.message);
+                });
+        }
+    }, [noticeId]);
+
+    const handleAddComment = () => {
+        const token = localStorage.getItem("accessToken");
+        if (!token) {
+            alert("로그인이 필요합니다.");
+            navigate("/login");
+            return;
+        }
+
+        if (newComment.trim() === "") {
+            alert("댓글 내용을 입력해주세요.");
+            return;
+        }
+
+        fetch(`http://localhost:8080/comments/notice/${noticeId}`, {
+            method: "POST",
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                noticeId: parseInt(noticeId, 10),
+                content: newComment,
+            }),
+        })
+            .then((response) => {
+                if (!response.ok) {
+                    return response.json().then((data) => {
+                        throw new Error(data.message || "댓글 추가에 실패했습니다.");
+                    });
+                }
+                return response.json();
+            })
+            .then((newComment) => {
+                setComments((prevComments) => [...prevComments, newComment]);
+                setNewComment(""); // 입력 필드 초기화
+            })
+            .catch((error) => {
+                console.error("댓글 추가 오류:", error.message);
+                alert(`댓글 추가 중 오류가 발생했습니다: ${error.message}`);
+            });
+    };
 
     const handleDelete = () => {
         const token = localStorage.getItem("accessToken");
@@ -116,6 +179,31 @@ function NoticeDetailsPage() {
                         </button>
                         <button className="btn btn-danger" onClick={handleDelete}>
                             삭제
+                        </button>
+                    </div>
+                </div>
+                <hr />
+                <div className="comments-section">
+                    <h2>댓글</h2>
+                    <ul className="comments-list">
+                        {comments.map((comment) => (
+                            <li key={comment.commentId} className="comment-item">
+                                <p>{comment.content}</p>
+                                <span className="comment-meta">
+                                    작성자: {comment.memberId} | 작성일: {comment.createdAt}
+                                </span>
+                            </li>
+                        ))}
+                    </ul>
+                    <div className="comment-form">
+                        <textarea
+                            className="form-control"
+                            value={newComment}
+                            onChange={(e) => setNewComment(e.target.value)}
+                            placeholder="댓글을 입력하세요..."
+                        />
+                        <button className="btn btn-success" onClick={handleAddComment}>
+                            댓글 작성
                         </button>
                     </div>
                 </div>
