@@ -23,7 +23,7 @@ export const ROUTES = {
     LOGIN: '/login',
     SIGNUP: '/signup',
     TEAM_MAIN: '/team/main',
-    TEAM_VIEW: '/team/:teamId', // 동적 경로로 변경
+    TEAM_VIEW: '/team/view',
     CALENDAR: '/calendar',
     CHAT_ROOM: '/chat/:chatRoomId',
     NOTICES: '/notices',
