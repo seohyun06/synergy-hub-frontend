@@ -153,7 +153,7 @@ const TeamEditModal = ({ team, onClose, onSave }) => {
 
                 {/* 모달 버튼 */}
                 <div className="modal-buttons">
-                    <button className="cancel-button" onClick={onClose}>
+                    <button className="TeamEdit-cancel-button" onClick={onClose}>
                         뒤로가기
                     </button>
                     <button className="save-button" onClick={handleSave}>

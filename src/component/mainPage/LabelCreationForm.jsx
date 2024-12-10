@@ -51,7 +51,7 @@ const LabelCreationForm = ({ onAddLabel }) => {
                 type="text"
                 value={labelName}
                 onChange={handleLabelNameChange}
-                placeholder="Name new label"
+                placeholder="라벨 이름 입력"
                 className="label-input"
             />
             <div className="color-picker">
