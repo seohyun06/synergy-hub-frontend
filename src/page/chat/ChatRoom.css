@@ -1,17 +1,20 @@
+/* Chat Container */
 .chat-room-container {
     display: flex;
     flex-direction: column;
     height: 100vh;
-    background: #f9f9f9;
+    background: #eef2f3;
 }
 
+/* Header */
 .chat-room-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 10px;
-    background: #007bff;
+    padding: 10px 20px;
+    background: #8f97a1;
     color: white;
+    border-bottom: 2px solid #0056b3;
 }
 
 .chat-room-header .back-button {
@@ -22,36 +25,79 @@
     cursor: pointer;
 }
 
+/* Chat Body */
 .chat-body {
     flex: 1;
     padding: 10px;
     overflow-y: auto;
-    background: #fff;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
 }
 
+/* Chat Message Container */
 .chat-message {
-    padding: 8px 12px;
-    margin: 5px 0;
-    border-radius: 5px;
+    display: flex;
+    flex-direction: column; /* 메시지 컨텐츠와 유저 정보를 세로로 나열 */
+    margin: 30px 0;
     max-width: 70%;
     word-wrap: break-word;
 }
 
+
 .chat-message.sent {
-    align-self: flex-end;
-    background: #dcf8c6;
+    margin-left: auto;
+    align-items: flex-end;
+    background-color: #f1f0f0;
+    color: black;
+    border-radius: 8px;
+    padding: 8px 10px;
+    width: 60%;
 }
 
 .chat-message.received {
-    align-self: flex-start;
-    background: #f1f0f0;
+    margin-right: auto;
+    align-items: flex-start;
+    background-color: #dcf8c6;
+    color: black;
+    border-radius: 8px;
+    padding: 8px 10px;
 }
 
+
+/* .chat-message.received {
+    justify-content: flex-start;
+    margin-right: auto;
+    background-color: #dcf8c6;
+    color: black;
+    border-radius: 8px;
+    padding: 8px 10px;
+    width: 60%;
+}
+
+/* Sent Message Style */
+.chat-message.sent {
+    justify-content: flex-end;
+    margin-left: auto;
+    background-color: #f1f0f0;
+    color: black;
+    border-radius: 8px;
+    padding: 8px 10px;
+    width: 60%;
+} */
+
+/* Message Content */
+.message-content {
+    padding: 8px;
+}
+
+/* Chat Input Section */
 .chat-input-container {
     display: flex;
-    padding: 10px;
-    border-top: 1px solid #ccc;
-    background: #f9f9f9;
+    padding: 10px 15px;
+    border-top: 2px solid #ddd;
+    background: white;
+    align-items: center;
 }
 
 .chat-input-container input {
@@ -64,7 +110,7 @@
 }
 
 .chat-input-container .send-button {
-    padding: 10px 15px;
+    padding: 8px 12px;
     font-size: 14px;
     background: #007bff;
     color: white;
@@ -75,4 +121,23 @@
 
 .chat-input-container .send-button:hover {
     background: #0056b3;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px; /* 메시지와 여백을 주기 위해 */
+}
+
+.profile-image {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 8px;
+    object-fit: cover;
+}
+
+.user-name {
+    font-size: 14px;
+    color: #555;
 }

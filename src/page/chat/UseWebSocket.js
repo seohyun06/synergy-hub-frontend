@@ -2,12 +2,17 @@ import { useEffect, useState, useCallback } from 'react';
 import { Client } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
 import { ROUTES } from "../../global/Links";
+import { useAuth } from "../../global/AuthContext";
+
 
 
 const useWebSocket = (chatRoomId, onMessageReceived, onMessageDeleted) => {
     const [client, setClient] = useState(null);
     const [isConnected, setIsConnected] = useState(false); // 연결 상태 확인
     const [authToken, setAuthToken] = useState(localStorage.getItem('accessToken')); // 액세스 토큰 상태 관리
+
+    const { isLoggedIn, setIsLoggedIn, user, setUser } = useAuth();
+
 
     useEffect(() => {
         if (!chatRoomId) return;
