@@ -45,8 +45,18 @@ const Header = () => {
       const data = await response.json();
       setTeams(data); // 팀 목록 상태 업데이트
 
-      if (data.length === 1) {
-        setSelectedTeamId(data[0].id); // 자동으로 첫 팀을 선택
+      // 쿼리스트링에서 team ID를 읽고 기본값 설정
+      const queryParams = new URLSearchParams(location.search);
+      const teamIdFromQuery = queryParams.get("team"); // 쿼리스트링에서 team 값 추출
+      if (teamIdFromQuery) {
+        // 쿼리스트링 값과 매칭되는 팀이 있는지 찾기
+        const matchedTeam = data.find((team) => team.id === teamIdFromQuery);
+        if (matchedTeam) {
+          setSelectedTeamId(matchedTeam.id); // 매칭된 팀을 기본값으로 설정
+        }
+      } else if (data.length === 1) {
+        // 팀이 하나일 경우 자동으로 선택
+        setSelectedTeamId(data[0].id);
       }
     } catch (error) {
       console.error("팀 목록 가져오기 오류:", error);
@@ -55,7 +65,16 @@ const Header = () => {
 
   useEffect(() => {
     fetchTeams(); // 컴포넌트 로드 시 팀 목록 가져오기
-  }, []);
+  }, []); // 처음 한번만 팀 목록을 가져오기
+
+  useEffect(() => {
+    // location.search가 변경될 때마다 쿼리스트링에서 팀 ID를 읽어 설정
+    const queryParams = new URLSearchParams(location.search);
+    const teamIdFromQuery = queryParams.get("team"); // 쿼리스트링에서 team 값 추출
+    if (teamIdFromQuery) {
+      setSelectedTeamId(teamIdFromQuery); // 해당 team ID를 드롭다운 선택값으로 설정
+    }
+  }, [location.search]); // location.search가 변경될 때마다 실행
 
   const handleTeamSwitch = (event) => {
     const selectedTeamId = event.target.value; // 선택된 팀 ID
