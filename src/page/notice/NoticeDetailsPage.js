@@ -114,6 +114,7 @@ function NoticeDetailsPage() {
             });
     };
 
+    // 공지사항 삭제 핸들러
     const handleDelete = () => {
         const token = localStorage.getItem("accessToken");
         if (!token) {
@@ -143,6 +144,40 @@ function NoticeDetailsPage() {
                 .catch((error) => {
                     console.error("삭제 요청 중 오류 발생:", error.message);
                     alert(`삭제 중 오류가 발생했습니다: ${error.message}`);
+                });
+        }
+    };
+
+
+    // 댓글 삭제 핸들러
+    const handleDeleteComment = (commentId) => {
+        const token = localStorage.getItem("accessToken");
+        if (!token) {
+            alert("로그인이 필요합니다.");
+            navigate("/login");
+            return;
+        }
+
+        if (window.confirm("정말로 이 댓글을 삭제하시겠습니까?")) {
+            fetch(`http://localhost:8080/comments/${commentId}`, {
+                method: "DELETE",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            })
+                .then((response) => {
+                    if (response.ok) {
+                        setComments((prevComments) =>
+                            prevComments.filter((comment) => comment.commentId !== commentId)
+                        );
+                        alert("댓글이 삭제되었습니다.");
+                    } else {
+                        throw new Error("댓글 삭제에 실패했습니다.");
+                    }
+                })
+                .catch((error) => {
+                    console.error("댓글 삭제 오류:", error.message);
+                    alert(`댓글 삭제 중 오류가 발생했습니다: ${error.message}`);
                 });
         }
     };
@@ -199,6 +234,12 @@ function NoticeDetailsPage() {
                                 <span className="comment-meta">
                                     작성자: {comment.memberId} | 작성일: {comment.createdAt}
                                 </span>
+                                <button
+                                    className="btn btn-danger btn-sm"
+                                    onClick={() => handleDeleteComment(comment.commentId)}
+                                >
+                                    삭제
+                                </button>
                             </li>
                         ))}
                     </ul>
