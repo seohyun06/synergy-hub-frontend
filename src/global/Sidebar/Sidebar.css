@@ -68,3 +68,11 @@
   overflow-y: auto; /* 스크롤 가능 */
 }
 
+.main-chat {
+  margin-left: 250px; /* 사이드바 너비만큼 왼쪽 여백 */
+  margin-top: 60px; /* 헤더 높이만큼 위쪽 여백 */
+  padding: 20px;
+  width: calc(100% - 250px); /* 사이드바를 제외한 나머지 너비 */
+  overflow: hidden; /* 스크롤 비활성화 */
+}
+
