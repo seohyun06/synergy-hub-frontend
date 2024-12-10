@@ -1,16 +1,27 @@
 import React, { useEffect, useState } from "react";
-import "./Header.css";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../AuthContext";
-import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../global/Links";
+import "./Header.css";
 
 const Header = () => {
-  const { isLoggedIn, user } = useAuth(); // 로그인 상태와 사용자 정보 가져오기
+  const { isLoggedIn, user, setIsLoggedIn } = useAuth(); // 로그인 상태와 사용자 정보 가져오기
   const navigate = useNavigate();
+  const location = useLocation(); // 현재 경로 가져오기
   const [isProfileOpen, setIsProfileOpen] = useState(false); // 프로필 정보 표시 여부 상태
   const [teams, setTeams] = useState([]); // 팀 목록 상태
   const [selectedTeamId, setSelectedTeamId] = useState(""); // 선택된 팀 ID 상태
-  const { setIsLoggedIn } = useAuth();
+
+  // 특정 페이지에서만 팀 드롭다운 숨기기
+  const pagesWithoutTeamDropdown = [
+    "/", // 메인 페이지
+    "/login", // 로그인 페이지
+    "/register", // 회원가입 페이지
+  ];
+
+  const shouldShowTeamDropdown = !pagesWithoutTeamDropdown.includes(
+    location.pathname
+  );
 
   // 팀 목록 가져오기
   const fetchTeams = async () => {
@@ -34,7 +45,6 @@ const Header = () => {
       const data = await response.json();
       setTeams(data); // 팀 목록 상태 업데이트
 
-      // 팀이 하나일 경우 자동으로 선택된 팀 ID 설정
       if (data.length === 1) {
         setSelectedTeamId(data[0].id); // 자동으로 첫 팀을 선택
       }
@@ -47,7 +57,6 @@ const Header = () => {
     fetchTeams(); // 컴포넌트 로드 시 팀 목록 가져오기
   }, []);
 
-  // 선택된 팀 변경
   const handleTeamSwitch = (event) => {
     const selectedTeamId = event.target.value; // 선택된 팀 ID
     setSelectedTeamId(selectedTeamId); // 선택된 팀 ID 상태 업데이트
@@ -87,21 +96,23 @@ const Header = () => {
     <header className="header">
       <div className="header-left">
         <h1>Synergy Hub</h1>
-        {teams.length > 1 ? (
-          <select
-            className="team-switcher"
-            value={selectedTeamId} // 선택된 팀 ID로 드롭다운 값 설정
-            onChange={handleTeamSwitch}
-          >
-            {teams.map((team) => (
-              <option key={team.id} value={team.id}>
-                {team.name}
-              </option>
-            ))}
-          </select>
-        ) : (
-          <span>{teams.length === 1 && teams[0].name}</span> // 팀이 하나일 경우 팀 이름만 표시
-        )}
+        {/* 조건에 따라 팀 드롭다운 표시 */}
+        {shouldShowTeamDropdown &&
+          (teams.length > 1 ? (
+            <select
+              className="team-switcher"
+              value={selectedTeamId} // 선택된 팀 ID로 드롭다운 값 설정
+              onChange={handleTeamSwitch}
+            >
+              {teams.map((team) => (
+                <option key={team.id} value={team.id}>
+                  {team.name}
+                </option>
+              ))}
+            </select>
+          ) : (
+            <span>{teams.length === 1 && teams[0].name}</span> // 팀이 하나일 경우 팀 이름만 표시
+          ))}
       </div>
       <div className="header-right">
         <div className="profile-section">
