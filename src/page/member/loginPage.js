@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import logo from './img/logo5.jpeg';
 import './css/style.css';
-import { ROUTES } from '../../global/Links';
+import { ROUTES as ROUTE } from '../../global/Links';
+import { ROUTES } from '../../routes';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
@@ -18,7 +19,7 @@ const LoginPage = () => {
     };
 
     try {
-      const response = await fetch(ROUTES.LOGIN.link, {
+      const response = await fetch(ROUTE.LOGIN.link, {
         method: 'POST',
         credentials: "include",
         headers: {
@@ -40,7 +41,7 @@ const LoginPage = () => {
           // 토큰을 로컬 스토리지에 저장
           localStorage.setItem('accessToken', jwtToken);
 
-          navigate('/'); 
+          navigate(ROUTES.HOME); 
         } else {
           alert("로그인 오류");
         }
@@ -141,7 +142,7 @@ const LoginPage = () => {
                       </div>
                     </div>
                     <div className="text-center">
-                      <a href={ROUTES.GOOGLEURL.link} className="btn btn-custom rounded-input">
+                      <a href={ROUTE.GOOGLEURL.link} className="btn btn-custom rounded-input">
                         <i className="fa fa-google"></i>
                         Sign in with <b>Google</b>
                       </a>
