@@ -34,6 +34,7 @@ export const ROUTES = {
     COMMENTS: '/comments/:noticeId'
 };
 
+
 // 공통 레이아웃 정의
 const Layout = ({ children }) => (
     <div className="app">
@@ -63,11 +64,11 @@ const router = createBrowserRouter([
     { path: ROUTES.SIGNUP, element: <SignUpPage /> },
 
     // 팀 관련 경로
-    { path: `${ROUTES.TEAM_MAIN}?member=:memberId`, element: <Layout><MainPage /></Layout> },
-    { path: `${ROUTES.TEAM_VIEW}?team=:teamId`, element: <Layout><TeamPage /></Layout> },
+    { path: ROUTES.TEAM_MAIN, element: <Layout><MainPage /></Layout> },
+    { path: ROUTES.TEAM_VIEW, element: <Layout><TeamPage /></Layout> }, // 동적 경로 추가
 
     // 캘린더 관련 경로
-    { path: `${ROUTES.CALENDAR}?team=:teamId`, element: <Layout><TeamCalendar /></Layout> },
+    { path: ROUTES.CALENDAR, element: <Layout><TeamCalendar /></Layout> },
 
     // 채팅방 관련 경로
     { path: ROUTES.CHAT_ROOM, element: <Layout><ChatRoom /></Layout> },
@@ -84,5 +85,6 @@ const router = createBrowserRouter([
     // OAuth2 리다이렉트
     { path: ROUTES.OAUTH2_REDIRECT, element: <OAuth2Redirect /> },
 ]);
+
 
 export default router;

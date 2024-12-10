@@ -9,31 +9,6 @@ const TeamList = () => {
     const [page, setPage] = useState(0);
     const [totalPages, setTotalPages] = useState(1);
 
-    // const fetchTeams = async () => {
-    //     if (isFetching || page >= totalPages) return;
-    //     setIsFetching(true);
-    //
-    //     try {
-    //         const response = await axios.get("http://localhost:8080/teams", {
-    //             params: { page: page, size: 10 },
-    //         });
-    //
-    //         setTeams((prevTeams) => [
-    //             ...prevTeams,
-    //             ...response.data.content.filter(
-    //                 (team) => !prevTeams.some((prevTeam) => prevTeam.id === team.id)
-    //             ),
-    //         ]);
-    //
-    //         setTotalPages(response.data.totalPages);
-    //         setPage((prevPage) => prevPage + 1);
-    //     } catch (err) {
-    //         console.error("Error fetching teams:", err);
-    //     } finally {
-    //         setIsFetching(false);
-    //     }
-    // };
-
     const fetchTeams = async () => {
         if (isFetching || page >= totalPages) return;
         setIsFetching(true);
