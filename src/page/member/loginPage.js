@@ -41,7 +41,7 @@ const LoginPage = () => {
           // 토큰을 로컬 스토리지에 저장
           localStorage.setItem('accessToken', jwtToken);
 
-          navigate(ROUTES.HOME);
+          navigate(ROUTES.TEAM_HOME);
         } else {
           alert("로그인 오류");
         }

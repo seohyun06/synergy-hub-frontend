@@ -10,7 +10,7 @@ export const PreventLoggedInAccess = ({ children }) => {
     useEffect(() => {
         if (isLoggedIn) {
             alert("이미 로그인된 상태입니다.");
-            navigate("/", { replace: true });
+            navigate("/team/home", { replace: true });
         }
     }, [isLoggedIn, navigate]);
 

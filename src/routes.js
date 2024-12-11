@@ -20,6 +20,7 @@ import { PreventLoggedInAccess } from "./ProtectedRoute";
 // 라우트 상수 정의
 export const ROUTES = {
     HOME: '/',
+    TEAM_HOME: '/team/home',
     LOGIN: '/login',
     SIGNUP: '/signup',
     TEAM_MAIN: '/team/main',
@@ -69,11 +70,11 @@ const ChatLayout = ({ children }) => (
 // 라우터 정의
 const router = createBrowserRouter([
     // 메인 페이지
-    { path: ROUTES.HOME, element: <HeaderLayout><MainPage /></HeaderLayout> },
+    { path: ROUTES.TEAM_HOME, element: <HeaderLayout><MainPage /></HeaderLayout> },
 
     // 로그인 및 회원가입
     {
-        path: ROUTES.LOGIN,
+        path: ROUTES.HOME,
         element: (
             <PreventLoggedInAccess>
                 <LoginPage />

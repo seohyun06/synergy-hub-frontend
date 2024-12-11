@@ -186,7 +186,7 @@ const Header = () => {
   };
 
   const handleLoginClick = () => {
-    navigate("/login"); // /login 경로로 이동
+    navigate("/"); // /login 경로로 이동
   };
 
   const toggleProfileDropdown = () => {
@@ -209,7 +209,7 @@ const Header = () => {
         localStorage.removeItem("isLoggedIn");
         localStorage.removeItem("accessToken");
 
-        navigate("/login"); // /login 경로로 이동
+        navigate("/"); // /login 경로로 이동
       } else {
         console.error("로그아웃 실패:", response.status);
       }
@@ -219,7 +219,7 @@ const Header = () => {
   };
 
   const handleTitleClick = () => {
-    navigate("/"); // Synergy Hub 클릭 시 메인 페이지로 이동
+    navigate("/team/home"); // Synergy Hub 클릭 시 메인 페이지로 이동
   };
 
 
