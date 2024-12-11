@@ -81,38 +81,36 @@ function NoticePage() {
           <main className="col-12 px-4">
             <div className="d-flex justify-content-between align-items-center pt-3 pb-2 mb-3 border-bottom">
               <h1 className="h2">공지사항</h1>
-              <button className="btn btn-primary" onClick={handleCreateNotice}>+</button>
+              {/*<button className="btn btn-primary" onClick={handleCreateNotice}>+</button>*/}
+              <div className="add-button-container">
+                <button className="add-button" onClick={handleCreateNotice}>+</button>
+              </div>
+
             </div>
 
             <div className="table-responsive">
               <table className="table table-striped table-sm">
-                <thead>
+              <thead>
                 <tr>
-                  <th>글 제목</th>
+                  <th>No.</th>
+                  <th>제목</th>
                   <th>작성자</th>
                   <th>작성일</th>
-                  <th>삭제</th>
                 </tr>
                 </thead>
                 <tbody>
-                {notices.map((notice) => (
-                    <tr key={notice.id}>
-                      <td
-                          className="clickable-title"
-                          onClick={() => navigate(`/notice/details?team=${teamId}&notice=${notice.id}`)} // teamId와 noticeId 포함
-                      >
-                        {notice.title}
-                      </td>
+                {notices.map((notice, index) => (
+                    <tr
+                        key={notice.id}
+                        className="clickable-row"
+                        onClick={() =>
+                            navigate(`/notice/details?team=${teamId}&notice=${notice.id}`)
+                        }
+                    >
+                      <td>{page * size + index + 1}</td>
+                      <td>{notice.title}</td>
                       <td>{notice.memberNickname}</td>
                       <td>{formatDate(notice.createdAt)}</td>
-                      <td>
-                        <button
-                            className="btn btn-danger btn-sm"
-                            onClick={() => handleDeleteNotice(notice.id)}
-                        >
-                          삭제
-                        </button>
-                      </td>
                     </tr>
                 ))}
                 </tbody>
@@ -126,19 +124,21 @@ function NoticePage() {
                   disabled={page === 0}
                   onClick={() => handlePageChange(page - 1)}
               >
-                이전
+                ◀ 이전
               </button>
               <span className="mx-2">
-              페이지 {page + 1} / {totalPages} (총 {totalElements}개)
+              {page + 1} / {totalPages}
             </span>
               <button
                   className="btn btn-secondary"
                   disabled={page + 1 === totalPages}
                   onClick={() => handlePageChange(page + 1)}
               >
-                다음
+                다음 ▶
               </button>
             </div>
+
+
           </main>
         </div>
       </div>

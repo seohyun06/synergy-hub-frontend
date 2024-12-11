@@ -35,7 +35,7 @@ export const ROUTES = {
     DELETE_EVENT: (calendarEventId) => `${process.env.REACT_APP_API_URL}/calendar/events/${calendarEventId}`,
 
     /* 개인 캘린더 */
-   GET_USER_EVENTS: (memberId) => `${process.env.REACT_APP_API_URL}/calendar/user/${memberId}/events`,
+   GET_USER_EVENTS: (memberId) => `${process.env.REACT_APP_API_URL}/calendar/my-events`,
 
 
 };
