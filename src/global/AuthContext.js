@@ -9,6 +9,7 @@ export const AuthProvider = ({ children }) => {
         nickname: "",
         profileImageUrl: "",
         userId: "",
+        loginType: ""
     });
 
     useEffect(() => {
