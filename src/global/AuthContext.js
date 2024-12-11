@@ -1,10 +1,10 @@
-import React, { createContext, useContext, useState } from "react";
+import React, {createContext, useContext, useEffect, useState} from "react";
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [user, setUser] = useState({ email:"", nickname: "", profileImageUrl: "", userId:"" });
+    const [user, setUser] = useState(null);
 
     // JWT 상태 복원 로직
     useEffect(() => {
