@@ -295,11 +295,11 @@ function NoticeDetailsPage() {
                             <li key={comment.commentId} className="comment-item">
                                 {editingCommentId === comment.commentId ? (
                                     <div>
-                                        <textarea
-                                            className="form-control"
-                                            value={editingContent}
-                                            onChange={(e) => setEditingContent(e.target.value)}
-                                        />
+                    <textarea
+                        className="form-control"
+                        value={editingContent}
+                        onChange={(e) => setEditingContent(e.target.value)}
+                    />
                                         <button
                                             className="btn btn-success btn-sm"
                                             onClick={() => handleUpdateComment(comment.commentId)}
@@ -317,8 +317,8 @@ function NoticeDetailsPage() {
                                     <div className="comment-content-container">
                                         <p>{comment.content}</p>
                                         <span className="comment-meta">
-                                            작성자: {comment.memberId} | 작성일: {comment.createdAt}
-                                        </span>
+                        작성자: {comment.nickname} | 작성일: {comment.createdAt}
+                    </span>
 
                                         {/* 드롭다운 버튼 */}
                                         <div className="dropdown">
@@ -344,7 +344,6 @@ function NoticeDetailsPage() {
                                             )}
                                         </div>
                                     </div>
-
                                 )}
                             </li>
                         ))}
