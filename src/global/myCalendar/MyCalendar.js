@@ -35,40 +35,51 @@ const MyCalendar = () => {
   // 선택된 날짜의 이벤트 필터링
   useEffect(() => {
     const filteredEvents = allEvents.filter((event) => {
-      const eventDate = moment(event.startDate).utcOffset(9).format("YYYY-MM-DD");
-      const selectedFormatted = moment(selectedDate).utcOffset(9).format("YYYY-MM-DD");
+      // startDate 배열을 Date 객체로 변환하고, moment로 포맷팅
+      const startDateObj = new Date(event.startDate[0], event.startDate[1] - 1, event.startDate[2]);
+      const eventDate = moment(startDateObj).format('YYYY. MM. DD.');
 
+      const selectedFormatted = moment(selectedDate).format('YYYY. MM. DD.');
 
       console.log("이벤트 날짜:", eventDate);
       console.log("선택된 날짜:", selectedFormatted);
 
       return eventDate === selectedFormatted; // 날짜가 일치하는 이벤트만 필터링
-
-      console.log("비교하려는 이벤트 날짜:", moment(event.startDate).format("YYYY-MM-DD"));
-      console.log("선택된 날짜:", moment(selectedDate).format("YYYY-MM-DD"));
-
     });
 
     setDailyEvents(filteredEvents); // 필터링된 데이터 설정
   }, [selectedDate, allEvents]);
 
-  // 캘린더 타일에 표시할 내용 렌더링
   const renderTileContent = ({ date }) => {
-    const dateString = moment(date).utcOffset(9).format("YYYY-MM-DD");
-    const hasEvent = allEvents.some(
-      (event) => moment(event.startDate).utcOffset(9).format("YYYY-MM-DD") === dateString
-    );
+    const dateString = moment(date).format('YYYY. MM. DD.');
 
-    if (hasEvent) {
+    // 해당 날짜에 도트를 표시할 이벤트를 찾기
+    const event = allEvents.find((event) => {
+      // startDate 배열을 Date 객체로 변환
+      const startDateObj = new Date(event.startDate[0], event.startDate[1] - 1, event.startDate[2], event.startDate[3], event.startDate[4]);
+      const endDateObj = new Date(event.endDate[0], event.endDate[1] - 1, event.endDate[2], event.endDate[3], event.endDate[4]);
+
+      // 이벤트가 해당 날짜 범위 내에 있는지 확인
+      const eventStartDate = moment(startDateObj).format('YYYY. MM. DD.');
+      const eventEndDate = moment(endDateObj).format('YYYY. MM. DD.');
+
+      return moment(date).isBetween(eventStartDate, eventEndDate, 'day', '[]'); // 날짜 범위 내에 포함되는지 확인
+    });
+
+    if (event) {
       return (
         <div className="event-dots">
-          <div className="event-dot" style={{ backgroundColor: "blue" }}></div>
+          <div
+            className="event-dot"
+            style={{ backgroundColor: event.color || "blue" }}  // color 값에 따라 색상 설정
+          ></div>
         </div>
       );
     }
 
     return null; // 이벤트가 없는 경우 표시하지 않음
   };
+
 
   return (
     <div className="my-calendar">
@@ -88,19 +99,24 @@ const MyCalendar = () => {
           {selectedDate.getMonth() + 1}월 {selectedDate.getDate()}일 일정
         </h3>
         {dailyEvents.length > 0 ? (
-          dailyEvents.map((event) => (
-            <div
-              key={event.id}
-              className="event-item"
-              style={{ borderLeft: `4px solid ${event.color}` }}
-            >
-              <h4>{event.title}</h4>
-              <p>
-                {moment(event.startDate).format("HH:mm")} ~{" "}
-                {moment(event.endDate).format("HH:mm")}
-              </p>
-            </div>
-          ))
+          dailyEvents.map((event) => {
+            // startDate 배열을 Date 객체로 변환
+            const startDateObj = new Date(event.startDate[0], event.startDate[1] - 1, event.startDate[2], event.startDate[3], event.startDate[4]);
+            const endDateObj = new Date(event.endDate[0], event.endDate[1] - 1, event.endDate[2], event.endDate[3], event.endDate[4]);
+
+            return (
+              <div
+                key={event.id}
+                className="event-item"
+                style={{ borderLeft: `4px solid ${event.color}` }}
+              >
+                <h4>{event.title}</h4>
+                <p>
+                  {moment(startDateObj).format("HH:mm")} ~ {moment(endDateObj).format("HH:mm")}
+                </p>
+              </div>
+            );
+          })
         ) : (
           <p>일정 없음</p>
         )}
