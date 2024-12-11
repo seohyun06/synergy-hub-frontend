@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import { useSearchParams, useParams, useNavigate } from 'react-router-dom';
 import { Client } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
+import axios from 'axios';
 import './ChatRoom.css';
 
 
@@ -16,17 +17,13 @@ const ChatRoom4 = () => {
 
     // console.log("roomId:", chatRoomId);
     const chatBodyRef = useRef(null);
-
-
+    const authToken = localStorage.getItem('accessToken'); // 인증 토큰 가져오기
     const [messages, setMessages] = useState([]);
     const [messageInput, setMessageInput] = useState('');
     const [isSending, setIsSending] = useState(false);
-
     const [client, setClient] = useState(null);
-    const [isConnected, setIsConnected] = useState(false); // 연결 상태 확인
-    const [chatList, setChatList] = useState([])
-    const [newChat, setNewChat] = useState('')
-    const clientRef = useRef(null)
+
+    const [isFirstEnterMessageSent, setIsFirstEnterMessageSent] = useState(false); // ENTER 메시지 전송 여부 상태
 
 
     useEffect(() => {
@@ -44,7 +41,25 @@ const ChatRoom4 = () => {
             },
 
             onConnect: () => {
-                console.log(new Date());
+
+                const nickname = localStorage.getItem("userNickname");
+                // 첫 번째 메시지만 전송하도록 조건 확인
+                if (!isFirstEnterMessageSent) {
+                    const joinMessage = JSON.stringify({
+                        message: { text: `${nickname} 님이 입장하였습니다.` },
+                        type: 'ENTER',
+                    });
+
+                    stompClient.publish({
+                        destination: `/app/chat/message/sendMessage/${chatRoomId}`,
+                        body: joinMessage,
+                    });
+
+                    console.log('JOIN 메시지 전송');
+                    setIsFirstEnterMessageSent(true); // 메시지 전송 후 상태를 true로 변경
+                }
+
+
                 stompClient.subscribe(`/topic/messages/` + chatRoomId, (message) => {
                     if (message.body) {
                         const newChat = JSON.parse(message.body);
@@ -71,9 +86,38 @@ const ChatRoom4 = () => {
 
     }, [chatRoomId]);
 
-    const handleChange = (event) => {
-        setNewChat(event.target.value)
-    }
+
+    useEffect(() => {
+
+        const fetchChatHistory = async () => {
+            try {
+                console.log("채팅 기록 요청");
+
+                const response = await axios.get(`http://localhost:8080/chat/messageHistory/${chatRoomId}`, {
+                    headers: {
+                        Authorization: `Bearer ${authToken}`, // 헤더에 인증 토큰 추가
+                    },
+                });
+
+                // createdAt 값을 formatTime으로 변환
+                const formattedMessages = response.data.map((msg) => ({
+                    ...msg,
+                    createdAt: formatArrayToISO(msg.createdAt), // createdAt 값을 포맷된 문자열로 변환
+                }));
+
+                console.log("format", formattedMessages);
+                setMessages(formattedMessages);
+            } catch (error) {
+                console.error("채팅 기록을 가져오는 중 오류 발생", error);
+            }
+        };
+
+        if (chatRoomId) {
+            fetchChatHistory();
+        }
+    }, [chatRoomId, authToken]); // authToken이 변경될 가능성이 있다면 의존성 배열에 추가
+
+
 
     const handleSubmit = event => {
 
@@ -102,6 +146,24 @@ const ChatRoom4 = () => {
         setMessageInput('')
     }
 
+
+    const formatTime = (dateString) => {
+        const date = new Date(dateString);
+        const hours = String(date.getHours()).padStart(2, '0');
+        const minutes = String(date.getMinutes()).padStart(2, '0');
+        return `${hours}:${minutes}`;
+    };
+
+    const formatArrayToISO = (dateArray) => {
+        const [year, month, day, hour, minute, second, nanoseconds] = dateArray;
+
+        // 밀리초는 나노초를 천 단위로 나눠서 계산
+        const milliseconds = Math.floor(nanoseconds / 1_000_000);
+
+        // ISO 8601 문자열 생성
+        return `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}T${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}:${String(second).padStart(2, '0')}.${String(milliseconds).padStart(3, '0')}`;
+    };
+
     const userEmail = localStorage.getItem('userEmail');
 
     useEffect(() => {
@@ -118,24 +180,46 @@ const ChatRoom4 = () => {
 
             <div className="chat-body" ref={chatBodyRef}>
                 {messages.map((msg, index) => {
+
                     const isReceived = msg.userEmail !== userEmail;
+                    const showUserInfo = index === 0 || messages[index - 1].userEmail !== msg.userEmail; // 이전 메시지가 다른 사용자이면 `user-info`를 표시
+
+                    // 'ENTER' 메시지가 현재 사용자의 메시지라면 무시
+                    if (msg.type === 'ENTER' && !isReceived) {
+                        return null;
+                    }
+
+                    if (isReceived && msg.type === 'ENTER') {
+                        return (
+                            <div key={msg.id || `temp-${index}`} className="enter-message">
+                                {msg.message}
+                            </div>
+                        );
+                    }
+
                     return (
                         <div
                             key={msg.id || `temp-${index}`}
-                            className={`chat-message ${isReceived ? 'received' : 'sent'}`}
+                            className={`chat-message-container ${isReceived ? 'received' : 'sent'}`}
                         >
-                            {isReceived && (
+                            {isReceived && showUserInfo && (
                                 <div className="user-info">
                                     <img
-                                        src={msg.userProfile || 'default-profile.png'}
+                                        src={msg.userProfile || 'https://i.namu.wiki/i/Bge3xnYd4kRe_IKbm2uqxlhQJij2SngwNssjpjaOyOqoRhQlNwLrR2ZiK-JWJ2b99RGcSxDaZ2UCI7fiv4IDDQ.webp'}
                                         alt={`${msg.nickname}'s profile`}
                                         className="profile-image"
                                     />
                                     <span className="user-name">{msg.nickname}</span>
                                 </div>
                             )}
-                            <div className="message-content">
-                                {msg.message}
+
+                            <div className={`chat-message ${isReceived ? 'received' : 'sent'}`}>
+                                <div className="message-content">
+                                    {msg.message}
+                                </div>
+                                <div className="message-date">
+                                    {formatTime(msg.createdAt)} {/* 포맷된 날짜 */}
+                                </div>
                             </div>
                         </div>
                     );
