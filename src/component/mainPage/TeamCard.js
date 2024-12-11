@@ -75,7 +75,7 @@ const TeamCard = ({ id, name, members = [], comments = 0 }) => {
         try {
             const token = localStorage.getItem("accessToken");
             if (!token) {
-                alert("인증 정보가 없습니다. 다시 로그인해주세요.");
+                // alert("인증 정보가 없습니다. 다시 로그인해주세요.");
                 return;
             }
 

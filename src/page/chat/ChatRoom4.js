@@ -42,11 +42,16 @@ const ChatRoom4 = () => {
 
             onConnect: () => {
 
-                const nickname = localStorage.getItem("userNickname");
+                const storedUser = localStorage.getItem("user"); // localStorage에서 "user" 가져오기
+                // if (storedUser) {
+                    const user = JSON.parse(storedUser); // JSON 문자열을 JavaScript 객체로 변환
+                    const nickname = user.nickname; // nickname 필드 접근
+                // }
+
                 // 첫 번째 메시지만 전송하도록 조건 확인
                 if (!isFirstEnterMessageSent) {
                     const joinMessage = JSON.stringify({
-                        message: { text: `${nickname} 님이 입장하였습니다.` },
+                        message: { text: `${nickname}님이 팀에 참여하였습니다.` },
                         type: 'ENTER',
                     });
 
@@ -169,7 +174,9 @@ const ChatRoom4 = () => {
         return `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}T${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}:${String(second).padStart(2, '0')}.${String(milliseconds).padStart(3, '0')}`;
     };
 
-    const userEmail = localStorage.getItem('userEmail');
+    const storedUser = localStorage.getItem("user"); 
+        const user = JSON.parse(storedUser);
+        const userEmail = user.email; 
 
     useEffect(() => {
         if (chatBodyRef.current) {
@@ -197,7 +204,7 @@ const ChatRoom4 = () => {
                     const currentDate = new Date(msg.createdAt).toDateString();
                     const prevDate =
                         index > 0 ? new Date(messages[index - 1].createdAt).toDateString() : null;
-                    const showDate = index === 1 || msg.type==='ENTER';
+                    const showDate = index === 1 || msg.type === 'ENTER';
                     // const showDate = index === 0 || currentDate !== prevDate;
 
 
@@ -222,7 +229,7 @@ const ChatRoom4 = () => {
                             {
                                 showDate && (
                                     <div className="date-divider">
-                                         {new Date(msg.createdAt).toLocaleDateString()}
+                                        {new Date(msg.createdAt).toLocaleDateString()}
                                         {/* {currentDate}  */}
                                     </div>
                                 )

@@ -4,40 +4,30 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [user, setUser] = useState(null);
+    const [user, setUser] = useState({
+        email: "",
+        nickname: "",
+        profileImageUrl: "",
+        userId: "",
+    });
 
-    // JWT 상태 복원 로직
     useEffect(() => {
-        const token = localStorage.getItem("accessToken");
+        const storedUser = localStorage.getItem("user");
+        const loggedIn = localStorage.getItem("isLoggedIn");
 
-        if (token && !isLoggedIn && !user) {
-            try {
-                const payload = JSON.parse(atob(token.split(".")[1]));
-                console.log("JWT 유효:", payload);
-
-                if (payload?.username) {
-                    setIsLoggedIn(true);
-                    setUser({
-                        email: payload.username,
-                        nickname: payload.nickname || "Guest",
-                        profileImageUrl: payload.profileImageUrl || "",
-                        role: payload.role || "ROLE_USER",
-                    });
-
-                    console.log("로그인 성공: 사용자 정보 복원 완료");
-                } else {
-                    console.error("JWT 페이로드 구조가 예상과 다릅니다.");
-                    resetAuthState();
-                }
-            } catch (error) {
-                console.error("JWT 디코딩 오류:", error);
-                resetAuthState();
-            }
-        } else if (!token) {
-            console.log("JWT 토큰이 없습니다.");
-            resetAuthState();
+        if (loggedIn === "true" && storedUser) {
+            setUser(JSON.parse(storedUser));
+            setIsLoggedIn(true);
         }
     }, []);
+
+    const updateAuthState = (userData, loginState) => {
+        setUser(userData);
+        setIsLoggedIn(loginState);
+
+        localStorage.setItem("user", JSON.stringify(userData));
+        localStorage.setItem("isLoggedIn", loginState.toString());
+    };
 
     // 상태 초기화 함수
     const resetAuthState = () => {
@@ -53,7 +43,7 @@ export const AuthProvider = ({ children }) => {
     }, [isLoggedIn, user]);
 
     return (
-        <AuthContext.Provider value={{ isLoggedIn, setIsLoggedIn, user, setUser }}>
+        <AuthContext.Provider  value={{ isLoggedIn, setIsLoggedIn, user, setUser, updateAuthState }}>
             {children}
         </AuthContext.Provider>
     );
