@@ -31,7 +31,8 @@ export const ROUTES = {
     NOTICE_DETAILS: '/notice/details',
     NOTICE_EDIT: '/notice/edit',
     OAUTH2_REDIRECT: '/oauth2-jwt-header',
-    COMMENTS: '/comments/:noticeId'
+    COMMENTS: '/comments/:noticeId',
+    MY_CALENDAR: '/my-calendar'
 };
 
 // 공통 레이아웃 정의
@@ -109,6 +110,8 @@ const router = createBrowserRouter([
 
     // OAuth2 리다이렉트
     { path: ROUTES.OAUTH2_REDIRECT, element: <OAuth2Redirect /> },
+
+    {path: ROUTES.MY_CALENDAR, element: <Layout><MyCalendar /></Layout>,},
 ]);
 
 export default router;
