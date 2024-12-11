@@ -152,3 +152,120 @@
 .dropdown-menu button:hover {
   background-color: #f5f5f5;
 }
+
+
+
+
+
+.comment-form {
+  display: flex;
+  align-items: center; /* 수직 정렬 */
+  justify-content: space-between; /* 텍스트 영역과 버튼을 양 끝에 배치 */
+  border: 1px solid #ddd; /* 테두리 */
+  border-radius: 3px; /* 둥근 모서리 */
+  padding: 10px; /* 내부 여백 */
+  background-color: #fff; /* 배경색 */
+  margin-top: 40px; /* 상단 여백 */
+  height: 100px; /* 전체 폼 높이 증가 */
+}
+
+.comment-form textarea {
+  flex: 1; /* 텍스트 영역이 가로 공간을 채우도록 */
+  border: none; /* 기본 테두리 제거 */
+  resize: none; /* 크기 조절 제거 */
+  outline: none; /* 클릭 시 외곽선 제거 */
+  padding: 10px; /* 내부 여백 */
+  font-size: 1rem; /* 글자 크기 */
+  border-right: 2px; /* 텍스트 영역과 버튼 사이의 구분선 */
+  height: 70px; /* 고정된 높이 */
+}
+
+.comment-form button {
+  padding: 28px 20px; /* 버튼 내부 여백 */
+  font-size: 1rem; /* 글자 크기 */
+  border: none; /* 테두리 제거 */
+  border-radius: 3px; /* 오른쪽 모서리만 둥글게 */
+  background-color: #7E57C2; /* 버튼 배경색 */
+  color: white; /* 텍스트 색상 */
+  cursor: pointer; /* 커서 변경 */
+  transition: background-color 0.3s ease; /* 배경색 전환 효과 */
+}
+
+.comment-form button:hover {
+  background-color: #512DA8; /* 마우스 올렸을 때 색상 */
+}
+
+.comment-form button:active {
+  background-color: #512DA8; /* 클릭했을 때 색상 */
+  transform: scale(0.98); /* 살짝 축소 효과 */
+}
+
+
+
+
+
+
+/* 수정 상태 컨테이너 */
+.edit-comment-container {
+  display: flex;
+  align-items: flex-start; /* 텍스트와 버튼 상단 맞춤 */
+  gap: 10px; /* 텍스트와 버튼 사이 간격 */
+  padding: 10px;
+  background-color: #fff; /* 배경색 */
+  border: 1px solid #ddd; /* 테두리 */
+  border-radius: 3px; /* 모서리 둥글게 */
+  margin-bottom: 15px;
+  width: 100%; /* 댓글 전체 너비 */
+}
+
+/* 수정 텍스트 입력 필드 */
+.edit-comment-textarea {
+  flex: 1; /* 너비를 가능한 공간으로 확장 */
+  height: 100px;
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px;
+  border-radius: 4px;
+  resize: none; /* 크기 조정 비활성화 */
+}
+
+/* 버튼 컨테이너 */
+.edit-buttons-container {
+  display: flex;
+  flex-direction: column; /* 세로 정렬 */
+  gap: 5px; /* 버튼 사이 간격 */
+}
+
+/* 저장 버튼 */
+.save-button {
+  background-color: #7E57C2; /* 배경색 */
+  color: white; /* 텍스트 색상 */
+  border: none; /* 테두리 제거 */
+  padding: 10px 15px;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  /*width: 100%; !* 부모 컨테이너 크기 *!*/
+  width: 72px;
+}
+
+.save-button:hover {
+  background-color: #512DA8; /* 호버 색상 */
+}
+
+/* 취소 버튼 */
+.cancel-button {
+  background-color: #ddd; /* 배경색 */
+  color: #333; /* 텍스트 색상 */
+  border: none; /* 테두리 제거 */
+  padding: 10px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  /*width: 100%; !* 부모 컨테이너 크기 *!*/
+  width: 72px !important;
+}
+
+.cancel-button:hover {
+  background-color: #bbb; /* 호버 색상 */
+}
