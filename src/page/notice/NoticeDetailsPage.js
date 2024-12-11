@@ -313,32 +313,55 @@ function NoticeDetailsPage() {
                     <ul className="comments-list">
                         {comments.map((comment) => (
                             <li key={comment.commentId} className="comment-item">
+                    {/*            {editingCommentId === comment.commentId ? (*/}
+                    {/*                <div>*/}
+                    {/*<textarea*/}
+                    {/*    className="form-control"*/}
+                    {/*    value={editingContent}*/}
+                    {/*    onChange={(e) => setEditingContent(e.target.value)}*/}
+                    {/*/>*/}
+                    {/*                    <button*/}
+                    {/*                        className="btn btn-success btn-sm"*/}
+                    {/*                        onClick={() => handleUpdateComment(comment.commentId)}*/}
+                    {/*                    >*/}
+                    {/*                        저장*/}
+                    {/*                    </button>*/}
+                    {/*                    <button*/}
+                    {/*                        className="btn btn-secondary btn-sm"*/}
+                    {/*                        onClick={() => setEditingCommentId(null)}*/}
+                    {/*                    >*/}
+                    {/*                        취소*/}
+                    {/*                    </button>*/}
+                    {/*                </div>*/}
                                 {editingCommentId === comment.commentId ? (
-                                    <div>
-                    <textarea
-                        className="form-control"
-                        value={editingContent}
-                        onChange={(e) => setEditingContent(e.target.value)}
-                    />
-                                        <button
-                                            className="btn btn-success btn-sm"
-                                            onClick={() => handleUpdateComment(comment.commentId)}
-                                        >
-                                            저장
-                                        </button>
-                                        <button
-                                            className="btn btn-secondary btn-sm"
-                                            onClick={() => setEditingCommentId(null)}
-                                        >
-                                            취소
-                                        </button>
+                                    <div className="edit-comment-container">
+                                        <textarea
+                                            className="form-control edit-comment-textarea"
+                                            value={editingContent}
+                                            onChange={(e) => setEditingContent(e.target.value)}
+                                            placeholder="수정할 내용을 입력하세요."
+                                        />
+                                        <div className="edit-buttons-container">
+                                            <button
+                                                className="btn btn-success save-button"
+                                                onClick={() => handleUpdateComment(comment.commentId)}
+                                            >
+                                                수정
+                                            </button>
+                                            <button
+                                                className="btn btn-secondary cancel-button"
+                                                onClick={() => setEditingCommentId(null)}
+                                            >
+                                                취소
+                                            </button>
+                                        </div>
                                     </div>
                                 ) : (
                                     <div className="comment-content-container">
                                         <p>{comment.content}</p>
                                         <span className="comment-meta">
-                        작성자: {comment.nickname} | 작성일: {comment.createdAt}
-                    </span>
+                                            작성자: {comment.nickname} | 작성일: {comment.createdAt}
+                                        </span>
 
                                         {/* 드롭다운 버튼 */}
                                         <div className="dropdown">
@@ -376,7 +399,7 @@ function NoticeDetailsPage() {
                             placeholder="댓글을 입력하세요."
                         />
                         <button className="btn btn-success" onClick={handleAddComment}>
-                            댓글 작성
+                            등록
                         </button>
                     </div>
                 </div>
