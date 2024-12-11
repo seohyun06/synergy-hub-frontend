@@ -28,6 +28,15 @@ export const ROUTES = {
         link: `${process.env.REACT_APP_API_URL}/reissue`,
     },
 
+    UPDATENICKNAME: {
+        link: `${process.env.REACT_APP_API_URL}/members/me`,
+    },
+
+    UPDATEPROFILE: {
+        link: `${process.env.REACT_APP_API_URL}/members/me/profile`,
+    },
+
+
     /* 팀 캘린더 */
     CREATE_EVENT: (calendarId) => `${process.env.REACT_APP_API_URL}/calendar/${calendarId}/events`,
     GET_TEAM_EVENTS: (teamId) => `${process.env.REACT_APP_API_URL}/calendar/team/${teamId}/events`,
