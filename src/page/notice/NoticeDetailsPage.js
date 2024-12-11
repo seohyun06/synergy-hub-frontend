@@ -234,6 +234,17 @@ function NoticeDetailsPage() {
             });
     };
 
+    const toggleDropdown = (commentId) => {
+        setComments((prevComments) =>
+            prevComments.map((comment) =>
+                comment.commentId === commentId
+                    ? { ...comment, showDropdown: !comment.showDropdown }
+                    : { ...comment, showDropdown: false } // 다른 드롭다운은 닫음
+            )
+        );
+    };
+
+
     if (isLoading) {
         return <div>공지사항 데이터를 불러오는 중...</div>;
     }
@@ -250,8 +261,22 @@ function NoticeDetailsPage() {
                     <div className="notice-meta">
                         <span className="notice-author">작성자: {notice.memberNickname}</span>
                         <span className="notice-date">작성일: {notice.createdAt}</span>
+                        <div className="notice-actions-inline">
+                            <button
+                                className="btn btn-primary"
+                                onClick={() =>
+                                    navigate(`/notice/edit?team=${teamId}&notice=${noticeId}`)
+                                }
+                            >
+                                수정
+                            </button>
+                            <button className="btn btn-danger" onClick={handleDelete}>
+                                삭제
+                            </button>
+                        </div>
                     </div>
-                    <hr />
+
+                    <hr/>
                     {notice.imageUrl && (
                         <div className="notice-image">
                             <img
@@ -262,23 +287,9 @@ function NoticeDetailsPage() {
                         </div>
                     )}
                     <div className="notice-content">{notice.content}</div>
-                    <div className="notice-actions">
-                        <button
-                            className="btn btn-primary"
-                            onClick={() =>
-                                navigate(`/notice/edit?team=${teamId}&notice=${noticeId}`)
-                            }
-                        >
-                            수정
-                        </button>
-                        <button className="btn btn-danger" onClick={handleDelete}>
-                            삭제
-                        </button>
-                    </div>
                 </div>
-                <hr />
+                <hr/>
                 <div className="comments-section">
-                    <h2>댓글</h2>
                     <ul className="comments-list">
                         {comments.map((comment) => (
                             <li key={comment.commentId} className="comment-item">
@@ -303,26 +314,37 @@ function NoticeDetailsPage() {
                                         </button>
                                     </div>
                                 ) : (
-                                    <div>
+                                    <div className="comment-content-container">
                                         <p>{comment.content}</p>
                                         <span className="comment-meta">
                                             작성자: {comment.memberId} | 작성일: {comment.createdAt}
                                         </span>
-                                        <button
-                                            className="btn btn-primary btn-sm"
-                                            onClick={() =>
-                                                handleEditComment(comment.commentId, comment.content)
-                                            }
-                                        >
-                                            수정
-                                        </button>
-                                        <button
-                                            className="btn btn-danger btn-sm"
-                                            onClick={() => handleDeleteComment(comment.commentId)}
-                                        >
-                                            삭제
-                                        </button>
+
+                                        {/* 드롭다운 버튼 */}
+                                        <div className="dropdown">
+                                            <button
+                                                className="dropdown-button"
+                                                onClick={() => toggleDropdown(comment.commentId)}
+                                            >
+                                                ⋮
+                                            </button>
+                                            {comment.showDropdown && (
+                                                <div className="dropdown-menu">
+                                                    <button
+                                                        onClick={() => handleEditComment(comment.commentId, comment.content)}
+                                                    >
+                                                        수정
+                                                    </button>
+                                                    <button
+                                                        onClick={() => handleDeleteComment(comment.commentId)}
+                                                    >
+                                                        삭제
+                                                    </button>
+                                                </div>
+                                            )}
+                                        </div>
                                     </div>
+
                                 )}
                             </li>
                         ))}
@@ -332,7 +354,7 @@ function NoticeDetailsPage() {
                             className="form-control"
                             value={newComment}
                             onChange={(e) => setNewComment(e.target.value)}
-                            placeholder="댓글을 입력하세요..."
+                            placeholder="댓글을 입력하세요."
                         />
                         <button className="btn btn-success" onClick={handleAddComment}>
                             댓글 작성
