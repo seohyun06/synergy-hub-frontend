@@ -5,7 +5,7 @@ import { ROUTES } from "../../global/Links";
 import "./Header.css";
 
 const Header = () => {
-  const { isLoggedIn, user, setIsLoggedIn } = useAuth(); // 로그인 상태와 사용자 정보 가져오기
+  const { isLoggedIn, user, setIsLoggedIn, setUser } = useAuth(); // 로그인 상태와 사용자 정보 가져오기
   const navigate = useNavigate();
   const location = useLocation(); // 현재 경로 가져오기
   const [isProfileOpen, setIsProfileOpen] = useState(false); // 프로필 정보 표시 여부 상태
@@ -28,7 +28,7 @@ const Header = () => {
     try {
       const token = localStorage.getItem("accessToken");
       if (!token) {
-        alert("인증 정보가 없습니다. 다시 로그인해주세요.");
+        // alert("인증 정보가 없습니다. 다시 로그인해주세요.");
         return;
       }
 
@@ -100,11 +100,12 @@ const Header = () => {
       if (response.ok) {
         console.log("로그아웃 성공");
 
+        setIsLoggedIn(false);
+        setUser({ email: "", nickname: "", profileImageUrl: "", userId: "" });
+        localStorage.removeItem("user");
+        localStorage.removeItem("isLoggedIn");
         localStorage.removeItem("accessToken");
-        localStorage.removeItem('userNickname');
-        localStorage.removeItem('userEmail');
 
-        setIsLoggedIn(false); // 로그인 상태 업데이트
         navigate("/login"); // /login 경로로 이동
       } else {
         console.error("로그아웃 실패:", response.status);
