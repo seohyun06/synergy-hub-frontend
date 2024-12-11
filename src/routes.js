@@ -15,7 +15,8 @@ import NoticePage from "./page/notice/NoticePage";
 import NoticeDetailsPage from "./page/notice/NoticeDetailsPage";
 import EditNoticePage from "./page/notice/EditNoticePage";
 import OAuth2Redirect from "./page/member/Oauth2Redirect";
-import Comment from "./page/notice/Comment"
+import Comment from "./page/notice/Comment";
+import ProtectedTeamRoute from "./global/ProtectedTeamRoute"; // 추가된 보호 라우트
 
 // 라우트 상수 정의
 export const ROUTES = {
@@ -76,8 +77,14 @@ const router = createBrowserRouter([
     { path: ROUTES.SIGNUP, element: <SignUpPage /> },
 
     // 팀 관련 경로
-    { path: ROUTES.TEAM_MAIN, element: <Layout><MainPage /></Layout> },
-    { path: ROUTES.TEAM_VIEW, element: <Layout><TeamPage /></Layout> }, // 동적 경로 추가
+    {
+        path: ROUTES.TEAM_VIEW,
+        element: (
+            <ProtectedTeamRoute>
+                <Layout><TeamPage /></Layout>
+            </ProtectedTeamRoute>
+        )
+    },
 
     // 캘린더 관련 경로
     { path: ROUTES.CALENDAR, element: <Layout><TeamCalendar /></Layout> },
