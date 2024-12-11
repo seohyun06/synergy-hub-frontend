@@ -1,10 +1,11 @@
-/* Noticepage.css */
+
 
 /* 전체 페이지 레이아웃 */
 .container-fluid {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  background-color: #FFFFFF;
 }
 
 /* 테이블 스타일 */
@@ -12,72 +13,189 @@
   width: 100%;
   border-collapse: collapse;
   margin-top: 20px;
+  background-color: white;
+  font-size: 1rem;
 }
 
-.table th, .table td {
-  padding: 10px;
-  text-align: left;
-  border: 1px solid #ddd;
+/* 게시글 추가 버튼 스타일 */
+.add-button {
+  background-color: #7E57C2; /* 버튼 배경색 */
+  color: white; /* 버튼 텍스트 색상 */
+  font-size: 1rem; /* 버튼 글자 크기 */
+  font-weight: bold; /* 버튼 글자 굵기 */
+  padding: 1px 10px; /* 버튼 안쪽 여백 */
+  border: none; /* 기본 테두리 제거 */
+  border-radius: 3px; /* 둥근 테두리 */
+  cursor: pointer; /* 마우스 커서 변경 */
+  transition: background-color 0.3s ease; /* 호버 효과 */
+  width: 35px; /* 버튼의 너비 */
+  height: 35px; /* 버튼의 높이 */
+}
+
+/* 버튼 호버 스타일 */
+.add-button:hover {
+  background-color: #512DA8; /* 호버 시 배경색 */
+  color: #ffffff; /* 호버 시 텍스트 색상 */
+}
+
+/* 버튼을 우측에 고정 */
+.add-button-container {
+  display: flex;
+  justify-content: flex-end; /* 우측 정렬 */
+  align-items: center;
+}
+
+
+/* 각 열 크기 조정 */
+.table th:nth-child(1),
+.table td:nth-child(1) {
+  width: 5%; /* No. 열 너비 */
+  text-align: center;
+}
+
+.table th:nth-child(2),
+.table td:nth-child(2) {
+  width: 50%; /* 제목 열 너비 */
+  text-align: center;
+}
+
+.table th:nth-child(3),
+.table td:nth-child(3) {
+  width: 20%; /* 작성자 열 너비 */
+  text-align: center;
+}
+
+.table th:nth-child(4),
+.table td:nth-child(4) {
+  width: 20%; /* 작성일 열 너비 */
+  text-align: center;
+}
+
+/* 셀 스타일 */
+.table th,
+.table td {
+  padding: 8px; /* 기존의 15px에서 줄임 */
+  border: 1px solid #ddd; /* 테두리 색 */
+  height: 25px; /* 기존의 50px에서 절반으로 설정 */
 }
 
 .table th {
-  background-color: #f8f9fa;
+  background-color: #f8f9fa; /* 헤더 배경 */
+  font-weight: bold; /* 헤더 텍스트 굵기 */
+  text-align: center;
 }
 
 .table-striped tbody tr:nth-child(odd) {
-  background-color: #f9f9f9;
+  background-color: #f9f9f9; /* 홀수 줄 색상 */
 }
 
-/* 버튼 스타일 */
-.btn-primary {
-  background-color: #007bff;
-  border-color: #007bff;
+.table-striped tbody tr:nth-child(even) {
+  background-color: #ffffff; /* 짝수 줄 색상 */
+}
+
+/* Hover 효과 */
+.table tr:hover {
+  background-color: #f1f1f1;
+  cursor: pointer;
+}
+
+/* 페이지네이션 버튼 스타일 */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.pagination .btn {
+  margin: 0 5px;
   padding: 10px 20px;
   font-size: 1rem;
 }
 
-.btn-danger {
-  background-color: #dc3545;
-  border-color: #dc3545;
+.pagination .mx-2 {
+  font-size: 1rem;
 }
 
-/* 테이블 반응형 */
+/* 반응형 테이블 */
 .table-responsive {
   overflow-x: auto;
-  margin-top: 20px;
 }
 
-/* 테이블에서 각 행 hover 스타일 */
-.table tr:hover {
-  background-color: #f1f1f1;
-}
-
-/* 공지사항 제목 */
-.h2 {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #333;
-}
-
-/* 메인 콘텐츠 */
-main {
-  padding: 20px;
-}
-
-/* 전체 레이아웃 조정 */
-.row {
-  display: flex;
-  justify-content: center;
-}
-
-/* + 버튼 */
-button.btn {
-  margin-left: 20px;
-}
-
-/* 작은 화면에서 테이블 텍스트 정렬 */
 @media (max-width: 768px) {
-  .table th, .table td {
+  .table th,
+  .table td {
     font-size: 0.875rem;
+    padding: 10px;
+  }
+
+  .table th:nth-child(2),
+  .table td:nth-child(2) {
+    width: 40%; /* 작은 화면에서 제목 너비 축소 */
+  }
+
+  .table th:nth-child(3),
+  .table td:nth-child(3) {
+    width: 25%; /* 작성자 너비 축소 */
+  }
+
+  .table th:nth-child(4),
+  .table td:nth-child(4) {
+    width: 25%; /* 작성일 너비 축소 */
   }
 }
+
+
+/* 페이지네이션 버튼 컨테이너 */
+.pagination {
+  display: flex;
+  justify-content: center; /* 중앙 정렬 */
+  align-items: center; /* 세로 정렬 */
+  margin-top: 20px; /* 위 간격 */
+}
+
+/* 기본 버튼 스타일 */
+.pagination .btn {
+  background-color: #FFFFFF; /* 기본 배경색 */
+  color: #444444; /* 텍스트 색상 */
+  font-size: 1rem; /* 텍스트 크기 */
+  font-weight: bold; /* 텍스트 굵기 */
+  padding: 10px 20px; /* 내부 여백 (크기 조정) */
+  border: none; /* 테두리 제거 */
+  border-radius: 5px; /* 둥근 테두리 */
+  cursor: pointer; /* 마우스 커서 */
+  margin: 0 10px; /* 버튼 간격 */
+  transition: background-color 0.3s ease, transform 0.2s ease; /* 호버 및 클릭 효과 */
+}
+
+/* 버튼 호버 효과 */
+.pagination .btn:hover {
+  background-color: #FFFFFF; /* 호버 시 배경색 */
+  color: #000000; /* 텍스트 색상 */
+  transform: scale(1.05); /* 살짝 확대 */
+}
+
+/* 비활성화된 버튼 */
+.pagination .btn:disabled {
+  background-color: #FFFFFF; /* 비활성화 배경색 */
+  color: #555555; /* 비활성화 텍스트 색상 */
+  cursor: not-allowed; /* 비활성화 마우스 커서 */
+}
+
+/*!* 이전 버튼 스타일 *!*/
+/*.pagination .btn-prev {*/
+/*  background-color: #28a745; !* 이전 버튼 색상 *!*/
+/*}*/
+
+/*.pagination .btn-prev:hover {*/
+/*  background-color: #218838; !* 이전 버튼 호버 색상 *!*/
+/*}*/
+
+/*!* 다음 버튼 스타일 *!*/
+/*.pagination .btn-next {*/
+/*  background-color: #ffc107; !* 다음 버튼 색상 *!*/
+/*}*/
+
+/*.pagination .btn-next:hover {*/
+/*  background-color: #e0a800; !* 다음 버튼 호버 색상 *!*/
+/*}*/

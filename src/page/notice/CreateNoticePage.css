@@ -1,17 +1,12 @@
-/* 페이지 제목 */
 .notice-header {
-    margin-bottom: 30px;
-    text-align: center;
-  }
-
-  .notice-header h1 {
-    font-size: 2rem;
-    font-weight: bold;
+    margin-bottom: 35px;
+    margin-left: 25px; /* 왼쪽 마진 추가 */
+    margin-top: 35px;    /* 천장에서 50px 떨어지게 함 */
   }
 
   /* 공지사항 콘텐츠 영역 */
   .card {
-    border-radius: 8px;
+    border-radius: 3px;
     border: 1px solid #ddd;
   }
 
@@ -27,40 +22,61 @@
     border-radius: 8px;
   }
 
-  /* 등록 버튼 */
-  button {
-    padding: 10px 20px;
-    font-size: 1rem;
-    border-radius: 4px;
-  }
+/* 등록 버튼 */
+.submit-button {
+  background-color: #7E57C2; /* 기본 배경색 */
+  color: white; /* 텍스트 색상 */
+  padding: 10px 20px; /* 버튼 내부 여백 */
+  font-size: 1rem; /* 글자 크기 */
+  border-radius: 4px; /* 둥근 모서리 */
+  border: none; /* 테두리 제거 */
+  cursor: pointer; /* 마우스 커서 변경 */
+  transition: background-color 0.3s ease, transform 0.2s ease; /* 배경색과 크기 전환 효과 */
+}
 
-  /* 내 일정 영역 */
-  .schedule-section {
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  }
+.submit-button:hover {
+  background-color: #512DA8; /* 마우스 올렸을 때 배경색 */
+  transform: scale(1.05); /* 약간 커지는 효과 */
+}
 
-  .schedule-box {
-    background-color: #f1f1f1;
-    padding: 20px;
-    margin-bottom: 20px;
-    text-align: center;
-    border-radius: 8px;
-  }
+.submit-button:active {
+  background-color: #512DA8; /* 클릭 시 배경색 */
+  transform: scale(0.98); /* 클릭 시 약간 작아짐 */
+}
 
-  .schedule-box p {
-    margin: 0;
-  }
+.submit-button:focus {
+  outline: none; /* 포커스 상태의 외곽선 제거 */
+  box-shadow: 0 0 5px rgba(126, 87, 194, 0.5); /* 포커스 상태의 그림자 효과 */
+}
 
-  .schedule-box .fw-bold {
-    font-size: 1.2rem;
-    color: #333;
-  }
 
-  .schedule-box .fs-4 {
-    font-size: 3rem;
-    font-weight: bold;
-    color: #2a9d8f;
-  }
+  /*!* 내 일정 영역 *!*/
+  /*.schedule-section {*/
+  /*  padding: 20px;*/
+  /*  background-color: #f9f9f9;*/
+  /*  border-radius: 8px;*/
+  /*  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);*/
+  /*}*/
+
+  /*.schedule-box {*/
+  /*  background-color: #f1f1f1;*/
+  /*  padding: 20px;*/
+  /*  margin-bottom: 20px;*/
+  /*  text-align: center;*/
+  /*  border-radius: 8px;*/
+  /*}*/
+
+  /*.schedule-box p {*/
+  /*  margin: 0;*/
+  /*}*/
+
+  /*.schedule-box .fw-bold {*/
+  /*  font-size: 1.2rem;*/
+  /*  color: #333;*/
+  /*}*/
+
+  /*.schedule-box .fs-4 {*/
+  /*  font-size: 3rem;*/
+  /*  font-weight: bold;*/
+  /*  color: #2a9d8f;*/
+  /*}*/

@@ -51,11 +51,11 @@ const LabelCreationForm = ({ onAddLabel }) => {
                 type="text"
                 value={labelName}
                 onChange={handleLabelNameChange}
-                placeholder="Name new label"
+                placeholder="라벨 이름 입력"
                 className="label-input"
             />
             <div className="color-picker">
-                {["#FF5733", "#33FF57", "#337BFF", "#FFD433", "#8C33FF"].map(
+                {["#D6C1E6", "#FADADD", "#F7A9B7", "#B3E5FC", "#A2D2FF"].map(
                     (color) => (
                         <span
                             key={color}

@@ -93,9 +93,15 @@ const MainPage = () => {
         setLabels([...labels, label]);
     };
 
-    const handleDeleteLabel = (labelId) => {
-        const updatedLabels = labels.filter((label) => label.id !== labelId);
-        setLabels(updatedLabels);
+    // 라벨 삭제
+    const handleDeleteLabel = async (labelId) => {
+        try {
+            await axios.delete(`http://localhost:8080/api/labels/${labelId}`);
+            setLabels(labels.filter((label) => label.id !== labelId));
+        } catch (error) {
+            console.error("라벨 삭제 실패:", error);
+            alert("라벨 삭제 중 오류가 발생했습니다.");
+        }
     };
 
     const handleCreateTeam = async () => {
