@@ -33,95 +33,37 @@ const TeamCalendar = () => {
     const [eventDetails, setEventDetails] = useState(null); // 클릭한 이벤트의 세부 정보
     const [eventToDelete, setEventToDelete] = useState(null); // 삭제할 이벤트 정보
 
-    // 사용자 정보 요청 API 호출
-    useEffect(() => {
-        const fetchMemberInfo = async () => {
-            const jwtToken = localStorage.getItem("accessToken");
-            if (jwtToken) {
-                try {
-                    const response = await fetch(ROUTES.GETMEMBER.link, {
-                        headers: {
-                            Authorization: `Bearer ${jwtToken}`, // JWT 토큰을 Authorization 헤더에 포함
-                        },
-                    });
-
-                    if (response.ok) {
-                        const apiResponse = await response.json();
-                        const memberData = apiResponse.payload;
-                        setUser({
-                            email: memberData.email,
-                            nickname: memberData.nickname,
-                            profileImageUrl: memberData.profileImageUrl,
-                        });
-                        setIsLoggedIn(true); // 로그인 상태 업데이트
-                    } else {
-                        console.error("회원정보 요청 오류:", response.status);
-                    }
-                } catch (error) {
-                    console.error("서버에 연결할 수 없습니다:", error);
-                }
-            }
-        };
-
-        fetchMemberInfo();
-    }, [setUser, setIsLoggedIn]);
-
     // 팀의 이벤트 목록을 가져오는 API 호출
-    useEffect(() => {
-        const fetchTeamEvents = async () => {
-            const jwtToken = localStorage.getItem("accessToken");
-            if (jwtToken) {
-                try {
-                    const response = await apiClient.get(ROUTES.GET_TEAM_EVENTS(teamId), {
-                        headers: {
-                            Authorization: `Bearer ${jwtToken}`, // JWT 토큰을 Authorization 헤더에 포함
-                        },
-                    });
+    const fetchTeamEvents = async () => {
+        const jwtToken = localStorage.getItem("accessToken");
+        if (jwtToken) {
+            try {
+                const response = await apiClient.get(ROUTES.GET_TEAM_EVENTS(teamId), {
+                    headers: {
+                        Authorization: `Bearer ${jwtToken}`, // 수정된 부분
+                    },
+                });
 
-                    if (response.status === 200) {
-                        const teamEvents = response.data;
-                        console.log("API에서 가져온 이벤트:", teamEvents); // 디버깅용 로그
-
-                        // FullCalendar 형식에 맞게 이벤트 데이터를 그대로 설정
-                        setEvents(teamEvents.map(event => ({
-                            id: event.id,
-                            title: event.title,
-                            start: event.start, // 서버에서 ISO 형식 제공
-                            end: event.end,     // 서버에서 ISO 형식 제공
-                            backgroundColor: event.color, // 서버에서 제공된 색상
-                        })));
-                    } else {
-                        console.error("팀 이벤트 요청 오류:", response.status);
-                    }
-                } catch (error) {
-                    console.error("서버에 연결할 수 없습니다:", error);
+                if (response.status === 200) {
+                    const teamEvents = response.data;
+                    setEvents(teamEvents.map(event => ({
+                        id: event.id,
+                        title: event.title,
+                        start: event.start,
+                        end: event.end,
+                        backgroundColor: event.color,
+                    })));
                 }
+            } catch (error) {
+                console.error("서버에 연결할 수 없습니다:", error);
             }
-        };
+        }
+    };
 
+    // 팀 이벤트 데이터를 로드
+    useEffect(() => {
         fetchTeamEvents();
-    }, [teamId]); // 팀 ID가 변경될 때마다 이벤트 목록을 새로 가져옴
-
-    // 날짜 클릭 시 새 이벤트 추가 모달을 열기 위한 핸들러
-    const handleDateClick = (arg) => {
-        setNewEvent({
-            title: '',
-            startDate: `${arg.dateStr}T00:00`,
-            endDate: `${arg.dateStr}T01:00`,
-        });
-        setShowAddModal(true); // 새 이벤트 추가 모달 열기
-    };
-
-    // 이벤트 클릭 시 일정 확인 모달 열기
-    const handleEventClick = (arg) => {
-        setEventDetails({
-            id: arg.event.id,
-            title: arg.event.title,
-            start: arg.event.start,
-            end: arg.event.end,
-        });
-        setShowEventModal(true); // 일정 확인 모달 열기
-    };
+    }, [teamId]);
 
     // 새 이벤트 추가/수정 요청을 서버에 보내는 함수
     const handleSaveEvent = async () => {
@@ -141,7 +83,7 @@ const TeamCalendar = () => {
                         formattedEvent,
                         {
                             headers: {
-                                Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+                                Authorization: `Bearer ${localStorage.getItem('accessToken')}`, // 수정된 부분
                             },
                         }
                     );
@@ -152,35 +94,45 @@ const TeamCalendar = () => {
                         formattedEvent,
                         {
                             headers: {
-                                Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+                                Authorization: `Bearer ${localStorage.getItem('accessToken')}`, // 수정된 부분
                             },
                         }
                     );
                 }
 
-                if (response.status === 200 || response.status === 201) {
-                    const updatedEvent = response.data;
+            if (response.status === 200 || response.status === 201) {
+                await fetchTeamEvents();
+                setShowAddModal(false);
 
-                    // 새로운 배열로 상태 업데이트
-                    setEvents((prevEvents) => {
-                        const updatedEvents = [...prevEvents, {
-                            id: updatedEvent.id,
-                            title: updatedEvent.title,
-                            start: updatedEvent.startDate,
-                            end: updatedEvent.endDate,
-                            backgroundColor: updatedEvent.color,
-                        }];
-                        return updatedEvents;
-                    });
-
-                    setShowAddModal(false); // 모달 닫기
-                } else {
-                    console.error("이벤트 저장 오류:", response.status);
-                }
+                // MyCalendar에 새로고침 메시지 전송
+                window.postMessage({ action: 'refreshCalendar' }, '*');
+                console.log('MyCalendar에 새로고침 메시지 보냄');
+            }
             } catch (error) {
                 console.error("서버에 연결할 수 없습니다:", error);
             }
         }
+    };
+
+    // 날짜 클릭 시 새 이벤트 추가 모달을 열기 위한 핸들러
+    const handleDateClick = (arg) => {
+        setNewEvent({
+            title: '',
+            startDate: `${arg.dateStr}T00:00`, // 수정된 부분
+            endDate: `${arg.dateStr}T01:00`,   // 수정된 부분
+        });
+        setShowAddModal(true); // 새 이벤트 추가 모달 열기
+    };
+
+    // 이벤트 클릭 시 일정 확인 모달 열기
+    const handleEventClick = (arg) => {
+        setEventDetails({
+            id: arg.event.id,
+            title: arg.event.title,
+            start: arg.event.start,
+            end: arg.event.end,
+        });
+        setShowEventModal(true); // 일정 확인 모달 열기
     };
 
     // 수정 버튼 클릭 핸들러
@@ -198,18 +150,20 @@ const TeamCalendar = () => {
                     ROUTES.DELETE_EVENT(eventDetails.id),
                     {
                         headers: {
-                            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+                            Authorization: `Bearer ${localStorage.getItem('accessToken')}`, // 수정된 부분
                         },
                     }
                 );
 
                 if (response.status === 204) {
-                    setEvents((prevEvents) => prevEvents.filter(event => event.id !== eventDetails.id));
+                    await fetchTeamEvents(); // 최신 이벤트 목록을 다시 가져옵니다.
                     setShowEventModal(false);
                     setEventDetails(null);
-                } else {
-                    console.error("이벤트 삭제 오류:", response.status);
-                }
+
+                    // MyCalendar 페이지 새로고침 트리거
+                window.postMessage({ action: 'refreshCalendar' }, '*');
+                console.log('MyCalendar에 새로고침 메시지 보냄');
+            }
             } catch (error) {
                 console.error("서버에 연결할 수 없습니다:", error);
             }
