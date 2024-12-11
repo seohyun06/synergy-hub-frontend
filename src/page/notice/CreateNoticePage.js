@@ -107,7 +107,7 @@ function CreateNoticePage() {
   return (
       <div className="create-notice-page">
         <div className="notice-header">
-          <h1 className="fw-bold">공지사항</h1>
+          <h1 className="h1">공지사항</h1>
         </div>
 
         <Container fluid>
@@ -118,7 +118,7 @@ function CreateNoticePage() {
                   <Form.Group className="mb-3">
                     <Form.Control
                         type="text"
-                        placeholder="글 제목을 입력하세요"
+                        placeholder="제목을 입력하세요"
                         className="p-3 border-2"
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
@@ -144,9 +144,13 @@ function CreateNoticePage() {
                     />
                   </Form.Group>
 
-                  <Button variant="dark" className="float-end px-4" type="submit">
+                  {/*<Button variant="dark" className="float-end px-4" type="submit">*/}
+                  {/*  등록*/}
+                  {/*</Button>*/}
+                  <Button variant="dark" className="submit-button float-end px-4" type="submit">
                     등록
                   </Button>
+
                 </Form>
               </Card>
             </Col>
