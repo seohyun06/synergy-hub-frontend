@@ -3,7 +3,9 @@
     margin-left: 25px; /* 왼쪽 마진 추가 */
     margin-top: 35px;    /* 천장에서 50px 떨어지게 함 */
   }
-
+.bold-text {
+  font-weight: bold;
+}
   /* 공지사항 콘텐츠 영역 */
   .card {
     border-radius: 3px;
@@ -51,32 +53,33 @@
 
 
   /*!* 내 일정 영역 *!*/
-  /*.schedule-section {*/
-  /*  padding: 20px;*/
-  /*  background-color: #f9f9f9;*/
-  /*  border-radius: 8px;*/
-  /*  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);*/
-  /*}*/
+  /*.schedule-section {
+   padding: 20px;
+   background-color: #f9f9f9;
+   border-radius: 8px;
+   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }*/
 
-  /*.schedule-box {*/
-  /*  background-color: #f1f1f1;*/
-  /*  padding: 20px;*/
-  /*  margin-bottom: 20px;*/
-  /*  text-align: center;*/
-  /*  border-radius: 8px;*/
-  /*}*/
+  /*.schedule-box {
+    background-color: #f1f1f1;
+    padding: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+    border-radius: 8px;
+  }*/
 
-  /*.schedule-box p {*/
-  /*  margin: 0;*/
-  /*}*/
+  /*.schedule-box p {
+    margin: 0;
+  }*/
 
-  /*.schedule-box .fw-bold {*/
-  /*  font-size: 1.2rem;*/
-  /*  color: #333;*/
-  /*}*/
+  /*.schedule-box .fw-bold {
+    font-size: 1.2rem;
+    color: #333;
+  }*/
 
-  /*.schedule-box .fs-4 {*/
-  /*  font-size: 3rem;*/
-  /*  font-weight: bold;*/
-  /*  color: #2a9d8f;*/
-  /*}*/
+  /*.schedule-box .fs-4 {
+    font-size: 3rem;
+    font-weight: bold;
+    color: #2a9d8f;
+  }*/
+
