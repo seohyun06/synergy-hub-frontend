@@ -12,6 +12,7 @@ function NoticeDetailsPage() {
     const [editingContent, setEditingContent] = useState(""); // 수정 중인 댓글 내용
     const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
+    const [showPostDropdown, setShowPostDropdown] = useState(false); // 게시물 드롭다운 상태 관리
 
     // 쿼리스트링에서 team과 notice 값 추출
     const queryParams = new URLSearchParams(location.search);
@@ -233,6 +234,25 @@ function NoticeDetailsPage() {
                 alert(`댓글 수정 중 오류가 발생했습니다: ${error.message}`);
             });
     };
+
+    // 게시물 드롭다운 토글 함수
+    const togglePostDropdown = () => {
+        setShowPostDropdown(!showPostDropdown);
+    };
+
+    // 게시물 드롭다운 외부 클릭 시 닫기
+    useEffect(() => {
+        const handleOutsideClick = (event) => {
+            if (!event.target.closest(".post-dropdown")) {
+                setShowPostDropdown(false);
+            }
+        };
+
+        document.addEventListener("click", handleOutsideClick);
+        return () => {
+            document.removeEventListener("click", handleOutsideClick);
+        };
+    }, []);
 
     const toggleDropdown = (commentId) => {
         setComments((prevComments) =>
