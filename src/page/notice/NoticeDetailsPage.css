@@ -49,26 +49,28 @@
   cursor: pointer;
 }
 
-/* 수정버튼 */
-.notice-actions-inline .btn-primary {
-  background-color: #7E57C2;
-  color: white;
-  transition: background-color 0.3s ease;
-}
-
-.notice-actions-inline .btn-primary:active {
-  background-color: #512DA8; /* 찐한 보라색 (클릭 시) */
-}
-
-/* 삭제버튼 */
-.notice-actions-inline .btn-danger {
+/* 수정 버튼 */
+.notice-actions-inline .btn-edit {
   background-color: #7E57C2; /* 보라색 */
   color: white;
   transition: background-color 0.3s ease;
 }
 
-.notice-actions-inline .btn-danger:active {
+.notice-actions-inline .btn-edit:active {
   background-color: #512DA8; /* 찐한 보라색 (클릭 시) */
+   color: white;
+}
+
+/* 삭제 버튼 */
+.notice-actions-inline .btn-purple {
+  background-color: #7E57C2; /* 보라색 */
+  color: white;
+  transition: background-color 0.3s ease;
+}
+
+.notice-actions-inline .btn-purple:active {
+  background-color: #512DA8; /* 찐한 보라색 (클릭 시) */
+   color: white;
 }
 
 .notice-meta .notice-author,
@@ -267,4 +269,15 @@
 
 .cancel-button:hover {
   background-color: #bbb; /* 호버 색상 */
+}
+/* 등록 버튼 */
+.comment-form .btn-add-comment {
+  background-color: #7E57C2; /* 보라색 */
+  color: white;
+  transition: background-color 0.3s ease;
+}
+
+.comment-form .btn-add-comment:active {
+  background-color: #512DA8; /* 찐한 보라색 (클릭 시) */
+  color: white; /* 글씨 색을 흰색으로 유지 */
 }

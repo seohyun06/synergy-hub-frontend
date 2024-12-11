@@ -304,15 +304,16 @@ return (
                     <span className="notice-date">작성일: {formatDate(notice?.createdAt)}</span> {/* 날짜 포맷팅 */}
                     <div className="notice-actions-inline">
                         <button
-                            className="btn btn-primary"
-                            onClick={() =>
-                                navigate(`/notice/edit?team=${teamId}&notice=${noticeId}`)
-                            }
+                          className="btn btn-edit"
+                          onClick={() =>
+                            navigate(`/notice/edit?team=${teamId}&notice=${noticeId}`)
+                          }
                         >
-                            수정
+                          수정
                         </button>
-                        <button className="btn btn-danger" onClick={handleDelete}>
-                            삭제
+
+                        <button className="btn btn-purple" onClick={handleDelete}>
+                          삭제
                         </button>
                     </div>
                 </div>
@@ -399,9 +400,10 @@ return (
                         onChange={(e) => setNewComment(e.target.value)}
                         placeholder="댓글을 입력하세요."
                     />
-                    <button className="btn btn-success" onClick={handleAddComment}>
-                        등록
+                    <button className="btn btn-add-comment" onClick={handleAddComment}>
+                      등록
                     </button>
+
                 </div>
             </div>
         </main>
