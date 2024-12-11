@@ -5,7 +5,7 @@
     left: 0; /* 화면 왼쪽에서 시작 */
     width: 100%; /* 화면의 전체 너비를 차지 */
     height: 100%; /* 화면의 전체 높이를 차지 */
-    background: rgba(0, 0, 0, 0.5); /* 반투명한 검정 배경으로 설정 */
+    background: rgba(0, 0, 0, 0.5) !important; /* 반투명한 검정 배경으로 설정 */
     display: flex; /* 플렉스 박스를 사용하여 자식 요소 정렬 */
     justify-content: center; /* 자식 요소를 수평 중앙 정렬 */
     align-items: center; /* 자식 요소를 수직 중앙 정렬 */
@@ -60,14 +60,6 @@
     cursor: pointer;
 }
 
-/* 라벨 추가 섹션 */
-/*.add-label-section {*/
-/*    display: flex; !* 플렉스 박스를 사용해 정렬 *!*/
-/*    flex-direction: column; !* 요소들을 세로로 배치 *!*/
-/*    align-items: flex-start; !* 왼쪽 정렬 *!*/
-/*    margin-top: 10px; !* 상단 간격 추가 *!*/
-/*    margin-bottom: 20px; !* 하단 간격 추가 *!*/
-/*}*/
 .add-label-section {
     display: flex; /* 플렉스 박스를 사용해 정렬 */
     flex-direction: column; /* 요소들을 세로로 배치 */
@@ -78,7 +70,6 @@
     height: 100%; /* 높이를 부모 컨테이너에 맞춤 (필요 시 추가) */
     width: 100%; /* 너비를 부모 컨테이너에 맞춤 (필요 시 추가) */
 }
-
 
 /* 라벨 입력 필드 */
 .label-input {
@@ -119,7 +110,7 @@
 .add-label-button {
     display: inline-block; /* 버튼이 부모 요소의 크기에 영향을 받지 않도록 설정 */
     margin-top: 10px; /* 상단 간격 추가 */
-    background: #007bff; /* 파란색 배경 */
+    background: #7E57C2 !important; /* 파란색 배경 */
     color: white; /* 흰색 텍스트 */
     border: none; /* 테두리 없음 */
     padding: 8px 16px; /* 내부 여백 설정 (상하 8px, 좌우 16px) */
@@ -131,7 +122,7 @@
 }
 
 .add-label-button:hover {
-    background: #0056b3; /* 마우스 오버 시 배경색 변경 */
+    background: #512DA8; /* 마우스 오버 시 배경색 변경 */
 }
 
 /* 모달 버튼 섹션 */
@@ -141,7 +132,7 @@
 }
 
 /* 취소 버튼 */
-.cancel-button {
+.TeamEdit-cancel-button {
     background: #6c757d; /* 회색 배경 */
     color: white; /* 흰색 텍스트 */
     border: none; /* 테두리 없음 */
@@ -158,7 +149,7 @@
 
 /* 저장 버튼 */
 .save-button {
-    background: #007bff; /* 파란색 배경 */
+    background: #673AB7 ; /* 파란색 배경 */
     color: white; /* 흰색 텍스트 */
     border: none; /* 테두리 없음 */
     padding: 10px 20px; /* 내부 여백 설정 */
@@ -169,5 +160,5 @@
 }
 
 .save-button:hover {
-    background: #0056b3; /* 마우스 오버 시 배경색 변경 */
+    background: #512DA8; /* 마우스 오버 시 배경색 변경 */
 }

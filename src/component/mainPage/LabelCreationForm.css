@@ -37,48 +37,37 @@
 }
 
 /*.add-label-button {*/
-/*    padding: 8px 16px;*/
-/*    font-size: 8px;*/
+/*    padding: 6px 12px; !* 버튼 내부 여백 증가 *!*/
+/*    font-size: 10px;*/
 /*    background-color: #007bff;*/
 /*    color: white;*/
 /*    border: none;*/
-/*    border-radius: 1px;*/
+/*    border-radius: 6px; !* 모서리를 더 둥글게 *!*/
 /*    cursor: pointer;*/
-/*    transition: background-color 0.2s;*/
+/*    transition: background-color 0.2s, transform 0.2s; !* 호버 효과 추가 *!*/
+/*    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); !* 그림자 추가 *!*/
 /*}*/
 
-.add-label-button {
-    padding: 6px 12px; /* 버튼 내부 여백 증가 */
-    font-size: 10px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 6px; /* 모서리를 더 둥글게 */
-    cursor: pointer;
-    transition: background-color 0.2s, transform 0.2s; /* 호버 효과 추가 */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 그림자 추가 */
-}
+/*.add-label-button:hover {*/
+/*    background-color: #0056b3; !* 호버 시 색상 변경 *!*/
+/*    transform: scale(1.05); !* 호버 시 크기 살짝 확대 *!*/
+/*}*/
 
-.add-label-button:hover {
-    background-color: #0056b3; /* 호버 시 색상 변경 */
-    transform: scale(1.05); /* 호버 시 크기 살짝 확대 */
-}
-
-.add-label-button:disabled {
-    background-color: #cccccc; /* 비활성화 상태 */
-    cursor: not-allowed;
-}
+/*.add-label-button:disabled {*/
+/*    background-color: #cccccc; !* 비활성화 상태 *!*/
+/*    cursor: not-allowed;*/
+/*}*/
 
 
-.add-label-button:hover {
-    background-color: #0056b3;
-}
+/*.add-label-button:hover {*/
+/*    background-color: #0056b3;*/
+/*}*/
 
-.label-badge {
-    display: inline-block;
-    margin: 4px;
-    padding: 4px 8px;
-    color: white;
-    font-size: 12px;
-    border-radius: 8px;
-}
+/*.label-badge {*/
+/*    display: inline-block;*/
+/*    margin: 4px;*/
+/*    padding: 4px 8px;*/
+/*    color: white;*/
+/*    font-size: 12px;*/
+/*    border-radius: 8px;*/
+/*}*/
