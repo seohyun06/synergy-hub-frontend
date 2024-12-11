@@ -40,9 +40,10 @@
 .chat-message {
     display: flex;
     flex-direction: column; 
-    margin: 20px 0;
+    margin: 20px 5px;
     max-width: 70%;
     word-wrap: break-word;
+    margin-bottom: 45px; 
 }
 
 .chat-message.sent {
@@ -52,7 +53,8 @@
     color: #2c3e50; 
     border-radius: 12px; 
     padding: 10px 14px;
-    width: 60%;
+    /* display: inline-block; */
+    width: 50%;
 }
 
 .chat-message.received {
@@ -62,12 +64,15 @@
     color: #344b33; 
     border-radius: 12px;
     padding: 10px 14px;
-    width: 60%;
+    /* display: inline-block; */
+    width: 50%;
 }
 
 /* Message Content */
 .message-content {
-    padding: 8px;
+    font-weight: bold;
+    font-size: 18px;
+    padding: 10px;
 }
 
 /* Chat Input Section */
@@ -106,18 +111,51 @@
 .user-info {
     display: flex;
     align-items: center;
-    margin-bottom: 5px; 
+    margin-bottom: 10px; 
 }
 
 .profile-image {
-    width: 30px;
-    height: 30px;
+    width: 45px;
+    height: 45px;
     border-radius: 50%;
+    margin-left: 15px;
     margin-right: 8px;
     object-fit: cover;
 }
 
 .user-name {
-    font-size: 14px;
+    font-size: 15px;
     color: #444b55; 
+}
+
+.message-date {
+    font-size: 12px;
+    color: #555;
+    margin-left: 8px;
+    align-self: flex-end;
+}
+
+.enter-message {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+    font-size: 16px;
+    font-weight: bold;
+    color: #888;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    padding: 10px 20px;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.date-divider {
+    text-align: center;
+    color: #777;
+    font-size: 14px;
+    margin: 10px 0;
+    border-bottom: 1px solid #ddd;
+    line-height: 1.5;
+    padding-bottom: 5px;
 }

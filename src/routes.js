@@ -61,6 +61,7 @@ const ChatLayout = ({ children }) => (
         <div className="app-body">
             <Sidebar />
             <div className="main-chat">{children}</div>
+            <MyCalendar />
         </div>
     </div>
 );

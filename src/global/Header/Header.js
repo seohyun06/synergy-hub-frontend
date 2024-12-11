@@ -101,6 +101,9 @@ const Header = () => {
         console.log("로그아웃 성공");
 
         localStorage.removeItem("accessToken");
+        localStorage.removeItem('userNickname');
+        localStorage.removeItem('userEmail');
+
         setIsLoggedIn(false); // 로그인 상태 업데이트
         navigate("/login"); // /login 경로로 이동
       } else {
