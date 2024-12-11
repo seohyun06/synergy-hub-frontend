@@ -16,6 +16,7 @@ const MainPage = () => {
     const [labels, setLabels] = useState([]);
 
     const { setIsLoggedIn, setUser } = useAuth();
+    const { updateAuthState } = useAuth();
 
     useEffect(() => {
         const fetchMemberInfo = async () => {
@@ -64,15 +65,16 @@ const MainPage = () => {
                     console.log("API 응답:", apiResponse);
 
                     const memberData = apiResponse.payload;
-                    setUser({
-                        userId: memberData.id,
-                        email: memberData.email,
-                        nickname: memberData.nickname,
-                        profileImageUrl: memberData.profileImageUrl,
-                    });
-                    setIsLoggedIn(true);
-                    localStorage.setItem("userNickname", memberData.nickname);
-                    localStorage.setItem("userEmail", memberData.email);
+
+                    updateAuthState(
+                        {
+                            userId: memberData.id,
+                            email: memberData.email,
+                            nickname: memberData.nickname,
+                            profileImageUrl: memberData.profileImageUrl,
+                        },
+                        true
+                    );
                 } else {
                     console.error("회원정보 요청 오류:", response.status);
                 }
