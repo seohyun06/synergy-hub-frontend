@@ -149,3 +149,13 @@
     text-align: center;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+
+.date-divider {
+    text-align: center;
+    color: #777;
+    font-size: 14px;
+    margin: 10px 0;
+    border-bottom: 1px solid #ddd;
+    line-height: 1.5;
+    padding-bottom: 5px;
+}

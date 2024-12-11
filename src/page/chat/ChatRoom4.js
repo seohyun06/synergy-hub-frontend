@@ -105,7 +105,7 @@ const ChatRoom4 = () => {
                     createdAt: formatArrayToISO(msg.createdAt), // createdAt 값을 포맷된 문자열로 변환
                 }));
 
-                console.log("format", formattedMessages);
+                // console.log("format", formattedMessages);
                 setMessages(formattedMessages);
             } catch (error) {
                 console.error("채팅 기록을 가져오는 중 오류 발생", error);
@@ -154,6 +154,11 @@ const ChatRoom4 = () => {
         return `${hours}:${minutes}`;
     };
 
+    const formatDate = (dateString) => {
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        return new Date(dateString).toLocaleDateString(undefined, options);
+    };
+
     const formatArrayToISO = (dateArray) => {
         const [year, month, day, hour, minute, second, nanoseconds] = dateArray;
 
@@ -182,7 +187,19 @@ const ChatRoom4 = () => {
                 {messages.map((msg, index) => {
 
                     const isReceived = msg.userEmail !== userEmail;
-                    const showUserInfo = index === 0 || messages[index - 1].userEmail !== msg.userEmail; // 이전 메시지가 다른 사용자이면 `user-info`를 표시
+                    // const showUserInfo = index === 0 || messages[index - 1].userEmail !== msg.userEmail; // 이전 메시지가 다른 사용자이면 `user-info`를 표시
+
+                    const showUserInfo =
+                        index === 0 ||
+                        messages[index - 1]?.type === 'ENTER' ||
+                        messages[index - 1]?.userEmail !== msg.userEmail; // 이전 메시지의 사용자와 다를 때만 표시
+
+                    const currentDate = new Date(msg.createdAt).toDateString();
+                    const prevDate =
+                        index > 0 ? new Date(messages[index - 1].createdAt).toDateString() : null;
+                    const showDate = index === 1 || msg.type==='ENTER';
+                    // const showDate = index === 0 || currentDate !== prevDate;
+
 
                     // 'ENTER' 메시지가 현재 사용자의 메시지라면 무시
                     if (msg.type === 'ENTER' && !isReceived) {
@@ -202,6 +219,15 @@ const ChatRoom4 = () => {
                             key={msg.id || `temp-${index}`}
                             className={`chat-message-container ${isReceived ? 'received' : 'sent'}`}
                         >
+                            {
+                                showDate && (
+                                    <div className="date-divider">
+                                         {new Date(msg.createdAt).toLocaleDateString()}
+                                        {/* {currentDate}  */}
+                                    </div>
+                                )
+                            }
+
                             {isReceived && showUserInfo && (
                                 <div className="user-info">
                                     <img
