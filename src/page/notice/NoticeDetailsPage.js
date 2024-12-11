@@ -69,6 +69,17 @@ function NoticeDetailsPage() {
         }
     }, [noticeId]);
 
+    // 댓글 내용에서 줄바꿈 처리 함수
+    const formatCommentText = (text) => {
+        if (!text) return text;
+        return text.split("\n").map((line, index) => (
+            <React.Fragment key={index}>
+                {line}
+                <br />
+            </React.Fragment>
+        ));
+    };
+
     // 댓글 작성 핸들러
     const handleAddComment = () => {
         const token = localStorage.getItem("accessToken");
@@ -313,26 +324,6 @@ function NoticeDetailsPage() {
                     <ul className="comments-list">
                         {comments.map((comment) => (
                             <li key={comment.commentId} className="comment-item">
-                    {/*            {editingCommentId === comment.commentId ? (*/}
-                    {/*                <div>*/}
-                    {/*<textarea*/}
-                    {/*    className="form-control"*/}
-                    {/*    value={editingContent}*/}
-                    {/*    onChange={(e) => setEditingContent(e.target.value)}*/}
-                    {/*/>*/}
-                    {/*                    <button*/}
-                    {/*                        className="btn btn-success btn-sm"*/}
-                    {/*                        onClick={() => handleUpdateComment(comment.commentId)}*/}
-                    {/*                    >*/}
-                    {/*                        저장*/}
-                    {/*                    </button>*/}
-                    {/*                    <button*/}
-                    {/*                        className="btn btn-secondary btn-sm"*/}
-                    {/*                        onClick={() => setEditingCommentId(null)}*/}
-                    {/*                    >*/}
-                    {/*                        취소*/}
-                    {/*                    </button>*/}
-                    {/*                </div>*/}
                                 {editingCommentId === comment.commentId ? (
                                     <div className="edit-comment-container">
                                         <textarea
@@ -358,7 +349,7 @@ function NoticeDetailsPage() {
                                     </div>
                                 ) : (
                                     <div className="comment-content-container">
-                                        <p>{comment.content}</p>
+                                        <p>{formatCommentText(comment.content)}</p>
                                         <span className="comment-meta">
                                             작성자: {comment.nickname} | 작성일: {comment.createdAt}
                                         </span>
