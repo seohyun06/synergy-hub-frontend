@@ -264,9 +264,9 @@ const TeamCard = ({ id, name, members = [], comments = 0 }) => {
                             ✉️
                         </button>
                     </div>
-                    <div className="team-comments">
-                        <span className="comments-icon">💬</span> {comments}
-                    </div>
+                    {/*<div className="team-comments">*/}
+                    {/*    <span className="comments-icon">💬</span> {comments}*/}
+                    {/*</div>*/}
                 </div>
             </div>
 
