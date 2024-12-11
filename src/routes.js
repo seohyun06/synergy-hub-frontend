@@ -7,7 +7,7 @@ import LoginPage from "./page/member/loginPage";
 import SignUpPage from "./page/member/signUpPage";
 import Header from './global/Header/Header';
 import Sidebar from './global/Sidebar/Sidebar';
-import ChatRoom from "./page/chat/ChatRoom";
+import ChatRoom from "./page/chat/ChatRoom4";
 import MyCalendar from "./global/myCalendar/MyCalendar";
 import TeamCalendar from "./page/calendar/TeamCalendar";
 import CreateNoticePage from "./page/notice/CreateNoticePage";
@@ -25,7 +25,7 @@ export const ROUTES = {
     TEAM_MAIN: '/team/main',
     TEAM_VIEW: '/team/view',
     CALENDAR: '/calendar',
-    CHAT_ROOM: '/chat/:chatRoomId',
+    CHAT_ROOM: '/chat/',
     NOTICES: '/notices',
     NOTICE_CREATE: '/notice',
     NOTICE_DETAILS: '/notice/details',
@@ -54,6 +54,18 @@ const HeaderLayout = ({ children }) => (
     </div>
 );
 
+//스크롤 안되게 
+const ChatLayout = ({ children }) => (
+    <div className="app">
+        <Header />
+        <div className="app-body">
+            <Sidebar />
+            <div className="main-chat">{children}</div>
+        </div>
+    </div>
+);
+
+
 // 라우터 정의
 const router = createBrowserRouter([
     // 메인 페이지
@@ -71,7 +83,7 @@ const router = createBrowserRouter([
     { path: ROUTES.CALENDAR, element: <Layout><TeamCalendar /></Layout> },
 
     // 채팅방 관련 경로
-    { path: ROUTES.CHAT_ROOM, element: <Layout><ChatRoom /></Layout> },
+    { path: ROUTES.CHAT_ROOM, element: <ChatLayout><ChatRoom /></ChatLayout> },
 
     // 공지사항 관련 경로
     { path: ROUTES.NOTICES, element: <Layout><NoticePage /></Layout> },

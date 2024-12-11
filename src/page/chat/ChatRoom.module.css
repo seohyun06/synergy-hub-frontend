@@ -1,0 +1,121 @@
+/* 전체 컨테이너 스타일 */
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background-color: #f5f5f5; /* 배경 색상 */
+  }
+  
+  /* 상단 네비게이션 바 스타일 */
+  .topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #ffffff; /* 배경 색상 */
+    padding: 10px 20px; /* 내부 여백 */
+    border-bottom: 1px solid #e0e0e0; /* 하단 테두리 */
+  }
+  
+  /* 채팅 목록 영역 스타일 */
+  .chatbox {
+    flex: 1;
+    padding: 10px; /* 내부 여백 */
+    overflow-y: auto; /* 세로 스크롤 허용 */
+    background-color: #fafafa; /* 배경 색상 */
+  }
+  
+  /* 메시지 입력 영역 스타일 */
+  .sendzone {
+    display: flex;
+    align-items: center;
+    background-color: #ffffff; /* 배경 색상 */
+    border-top: 1px solid #e0e0e0; /* 상단 테두리 */
+    padding: 10px; /* 내부 여백 */
+  }
+  
+  /* 입력창 스타일 */
+  .inputbar {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    background-color: #f0f0f0; /* 입력창 배경 색상 */
+    border-radius: 20px; /* 모서리 둥글게 */
+    padding: 5px 10px; /* 내부 여백 */
+    margin-left: 10px; /* 좌측 여백 */
+  }
+  
+  .input {
+    flex: 1;
+    border: none; /* 테두리 제거 */
+    background: transparent; /* 배경 투명 */
+    outline: none; /* 포커스 효과 제거 */
+    padding: 5px; /* 내부 여백 */
+    font-size: 14px; /* 글자 크기 */
+  }
+  
+  /* 전송 버튼 스타일 */
+  .sendbtn {
+    color: #007bff; /* 버튼 색상 */
+    cursor: pointer; /* 커서 모양 변경 */
+  }
+  
+  /* 카메라 아이콘 스타일 */
+  .cameraicon {
+    color: #999999; /* 아이콘 색상 */
+    cursor: pointer; /* 커서 모양 변경 */
+  }
+  
+  /* 상대방 메시지 스타일 */
+  .otherchat {
+    display: flex;
+    align-items: flex-end;
+    margin-bottom: 10px; /* 아래 여백 */
+  }
+  
+  /* 상대방 프로필 이미지 스타일 */
+  .otherimg img {
+    width: 40px; /* 이미지 너비 */
+    height: 40px; /* 이미지 높이 */
+    border-radius: 50%; /* 원형 이미지 */
+    margin-right: 10px; /* 오른쪽 여백 */
+  }
+  
+  /* 상대방 메시지 내용 스타일 */
+  .othermsg {
+    background-color: #e1f5fe; /* 메시지 배경 색상 */
+    padding: 10px; /* 내부 여백 */
+    border-radius: 10px; /* 모서리 둥글게 */
+    max-width: 60%; /* 최대 너비 */
+    word-wrap: break-word; /* 단어 줄바꿈 */
+  }
+  
+  /* 상대방 메시지 날짜 스타일 */
+  .otherdate {
+    font-size: 12px; /* 글자 크기 */
+    color: #999; /* 글자 색상 */
+    margin-left: 10px; /* 왼쪽 여백 */
+  }
+  
+  /* 내 메시지 스타일 */
+  .mychat {
+    display: flex;
+    justify-content: flex-end; /* 메시지를 오른쪽으로 정렬 */
+    margin-bottom: 10px; /* 아래 여백 */
+  }
+  
+  /* 내 메시지 내용 스타일 */
+  .mymsg {
+    background-color: #d1e7dd; /* 메시지 배경 색상 */
+    padding: 10px; /* 내부 여백 */
+    border-radius: 10px; /* 모서리 둥글게 */
+    max-width: 60%; /* 최대 너비 */
+    word-wrap: break-word; /* 단어 줄바꿈 */
+  }
+  
+  /* 내 메시지 날짜 스타일 */
+  .mydate {
+    font-size: 12px; /* 글자 크기 */
+    color: #999; /* 글자 색상 */
+    margin-left: 10px; /* 왼쪽 여백 */
+  }
+  
