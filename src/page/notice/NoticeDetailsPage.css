@@ -49,15 +49,25 @@
   cursor: pointer;
 
 }
-
+/*수정버튼*/
 .notice-actions-inline .btn-primary {
-  background-color: #7E57C2 ;
-  color: white;
-}
-
-.notice-actions-inline .btn-danger {
   background-color: #7E57C2;
   color: white;
+  transition: background-color 0.3s ease;
+}
+
+.notice-actions-inline .btn-primary:active {
+  background-color: #512DA8; /* 찐한 보라색 (클릭 시) */
+}
+/*삭제버튼*/
+.notice-actions-inline .btn-danger {
+  background-color: #7E57C2; /* 보라색 */
+  color: white;
+  transition: background-color 0.3s ease;
+}
+
+.notice-actions-inline .btn-danger:active {
+  background-color: #512DA8; /* 찐한 보라색 (클릭 시) */
 }
 
 
@@ -72,8 +82,6 @@
   margin-top: 20px;
   width: 100%; /* 내용이 가능한 모든 공간을 차지하도록 */
 }
-
-
 
 
 
@@ -154,9 +162,6 @@
 }
 
 
-
-
-
 .comment-form {
   display: flex;
   align-items: center; /* 수직 정렬 */
@@ -199,10 +204,6 @@
   background-color: #512DA8; /* 클릭했을 때 색상 */
   transform: scale(0.98); /* 살짝 축소 효과 */
 }
-
-
-
-
 
 
 /* 수정 상태 컨테이너 */

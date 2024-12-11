@@ -117,11 +117,11 @@ function CreateNoticePage() {
                 <Form onSubmit={handleSubmit}>
                   <Form.Group className="mb-3">
                     <Form.Control
-                        type="text"
-                        placeholder="제목을 입력하세요"
-                        className="p-3 border-2"
-                        value={title}
-                        onChange={(e) => setTitle(e.target.value)}
+                      type="text"
+                      placeholder="제목을 입력하세요"
+                      className="p-3 border-2 bold-text"
+                      value={title}
+                      onChange={(e) => setTitle(e.target.value)}
                     />
                   </Form.Group>
 
