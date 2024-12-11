@@ -10,39 +10,36 @@ const MyCalendar = () => {
   const [allEvents, setAllEvents] = useState([]); // 모든 이벤트 데이터
   const [dailyEvents, setDailyEvents] = useState([]); // 선택된 날짜의 이벤트
 
+  // 이벤트 데이터를 가져오는 함수
+  const fetchEvents = async () => {
+    try {
+      const apiUrl = `http://localhost:8080/calendar/my-events`;
+      const response = await axios.get(apiUrl, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`, // JWT 인증 토큰
+        },
+      });
+
+      console.log("가져온 이벤트 데이터:", response.data);
+      setAllEvents(response.data); // 가져온 이벤트 데이터 설정
+    } catch (error) {
+      console.error("이벤트를 가져오는 중 오류 발생:", error);
+      alert("일정을 가져오는 데 실패했습니다. 다시 시도해주세요.");
+    }
+  };
+
   // 초기 이벤트 데이터 가져오기
   useEffect(() => {
-    const fetchEvents = async () => {
-      try {
-        const apiUrl = `http://localhost:8080/calendar/my-events`;
-        const response = await axios.get(apiUrl, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("accessToken")}`, // JWT 인증 토큰
-          },
-        });
-
-        console.log("가져온 이벤트 데이터:", response.data);
-        setAllEvents(response.data); // 가져온 이벤트 데이터 설정
-      } catch (error) {
-        console.error("이벤트를 가져오는 중 오류 발생:", error);
-        alert("일정을 가져오는 데 실패했습니다. 다시 시도해주세요.");
-      }
-    };
-
-    fetchEvents(); // API 호출
+    fetchEvents();
   }, []);
 
   // 선택된 날짜의 이벤트 필터링
   useEffect(() => {
     const filteredEvents = allEvents.filter((event) => {
-      // startDate 배열을 Date 객체로 변환하고, moment로 포맷팅
       const startDateObj = new Date(event.startDate[0], event.startDate[1] - 1, event.startDate[2]);
       const eventDate = moment(startDateObj).format('YYYY. MM. DD.');
 
       const selectedFormatted = moment(selectedDate).format('YYYY. MM. DD.');
-
-      console.log("이벤트 날짜:", eventDate);
-      console.log("선택된 날짜:", selectedFormatted);
 
       return eventDate === selectedFormatted; // 날짜가 일치하는 이벤트만 필터링
     });
@@ -50,29 +47,18 @@ const MyCalendar = () => {
     setDailyEvents(filteredEvents); // 필터링된 데이터 설정
   }, [selectedDate, allEvents]);
 
+  // 캘린더 타일에 표시할 내용 렌더링
   const renderTileContent = ({ date }) => {
     const dateString = moment(date).format('YYYY. MM. DD.');
-
-    // 해당 날짜에 도트를 표시할 이벤트를 찾기
-    const event = allEvents.find((event) => {
-      // startDate 배열을 Date 객체로 변환
+    const hasEvent = allEvents.some((event) => {
       const startDateObj = new Date(event.startDate[0], event.startDate[1] - 1, event.startDate[2], event.startDate[3], event.startDate[4]);
-      const endDateObj = new Date(event.endDate[0], event.endDate[1] - 1, event.endDate[2], event.endDate[3], event.endDate[4]);
-
-      // 이벤트가 해당 날짜 범위 내에 있는지 확인
-      const eventStartDate = moment(startDateObj).format('YYYY. MM. DD.');
-      const eventEndDate = moment(endDateObj).format('YYYY. MM. DD.');
-
-      return moment(date).isBetween(eventStartDate, eventEndDate, 'day', '[]'); // 날짜 범위 내에 포함되는지 확인
+      return moment(startDateObj).format('YYYY. MM. DD.') === dateString;
     });
 
-    if (event) {
+    if (hasEvent) {
       return (
         <div className="event-dots">
-          <div
-            className="event-dot"
-            style={{ backgroundColor: event.color || "blue" }}  // color 값에 따라 색상 설정
-          ></div>
+          <div className="event-dot" style={{ backgroundColor: "blue" }}></div>
         </div>
       );
     }
@@ -80,6 +66,22 @@ const MyCalendar = () => {
     return null; // 이벤트가 없는 경우 표시하지 않음
   };
 
+  // MyCalendar에서 새로고침 메시지 수신
+  useEffect(() => {
+    const handleMessage = (event) => {
+      if (event.data.action === 'refreshCalendar') {
+        console.log('캘린더 새로고침 메시지 수신');
+        fetchEvents(); // 새로 이벤트 데이터를 가져옵니다.
+      }
+    };
+
+    window.addEventListener('message', handleMessage);
+
+    // 컴포넌트가 언마운트될 때 이벤트 리스너를 정리
+    return () => {
+      window.removeEventListener('message', handleMessage);
+    };
+  }, []);
 
   return (
     <div className="my-calendar">
@@ -100,7 +102,6 @@ const MyCalendar = () => {
         </h3>
         {dailyEvents.length > 0 ? (
           dailyEvents.map((event) => {
-            // startDate 배열을 Date 객체로 변환
             const startDateObj = new Date(event.startDate[0], event.startDate[1] - 1, event.startDate[2], event.startDate[3], event.startDate[4]);
             const endDateObj = new Date(event.endDate[0], event.endDate[1] - 1, event.endDate[2], event.endDate[3], event.endDate[4]);
 
