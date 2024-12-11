@@ -75,7 +75,7 @@ const TeamCard = ({ id, name, members = [], comments = 0 }) => {
         try {
             const token = localStorage.getItem("accessToken");
             if (!token) {
-                alert("인증 정보가 없습니다. 다시 로그인해주세요.");
+                // alert("인증 정보가 없습니다. 다시 로그인해주세요.");
                 return;
             }
 
@@ -98,7 +98,7 @@ const TeamCard = ({ id, name, members = [], comments = 0 }) => {
 
     useEffect(() => {
         fetchMemberCount(); // 컴포넌트가 렌더링될 때 멤버 수 가져오기
-    }, [id]); // id가 변경될 때도 다시 호출
+    }, [id,fetchMemberCount]); // id가 변경될 때도 다시 호출
 
     // 라벨 데이터 가져오기
     useEffect(() => {
@@ -264,9 +264,9 @@ const TeamCard = ({ id, name, members = [], comments = 0 }) => {
                             ✉️
                         </button>
                     </div>
-                    <div className="team-comments">
-                        <span className="comments-icon">💬</span> {comments}
-                    </div>
+                    {/*<div className="team-comments">*/}
+                    {/*    <span className="comments-icon">💬</span> {comments}*/}
+                    {/*</div>*/}
                 </div>
             </div>
 

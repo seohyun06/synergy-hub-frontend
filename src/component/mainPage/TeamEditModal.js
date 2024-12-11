@@ -10,7 +10,7 @@ const TeamEditModal = ({ team, onClose, onSave }) => {
     const [selectedColor, setSelectedColor] = useState("#FF5733");
 
     // 색상 선택 옵션 (5가지 색상)
-    const colorOptions = ["#FF5733", "#33FF57", "#337BFF", "#FFD433", "#8C33FF"];
+    const colorOptions = ["#D6C1E6", "#FADADD", "#F7A9B7", "#B3E5FC", "#A2D2FF"];
 
     const handleTeamNameChange = (e) => {
         setTeamName(e.target.value);
@@ -60,29 +60,71 @@ const TeamEditModal = ({ team, onClose, onSave }) => {
         }
     };
 
+    // const handleSave = async () => {
+    //     try {
+    //         // 1. 팀 이름 수정
+    //         await axios.put(`/teams/${team.id}`, {
+    //             name: teamName,
+    //         });
+    //
+    //         // 라벨 ID 리스트 생성 (라벨이 없는 경우에도 빈 배열 전달)
+    //         const labelIds = Array.isArray(labels) && labels.length > 0
+    //             ? labels.map((label) => label.id)
+    //             : []; // labels가 null, undefined, 비정상적인 값이면 빈 배열로 대체
+    //
+    //         // 2. 라벨 매핑 요청 (빈 배열도 처리 가능하도록 요청)
+    //         await apiClient.post(`/teams/${team.id}/labels`, { labelIds });
+    //
+    //         // 성공 처리
+    //         alert("수정이 완료되었습니다!");
+    //         onSave({ id: team.id, name: teamName, labels });
+    //         window.location.reload();
+    //     } catch (error) {
+    //         console.error("수정 실패:", error);
+    //
+    //         // 오류 처리: 라벨이 없어도 요청이 성공해야 하므로 구체적인 백엔드 오류 메시지 확인
+    //         if (error.response && error.response.status === 400) {
+    //             alert("라벨 매핑 중 잘못된 요청이 발생했습니다.");
+    //         } else {
+    //             alert("수정 중 알 수 없는 오류가 발생했습니다.");
+    //         }
+    //         window.location.reload();
+    //     }
+    // };
+
     const handleSave = async () => {
         try {
-            // 1. 팀 이름 수정
+            // 1. 팀 이름 수정 (항상 실행)
             await axios.put(`/teams/${team.id}`, {
                 name: teamName,
             });
 
             // 라벨 ID 리스트 생성 (라벨이 없는 경우에도 빈 배열 전달)
-            const labelIds = Array.isArray(labels) && labels.length > 0
+            const labelIds = Array.isArray(labels) && labels?.length > 0
                 ? labels.map((label) => label.id)
                 : []; // labels가 null, undefined, 비정상적인 값이면 빈 배열로 대체
 
-            // 2. 라벨 매핑 요청 (빈 배열도 처리 가능하도록 요청)
-            await apiClient.post(`/teams/${team.id}/labels`, { labelIds });
+            // 2. 라벨 매핑 요청
+            try {
+                // 라벨 ID가 없는 경우에도 빈 배열로 요청을 보냄
+                await apiClient.post(`/teams/${team.id}/labels`, { labelIds });
+                console.log("라벨 매핑 완료");
+            } catch (error) {
+                if (error.response && error.response.status === 404) {
+                    console.warn("404 오류 발생: 라벨 매핑 경로를 찾을 수 없습니다. 요청을 건너뜁니다.");
+                } else {
+                    throw error; // 다른 오류는 다시 던짐
+                }
+            }
 
             // 성공 처리
             alert("수정이 완료되었습니다!");
-            onSave({ id: team.id, name: teamName, labels });
+            onSave({ id: team.id, name: teamName, labels: labels || [] }); // labels가 null일 경우 빈 배열 전달
             window.location.reload();
         } catch (error) {
             console.error("수정 실패:", error);
 
-            // 오류 처리: 라벨이 없어도 요청이 성공해야 하므로 구체적인 백엔드 오류 메시지 확인
+            // 최종 오류 처리
             if (error.response && error.response.status === 400) {
                 alert("라벨 매핑 중 잘못된 요청이 발생했습니다.");
             } else {
@@ -91,6 +133,55 @@ const TeamEditModal = ({ team, onClose, onSave }) => {
             window.location.reload();
         }
     };
+
+    // const handleSave = async () => {
+    //     try {
+    //         // 1. 팀 이름 수정
+    //         await axios.put(`/teams/${team.id}`, {
+    //             name: teamName,
+    //         });
+    //
+    //         // 라벨 ID 리스트 생성 (라벨이 없는 경우 null이나 빈 배열 처리)
+    //         const labelIds = Array.isArray(labels) && labels.length > 0
+    //             ? labels.map((label) => label.id)
+    //             : null; // labels가 null, undefined, 비정상적인 값이면 null로 설정
+    //
+    //         if (labelIds) {
+    //             // 2-1. 라벨이 있는 경우 라벨 매핑 요청
+    //             await apiClient.post(`/teams/${team.id}/labels`, { labelIds });
+    //             console.log("라벨 매핑 완료");
+    //         } else {
+    //             // 2-2. 라벨이 없는 경우 팀 이름만 처리
+    //             const headers = {
+    //                 Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+    //             };
+    //
+    //             await apiClient.post(
+    //                 "/teams",
+    //                 { name: teamName }, // 팀 이름만 포함
+    //                 { headers }
+    //             );
+    //             console.log("라벨 없이 팀 정보 처리 완료");
+    //         }
+    //
+    //         // 성공 처리
+    //         alert("수정이 완료되었습니다!");
+    //         onSave({ id: team.id, name: teamName, labels });
+    //         window.location.reload();
+    //     } catch (error) {
+    //         console.error("수정 실패:", error);
+    //
+    //         // 오류 처리: 라벨이 없어도 요청이 성공해야 하므로 구체적인 백엔드 오류 메시지 확인
+    //         if (error.response && error.response.status === 400) {
+    //             alert("라벨 매핑 중 잘못된 요청이 발생했습니다.");
+    //         } else {
+    //             alert("수정 중 알 수 없는 오류가 발생했습니다.");
+    //         }
+    //         window.location.reload();
+    //     }
+    // };
+
+
 
 
 
@@ -153,7 +244,7 @@ const TeamEditModal = ({ team, onClose, onSave }) => {
 
                 {/* 모달 버튼 */}
                 <div className="modal-buttons">
-                    <button className="cancel-button" onClick={onClose}>
+                    <button className="TeamEdit-cancel-button" onClick={onClose}>
                         뒤로가기
                     </button>
                     <button className="save-button" onClick={handleSave}>

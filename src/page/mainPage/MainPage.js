@@ -16,6 +16,7 @@ const MainPage = () => {
     const [labels, setLabels] = useState([]);
 
     const { setIsLoggedIn, setUser } = useAuth();
+    const { updateAuthState } = useAuth();
 
     useEffect(() => {
         const fetchMemberInfo = async () => {
@@ -64,12 +65,16 @@ const MainPage = () => {
                     console.log("API 응답:", apiResponse);
 
                     const memberData = apiResponse.payload;
-                    setUser({
-                        email: memberData.email,
-                        nickname: memberData.nickname,
-                        profileImageUrl: memberData.profileImageUrl,
-                    });
-                    setIsLoggedIn(true);
+
+                    updateAuthState(
+                        {
+                            userId: memberData.id,
+                            email: memberData.email,
+                            nickname: memberData.nickname,
+                            profileImageUrl: memberData.profileImageUrl,
+                        },
+                        true
+                    );
                 } else {
                     console.error("회원정보 요청 오류:", response.status);
                 }
@@ -93,9 +98,15 @@ const MainPage = () => {
         setLabels([...labels, label]);
     };
 
-    const handleDeleteLabel = (labelId) => {
-        const updatedLabels = labels.filter((label) => label.id !== labelId);
-        setLabels(updatedLabels);
+    // 라벨 삭제
+    const handleDeleteLabel = async (labelId) => {
+        try {
+            await axios.delete(`http://localhost:8080/api/labels/${labelId}`);
+            setLabels(labels.filter((label) => label.id !== labelId));
+        } catch (error) {
+            console.error("라벨 삭제 실패:", error);
+            alert("라벨 삭제 중 오류가 발생했습니다.");
+        }
     };
 
     const handleCreateTeam = async () => {

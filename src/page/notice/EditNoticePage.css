@@ -1,4 +1,13 @@
 /* EditNoticePage.css */
+.notice-header {
+    margin-bottom: 35px;
+    margin-left: 25px; /* 왼쪽 마진 추가 */
+    margin-top: 35px;    /* 천장에서 50px 떨어지게 함 */
+  }
+ .bold-text {
+   font-weight: bold;
+ }
+
 .edit-notice-container {
   max-width: 800px;
   margin: 0 auto;
@@ -21,6 +30,7 @@
   border: 1px solid #ddd;
   border-radius: 4px;
   font-size: 1rem;
+
 }
 
 .edit-notice-container button {
@@ -45,3 +55,45 @@
 .edit-notice-container .cancel-btn:hover {
   background-color: #c82333;
 }
+/* 이미지 삭제 버튼 스타일 */
+.image-delete-button {
+  background-color: #7E57C2; /* 보라색 배경색 */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.image-delete-button:hover {
+  background-color: #512DA8; /* 마우스 올렸을 때 어두운 보라색 */
+  transform: scale(1.05); /* 약간 커지는 효과 */
+}
+
+.image-delete-button:active {
+  background-color: #512DA8; /* 클릭 시 배경색 */
+  transform: scale(0.98); /* 클릭 시 약간 작아짐 */
+}
+
+/* 이미지 추가 버튼 스타일 */
+.image-upload-button {
+  background-color: #7E57C2; /* 보라색 배경색 */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.image-upload-button:hover {
+  background-color: #512DA8; /* 마우스 올렸을 때 어두운 보라색 */
+  transform: scale(1.05); /* 약간 커지는 효과 */
+}
+
+.image-upload-button:active {
+  background-color: #512DA8; /* 클릭 시 배경색 */
+  transform: scale(0.98); /* 클릭 시 약간 작아짐 */
+}
+

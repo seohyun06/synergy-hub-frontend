@@ -1,4 +1,3 @@
-// src/routes.js
 import React from "react";
 import { createBrowserRouter } from "react-router-dom";
 import MainPage from "./page/mainPage/MainPage";
@@ -15,7 +14,8 @@ import NoticePage from "./page/notice/NoticePage";
 import NoticeDetailsPage from "./page/notice/NoticeDetailsPage";
 import EditNoticePage from "./page/notice/EditNoticePage";
 import OAuth2Redirect from "./page/member/Oauth2Redirect";
-import Comment from "./page/notice/Comment"
+import Comment from "./page/notice/Comment";
+import { PreventLoggedInAccess } from "./ProtectedRoute";
 
 // 라우트 상수 정의
 export const ROUTES = {
@@ -34,7 +34,6 @@ export const ROUTES = {
     COMMENTS: '/comments/:noticeId',
     MY_CALENDAR: '/my-calendar'
 };
-
 
 // 공통 레이아웃 정의
 const Layout = ({ children }) => (
@@ -55,17 +54,17 @@ const HeaderLayout = ({ children }) => (
     </div>
 );
 
-//스크롤 안되게 
+// 스크롤 안되게 설정
 const ChatLayout = ({ children }) => (
     <div className="app">
         <Header />
         <div className="app-body">
             <Sidebar />
             <div className="main-chat">{children}</div>
+            <MyCalendar />
         </div>
     </div>
 );
-
 
 // 라우터 정의
 const router = createBrowserRouter([
@@ -73,12 +72,26 @@ const router = createBrowserRouter([
     { path: ROUTES.HOME, element: <HeaderLayout><MainPage /></HeaderLayout> },
 
     // 로그인 및 회원가입
-    { path: ROUTES.LOGIN, element: <LoginPage /> },
-    { path: ROUTES.SIGNUP, element: <SignUpPage /> },
+    {
+        path: ROUTES.LOGIN,
+        element: (
+            <PreventLoggedInAccess>
+                <LoginPage />
+            </PreventLoggedInAccess>
+        ),
+    },
+    {
+        path: ROUTES.SIGNUP,
+        element: (
+            <PreventLoggedInAccess>
+                <SignUpPage />
+            </PreventLoggedInAccess>
+        ),
+    },
 
     // 팀 관련 경로
     { path: ROUTES.TEAM_MAIN, element: <Layout><MainPage /></Layout> },
-    { path: ROUTES.TEAM_VIEW, element: <Layout><TeamPage /></Layout> }, // 동적 경로 추가
+    { path: ROUTES.TEAM_VIEW, element: <Layout><TeamPage /></Layout> },
 
     // 캘린더 관련 경로
     { path: ROUTES.CALENDAR, element: <Layout><TeamCalendar /></Layout> },
@@ -100,6 +113,5 @@ const router = createBrowserRouter([
 
     {path: ROUTES.MY_CALENDAR, element: <Layout><MyCalendar /></Layout>,},
 ]);
-
 
 export default router;

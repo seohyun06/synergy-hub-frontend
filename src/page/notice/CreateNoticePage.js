@@ -107,52 +107,51 @@ function CreateNoticePage() {
   return (
       <div className="create-notice-page">
         <div className="notice-header">
-          <h1 className="fw-bold">공지사항</h1>
+          <h1 className="h1">공지사항</h1>
         </div>
 
-        <Container fluid>
-          <Row>
-            <Col xs={9}>
-              <Card className="p-4">
-                <Form onSubmit={handleSubmit}>
-                  <Form.Group className="mb-3">
-                    <Form.Control
-                        type="text"
-                        placeholder="글 제목을 입력하세요"
-                        className="p-3 border-2"
-                        value={title}
-                        onChange={(e) => setTitle(e.target.value)}
-                    />
-                  </Form.Group>
+      <Container fluid>
+        <Row>
+          <Col xs={9}>
+            <Card className="p-4">
+              <Form onSubmit={handleSubmit}>
+                <Form.Group className="mb-3">
+                  <Form.Control
+                    type="text"
+                    placeholder="제목을 입력하세요"
+                    className="p-3 border-2 bold-text"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                  />
+                </Form.Group>
 
-                  <Form.Group className="mb-3">
-                    <Form.Control
-                        as="textarea"
-                        rows={6}
-                        placeholder="내용을 입력하세요"
-                        className="p-3 border-2"
-                        value={content}
-                        onChange={(e) => setContent(e.target.value)}
-                    />
-                  </Form.Group>
+                <Form.Group className="mb-3">
+                  <Form.Control
+                    as="textarea"
+                    rows={6}
+                    placeholder="내용을 입력하세요"
+                    className="p-3 border-2"
+                    value={content}
+                    onChange={(e) => setContent(e.target.value)}
+                  />
+                </Form.Group>
 
-                  <Form.Group className="mb-3">
-                    <Form.Control
-                        type="file"
-                        className="p-3 border-2"
-                        onChange={(e) => setImageFile(e.target.files[0])}
-                    />
-                  </Form.Group>
-
-                  <Button variant="dark" className="float-end px-4" type="submit">
-                    등록
-                  </Button>
-                </Form>
-              </Card>
-            </Col>
-          </Row>
-        </Container>
-      </div>
+                <Form.Group className="mb-3">
+                  <Form.Control
+                    type="file"
+                    className="p-3 border-2"
+                    onChange={(e) => setImageFile(e.target.files[0])}
+                  />
+                </Form.Group>
+                <Button variant="dark" className="submit-button float-end px-4" type="submit">
+                  등록
+                </Button>
+              </Form>
+            </Card>
+          </Col>
+        </Row>
+      </Container>
+    </div>
   );
 }
 

@@ -12,6 +12,7 @@ function NoticeDetailsPage() {
     const [editingContent, setEditingContent] = useState(""); // 수정 중인 댓글 내용
     const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
+    const [showPostDropdown, setShowPostDropdown] = useState(false); // 게시물 드롭다운 상태 관리
 
     // 쿼리스트링에서 team과 notice 값 추출
     const queryParams = new URLSearchParams(location.search);
@@ -67,6 +68,17 @@ function NoticeDetailsPage() {
                 });
         }
     }, [noticeId]);
+
+    // 댓글 내용에서 줄바꿈 처리 함수
+    const formatCommentText = (text) => {
+        if (!text) return text;
+        return text.split("\n").map((line, index) => (
+            <React.Fragment key={index}>
+                {line}
+                <br />
+            </React.Fragment>
+        ));
+    };
 
     // 댓글 작성 핸들러
     const handleAddComment = () => {
@@ -234,6 +246,36 @@ function NoticeDetailsPage() {
             });
     };
 
+    // 게시물 드롭다운 토글 함수
+    const togglePostDropdown = () => {
+        setShowPostDropdown(!showPostDropdown);
+    };
+
+    // 게시물 드롭다운 외부 클릭 시 닫기
+    useEffect(() => {
+        const handleOutsideClick = (event) => {
+            if (!event.target.closest(".post-dropdown")) {
+                setShowPostDropdown(false);
+            }
+        };
+
+        document.addEventListener("click", handleOutsideClick);
+        return () => {
+            document.removeEventListener("click", handleOutsideClick);
+        };
+    }, []);
+
+    const toggleDropdown = (commentId) => {
+        setComments((prevComments) =>
+            prevComments.map((comment) =>
+                comment.commentId === commentId
+                    ? { ...comment, showDropdown: !comment.showDropdown }
+                    : { ...comment, showDropdown: false } // 다른 드롭다운은 닫음
+            )
+        );
+    };
+
+
     if (isLoading) {
         return <div>공지사항 데이터를 불러오는 중...</div>;
     }
@@ -250,8 +292,22 @@ function NoticeDetailsPage() {
                     <div className="notice-meta">
                         <span className="notice-author">작성자: {notice.memberNickname}</span>
                         <span className="notice-date">작성일: {notice.createdAt}</span>
+                        <div className="notice-actions-inline">
+                            <button
+                                className="btn btn-primary"
+                                onClick={() =>
+                                    navigate(`/notice/edit?team=${teamId}&notice=${noticeId}`)
+                                }
+                            >
+                                수정
+                            </button>
+                            <button className="btn btn-danger" onClick={handleDelete}>
+                                삭제
+                            </button>
+                        </div>
                     </div>
-                    <hr />
+
+                    <hr/>
                     {notice.imageUrl && (
                         <div className="notice-image">
                             <img
@@ -262,66 +318,65 @@ function NoticeDetailsPage() {
                         </div>
                     )}
                     <div className="notice-content">{notice.content}</div>
-                    <div className="notice-actions">
-                        <button
-                            className="btn btn-primary"
-                            onClick={() =>
-                                navigate(`/notice/edit?team=${teamId}&notice=${noticeId}`)
-                            }
-                        >
-                            수정
-                        </button>
-                        <button className="btn btn-danger" onClick={handleDelete}>
-                            삭제
-                        </button>
-                    </div>
                 </div>
-                <hr />
+                <hr/>
                 <div className="comments-section">
-                    <h2>댓글</h2>
                     <ul className="comments-list">
                         {comments.map((comment) => (
                             <li key={comment.commentId} className="comment-item">
                                 {editingCommentId === comment.commentId ? (
-                                    <div>
+                                    <div className="edit-comment-container">
                                         <textarea
-                                            className="form-control"
+                                            className="form-control edit-comment-textarea"
                                             value={editingContent}
                                             onChange={(e) => setEditingContent(e.target.value)}
+                                            placeholder="수정할 내용을 입력하세요."
                                         />
-                                        <button
-                                            className="btn btn-success btn-sm"
-                                            onClick={() => handleUpdateComment(comment.commentId)}
-                                        >
-                                            저장
-                                        </button>
-                                        <button
-                                            className="btn btn-secondary btn-sm"
-                                            onClick={() => setEditingCommentId(null)}
-                                        >
-                                            취소
-                                        </button>
+                                        <div className="edit-buttons-container">
+                                            <button
+                                                className="btn btn-success save-button"
+                                                onClick={() => handleUpdateComment(comment.commentId)}
+                                            >
+                                                수정
+                                            </button>
+                                            <button
+                                                className="btn btn-secondary cancel-button"
+                                                onClick={() => setEditingCommentId(null)}
+                                            >
+                                                취소
+                                            </button>
+                                        </div>
                                     </div>
                                 ) : (
-                                    <div>
-                                        <p>{comment.content}</p>
+                                    <div className="comment-content-container">
+                                        <p>{formatCommentText(comment.content)}</p>
                                         <span className="comment-meta">
-                                            작성자: {comment.memberId} | 작성일: {comment.createdAt}
+                                            작성자: {comment.nickname} | 작성일: {comment.createdAt}
                                         </span>
-                                        <button
-                                            className="btn btn-primary btn-sm"
-                                            onClick={() =>
-                                                handleEditComment(comment.commentId, comment.content)
-                                            }
-                                        >
-                                            수정
-                                        </button>
-                                        <button
-                                            className="btn btn-danger btn-sm"
-                                            onClick={() => handleDeleteComment(comment.commentId)}
-                                        >
-                                            삭제
-                                        </button>
+
+                                        {/* 드롭다운 버튼 */}
+                                        <div className="dropdown">
+                                            <button
+                                                className="dropdown-button"
+                                                onClick={() => toggleDropdown(comment.commentId)}
+                                            >
+                                                ⋮
+                                            </button>
+                                            {comment.showDropdown && (
+                                                <div className="dropdown-menu">
+                                                    <button
+                                                        onClick={() => handleEditComment(comment.commentId, comment.content)}
+                                                    >
+                                                        수정
+                                                    </button>
+                                                    <button
+                                                        onClick={() => handleDeleteComment(comment.commentId)}
+                                                    >
+                                                        삭제
+                                                    </button>
+                                                </div>
+                                            )}
+                                        </div>
                                     </div>
                                 )}
                             </li>
@@ -332,10 +387,10 @@ function NoticeDetailsPage() {
                             className="form-control"
                             value={newComment}
                             onChange={(e) => setNewComment(e.target.value)}
-                            placeholder="댓글을 입력하세요..."
+                            placeholder="댓글을 입력하세요."
                         />
                         <button className="btn btn-success" onClick={handleAddComment}>
-                            댓글 작성
+                            등록
                         </button>
                     </div>
                 </div>
