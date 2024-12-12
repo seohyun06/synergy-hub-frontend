@@ -13,8 +13,8 @@ export const AuthProvider = ({ children }) => {
     });
 
     useEffect(() => {
-        const storedUser = localStorage.getItem("user");
-        const loggedIn = localStorage.getItem("isLoggedIn");
+        const storedUser = sessionStorage.getItem("user");
+        const loggedIn = sessionStorage.getItem("isLoggedIn");
 
         if (loggedIn === "true" && storedUser) {
             setUser(JSON.parse(storedUser));
@@ -26,8 +26,8 @@ export const AuthProvider = ({ children }) => {
         setUser(userData);
         setIsLoggedIn(loginState);
 
-        localStorage.setItem("user", JSON.stringify(userData));
-        localStorage.setItem("isLoggedIn", loginState.toString());
+        sessionStorage.setItem("user", JSON.stringify(userData));
+        sessionStorage.setItem("isLoggedIn", loginState.toString());
     };
 
     // 상태 초기화 함수
