@@ -40,7 +40,7 @@ const Header = () => {
         return;
       }
 
-      const response = await fetch("http://localhost:8080/teams/member", {
+      var response = await fetch(`${process.env.REACT_APP_API_URL}/teams/member`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -202,13 +202,17 @@ const Header = () => {
   };
 
   const handleLogout = async () => {
-    try {
-      const response = await fetch(ROUTES.LOGOUT.link, {
-        method: "POST",
-        credentials: "include", // 쿠키 포함
-      });
+    // try {
+    //   const response = await fetch(`${process.env.REACT_APP_API_URL}/logout`, {
+    //     method: "POST",
+    //     credentials: "include", // 쿠키 포함
+    //     headers: {
+    //       Authorization: `Bearer ${localStorage.getItem("accessToken")}`, // 토큰 전달
+    //       "Content-Type": "application/json",
+    //     },
+    //   });
 
-      if (response.ok) {
+      // if (response.ok) {
         console.log("로그아웃 성공");
 
         setIsLoggedIn(false);
@@ -217,13 +221,15 @@ const Header = () => {
         sessionStorage.removeItem("isLoggedIn");
         localStorage.removeItem("accessToken");
 
+        alert("로그아웃 되었습니다.")
+
         navigate("/"); // /login 경로로 이동
-      } else {
-        console.error("로그아웃 실패:", response.status);
-      }
-    } catch (error) {
-      console.error("로그아웃 중 오류 발생:", error);
-    }
+      // } else {
+      //   console.error("로그아웃 실패:", response.status);
+      // }
+    // } catch (error) {
+    //   console.error("로그아웃 중 오류 발생:", error);
+    // }
   };
 
   const handleTitleClick = () => {

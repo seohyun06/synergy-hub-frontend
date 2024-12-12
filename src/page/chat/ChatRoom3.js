@@ -54,7 +54,7 @@ const ChatRoom3 = () => {
     };
     // 기존 채팅 메시지를 서버로부터 가져오는 함수
     const fetchMessages = () => {
-        axios.get("http://localhost:8080/chat/messageList/" + chatRoomId)
+        axios.get(`${process.env.REACT_APP_API_URL}/chat/messageList/` + chatRoomId)
             .then(response => { setMessages(response.data) });
     };
     useEffect(() => {

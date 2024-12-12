@@ -14,7 +14,7 @@
 // //
 // //   // 댓글 불러오기
 // //   useEffect(() => {
-// //     fetch('http://localhost:8080/comments/notice/${noticeId}')
+// //     fetch('${process.env.REACT_APP_API_URL}/comments/notice/${noticeId}')
 // //       .then((response) => response.json())  // 응답을 JSON으로 파싱
 // //       .then((data) => {
 // //         if (Array.isArray(data)) {
@@ -55,7 +55,7 @@
 // //
 // //    const token = localStorage.getItem("accessToken"); // 토큰 가져오기
 // //
-// //    fetch(`http://localhost:8080/comments/notice?team=${user.teamId}&notice=${noticeId}`, {
+// //    fetch(`${process.env.REACT_APP_API_URL}/comments/notice?team=${user.teamId}&notice=${noticeId}`, {
 // //      method: "POST",
 // //      headers: {
 // //        "Content-Type": "application/json",
@@ -79,7 +79,7 @@
 // //   // 댓글 삭제
 // //   const handleDelete = (commentId) => {
 // //     if (window.confirm("정말로 삭제하시겠습니까?")) {
-// //       fetch('http://localhost:8080/comments/${commentId}', {
+// //       fetch('${process.env.REACT_APP_API_URL}/comments/${commentId}', {
 // //         method: "DELETE",
 // //       })
 // //         .then(() => {
@@ -104,7 +104,7 @@
 // //       return;
 // //     }
 // //
-// //     fetch('http://localhost:8080/comments/${commentId}', {
+// //     fetch('${process.env.REACT_APP_API_URL}/comments/${commentId}', {
 // //       method: "PUT",
 // //       headers: {
 // //         "Content-Type": "application/json",
@@ -208,7 +208,7 @@
 //     const [dropdownVisible, setDropdownVisible] = useState({}); // 각 댓글의 드롭다운 상태 관리
 //
 //     useEffect(() => {
-//         fetch(`http://localhost:8080/comments/notice/${noticeId}`)
+//         fetch(`${process.env.REACT_APP_API_URL}/comments/notice/${noticeId}`)
 //             .then((response) => response.json())
 //             .then((data) => {
 //                 if (Array.isArray(data)) {
@@ -232,7 +232,7 @@
 //             noticeId,
 //             content: newComment,
 //         };
-//         fetch(`http://localhost:8080/comments/notice/${noticeId}`, {
+//         fetch(`${process.env.REACT_APP_API_URL}/comments/notice/${noticeId}`, {
 //             method: "POST",
 //             headers: {
 //                 "Content-Type": "application/json",
@@ -251,7 +251,7 @@
 //
 //     const handleDelete = (commentId) => {
 //         if (window.confirm("정말로 삭제하시겠습니까?")) {
-//             fetch(`http://localhost:8080/comments/${commentId}`, {
+//             fetch(`${process.env.REACT_APP_API_URL}/comments/${commentId}`, {
 //                 method: "DELETE",
 //             })
 //                 .then(() => {
@@ -273,7 +273,7 @@
 //             alert("수정할 내용을 입력해주세요.");
 //             return;
 //         }
-//         fetch(`http://localhost:8080/comments/${commentId}`, {
+//         fetch(`${process.env.REACT_APP_API_URL}/comments/${commentId}`, {
 //             method: "PUT",
 //             headers: {
 //                 "Content-Type": "application/json",

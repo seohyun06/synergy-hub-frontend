@@ -39,7 +39,7 @@ const ChatRoomFix = () => {
     const connect = () => {
         try {
             const clientdata = new StompJs.Client({
-                webSocketFactory: () => new SockJS('http://localhost:8080/ws'),
+                webSocketFactory: () => new SockJS(`${process.env.REACT_APP_API_URL}/ws`),
                 connectHeaders: {
                     Authorization: `Bearer ${authToken}`, // 헤더에 인증 토큰 추가
                 },
