@@ -22,7 +22,7 @@ const Header = () => {
 
   // 특정 페이지에서만 팀 드롭다운 숨기기
   const pagesWithoutTeamDropdown = [
-    "/", // 메인 페이지
+    "/team/home", // 메인 페이지
     "/login", // 로그인 페이지
     "/register", // 회원가입 페이지
   ];
