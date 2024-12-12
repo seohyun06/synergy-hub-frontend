@@ -26,3 +26,22 @@ const EventModal = ({ show, onHide, eventDetails, onEdit, onDelete }) => {
 };
 
 export default EventModal;
+
+/*eventContent={(eventInfo) => {
+                    return (
+                        <div style={{ display: 'flex', alignItems: 'center' }}>
+                            {*//* 동그란 색상 표시 *//*}
+                            <span
+                                style={{
+                                    width: '10px',
+                                    height: '10px',
+                                    borderRadius: '50%',
+                                    backgroundColor: eventInfo.event.backgroundColor,
+                                    marginRight: '5px',
+                                }}
+                            />
+                            {*//* 일정 이름만 표시 *//*}
+                            <span>{eventInfo.event.title}</span>
+                        </div>
+                    );
+                }}*/
