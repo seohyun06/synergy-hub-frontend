@@ -153,6 +153,7 @@ const TeamCalendar = () => {
         fetchTeamEvents();
     }, [teamId, teamColor]);
 
+
     // 새 이벤트 추가/수정 요청을 서버에 보내는 함수
     const handleSaveEvent = async () => {
         if (newEvent.title && newEvent.startDate && newEvent.endDate) {
