@@ -25,7 +25,7 @@ const TeamCard = ({ id, name, members = [], comments = 0 }) => {
                 return;
             }
 
-            const response = await fetch(`http://localhost:8080/teams/${id}/invite-code`, {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/teams/${id}/invite-code`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -44,33 +44,6 @@ const TeamCard = ({ id, name, members = [], comments = 0 }) => {
         }
     };
 
-    // // 멤버 수 가져오는 함수
-    // const fetchMemberCount = async () => {
-    //     try {
-    //         const token = localStorage.getItem("accessToken");
-    //         if (!token) {
-    //             alert("인증 정보가 없습니다. 다시 로그인해주세요.");
-    //             return;
-    //         }
-    //
-    //         const response = await fetch(`http://localhost:8080/member-teams/${id}/members`, {
-    //             headers: {
-    //                 Authorization: `Bearer ${token}`,
-    //             },
-    //         });
-    //
-    //         if (!response.ok) {
-    //             throw new Error("Failed to fetch member count");
-    //         }
-    //
-    //         const data = await response.json();
-    //         setMemberCount(data.length);
-    //     } catch (error) {
-    //         console.error("Error fetching member count:", error);
-    //     }
-    // };
-    // 멤버 수 가져오는 함수
-
     const fetchMemberCount = async () => {
         try {
             const token = localStorage.getItem("accessToken");
@@ -79,7 +52,7 @@ const TeamCard = ({ id, name, members = [], comments = 0 }) => {
                 return;
             }
 
-            const response = await fetch(`http://localhost:8080/member-teams/${id}/members`, {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/member-teams/${id}/members`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -102,7 +75,7 @@ const TeamCard = ({ id, name, members = [], comments = 0 }) => {
 
     // 라벨 데이터 가져오기
     useEffect(() => {
-        fetch(`http://localhost:8080/api/labels/team/${id}`)
+        fetch(`${process.env.REACT_APP_API_URL}/api/labels/team/${id}`)
             .then((response) => {
                 if (!response.ok) {
                     throw new Error("Failed to fetch label data");
@@ -125,7 +98,7 @@ const TeamCard = ({ id, name, members = [], comments = 0 }) => {
                 alert("인증 정보가 없습니다. 다시 로그인해주세요.");
                 return;
             }
-            const response = await fetch(`http://localhost:8080/member-teams/${id}/members`, {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/member-teams/${id}/members`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -159,7 +132,7 @@ const TeamCard = ({ id, name, members = [], comments = 0 }) => {
                 return;
             }
 
-            const response = await fetch(`http://localhost:8080/member-teams/${id}/leave`, {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/member-teams/${id}/leave`, {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
