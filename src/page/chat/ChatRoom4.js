@@ -42,7 +42,7 @@ const ChatRoom4 = () => {
 
             onConnect: () => {
 
-                const storedUser = localStorage.getItem("user"); // localStorage에서 "user" 가져오기
+                const storedUser = sessionStorage.getItem("user"); // localStorage에서 "user" 가져오기
                 // if (storedUser) {
                     const user = JSON.parse(storedUser); // JSON 문자열을 JavaScript 객체로 변환
                     const nickname = user.nickname; // nickname 필드 접근
@@ -174,7 +174,7 @@ const ChatRoom4 = () => {
         return `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}T${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}:${String(second).padStart(2, '0')}.${String(milliseconds).padStart(3, '0')}`;
     };
 
-    const storedUser = localStorage.getItem("user"); 
+    const storedUser = sessionStorage.getItem("user"); 
         const user = JSON.parse(storedUser);
         const userEmail = user.email; 
 
