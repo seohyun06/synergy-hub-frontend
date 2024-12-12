@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Card, Form, Button, Container, Row, Col, Image } from "react-bootstrap";
 import { useNavigate, useLocation } from "react-router-dom";
 import "./CreateNoticePage.css";
@@ -9,6 +9,7 @@ function CreateNoticePage() {
   const [imageFile, setImageFile] = useState(null);
   const [imagePreview, setImagePreview] = useState("");
   const [teamId, setTeamId] = useState(null);
+  const fileInputRef = useRef(null); // 파일 input 참조 생성
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -60,8 +61,11 @@ function CreateNoticePage() {
   };
 
   const handleImageRemove = () => {
-    setImageFile(null); // 파일 초기화
-    setImagePreview(""); // 미리 보기 초기화
+    setImageFile(null); // 파일 상태 초기화
+    setImagePreview(""); // 미리보기 초기화
+    if (fileInputRef.current) {
+      fileInputRef.current.value = ""; // 파일 input 값 초기화
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -153,6 +157,7 @@ function CreateNoticePage() {
                     <Form.Control
                         type="file"
                         className="p-3 border-2"
+                        ref={fileInputRef} // input 참조 연결
                         onChange={handleImageChange}
                     />
                   </Form.Group>
