@@ -345,17 +345,18 @@ return (
                                     />
                                     <div className="edit-buttons-container">
                                         <button
-                                            className="btn btn-success save-button"
-                                            onClick={() => handleUpdateComment(comment.commentId)}
+                                          className="edit-save-button"
+                                          onClick={() => handleUpdateComment(comment.commentId)}
                                         >
-                                            수정
+                                          수정
                                         </button>
                                         <button
-                                            className="btn btn-secondary cancel-button"
-                                            onClick={() => setEditingCommentId(null)}
+                                          className="edit-cancel-button"
+                                          onClick={() => setEditingCommentId(null)}
                                         >
-                                            취소
+                                          취소
                                         </button>
+
                                     </div>
                                 </div>
                             ) : (
