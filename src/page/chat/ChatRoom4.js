@@ -98,7 +98,7 @@ const ChatRoom4 = () => {
             try {
                 console.log("채팅 기록 요청");
 
-                const response = await axios.get(`http://localhost:8080/chat/messageHistory/${chatRoomId}`, {
+                const response = await axios.get(`${process.env.REACT_APP_API_URL}/chat/messageHistory/${chatRoomId}`, {
                     headers: {
                         Authorization: `Bearer ${authToken}`, // 헤더에 인증 토큰 추가
                     },
