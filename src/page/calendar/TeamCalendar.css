@@ -10,6 +10,12 @@
 .fc-col-header-cell-cushion {
   color: inherit; /* 색상을 기본 색상으로 설정 */
   text-decoration: none; /* 밑줄 제거 */
+
+}
+
+.fc-toolbar-title {
+    font-size: 32px !important;  /* 제목 크기 */
+    font-weight: bold;           /* 글씨 굵게 */
 }
 
 /* 토요일 파란색 설정 */

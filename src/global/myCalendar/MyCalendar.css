@@ -1,6 +1,5 @@
-
 .my-calendar {
-  position: relative; /* 또는 relative, 필요에 따라 선택 */
+  position: relative;
   top: 60px; /* 헤더 아래로 이동 */
   right: 0;
   width: 400px;
@@ -9,18 +8,13 @@
   border-left: 1px solid #ddd;
   padding: 10px;
   box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
-  overflow-y: auto;
   z-index: 400;
 }
 
-
-
-.my-calendar h2,
-.calendar-event-list h3 {
-  font-size: 1.5rem;
-  font-weight: bold;
-  text-align: center;
-  margin-bottom: 16px;
+.calendar-event-list {
+  max-height: 60%; /* 일정 리스트 부분의 최대 높이를 설정 */
+  overflow-y: auto; /* 일정 리스트가 많아지면 스크롤 가능 */
+  margin-top: 20px;
 }
 
 .react-calendar {
@@ -37,7 +31,6 @@
 
 .react-calendar__tile--now {
   background: #e0f7fa;
-  color: black;
   font-weight: bold;
 }
 
@@ -47,10 +40,6 @@
   font-weight: bold;
 }
 
-.react-calendar__tile:hover {
-  background: #f0f0f0;
-}
-
 .event-dots {
   display: flex;
   justify-content: center;
@@ -58,7 +47,7 @@
 }
 
 .event-dot {
-  background-color: blue;
+  background-color: black;
   width: 8px;
   height: 8px;
   border-radius: 50%;
@@ -71,4 +60,24 @@
   background-color: #ffffff;
   border-radius: 4px;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* 일요일 */
+.react-calendar__weekdays__weekday abbr[title='일'] {
+  color: red; /* 일요일 텍스트 색상 */
+}
+
+/* 토요일 */
+.react-calendar__weekdays__weekday abbr[title='토'] {
+  color: blue; /* 토요일 텍스트 색상 */
+}
+
+/* 일요일 아래 날짜 */
+.react-calendar__tile--sunday {
+  color: red; /* 일요일 날짜 색상 */
+}
+
+/* 토요일 아래 날짜 */
+.react-calendar__tile--saturday {
+  color: blue; /* 토요일 날짜 색상 */
 }

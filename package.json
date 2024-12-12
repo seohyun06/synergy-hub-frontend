@@ -17,6 +17,7 @@
     "bootstrap": "^5.3.3",
     "date-fns": "^4.1.0",
     "dayjs": "^1.11.13",
+    "font-awesome": "^4.7.0",
     "moment": "^2.30.1",
     "moment-timezone": "^0.5.46",
     "monent": "^0.0.2-security",
