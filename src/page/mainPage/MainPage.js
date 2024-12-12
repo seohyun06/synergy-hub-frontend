@@ -16,70 +16,76 @@ const MainPage = () => {
     const [labels, setLabels] = useState([]);
 
     const { setIsLoggedIn, setUser } = useAuth();
+    const { updateAuthState } = useAuth();
 
-    useEffect(() => {
-        const fetchMemberInfo = async () => {
-            console.log("회원 정보 요청 시작");
-            const jwtToken = localStorage.getItem("accessToken");
+    // useEffect(() => {
+    //     const fetchMemberInfo = async () => {
+    //         console.log("회원 정보 요청 시작");
+    //         const jwtToken = localStorage.getItem("accessToken");
 
-            const requestHeaders = jwtToken
-                ? {
-                    Authorization: `Bearer ${jwtToken}`,
-                }
-                : {};
+    //         const requestHeaders = jwtToken
+    //             ? {
+    //                 Authorization: `Bearer ${jwtToken}`,
+    //             }
+    //             : {};
 
-            try {
-                let response = await fetch(ROUTES.GETMEMBER.link, {
-                    headers: requestHeaders,
-                });
+    //         try {
+    //             let response = await fetch(ROUTES.GETMEMBER.link, {
+    //                 headers: requestHeaders,
+    //             });
 
-                if (response.status === 401) {
-                    console .warn("401 Unauthorized 발생, 쿠키 포함 재요청");
-                    response = await fetch(ROUTES.REISSUE.link, {
-                        method: "POST",
-                        credentials: "include",
-                    });
+    //             if (response.status === 401) {
+    //                 console .warn("401 Unauthorized 발생, 쿠키 포함 재요청");
+    //                 response = await fetch(ROUTES.REISSUE.link, {
+    //                     method: "POST",
+    //                     credentials: "include",
+    //                 });
 
-                    if (response.ok) {
-                        console.log("reissue 성공");
+    //                 if (response.ok) {
+    //                     console.log("reissue 성공");
 
-                        const token = response.headers.get("Authorization");
+    //                     const token = response.headers.get("Authorization");
 
-                        if (token) {
-                            const jwtToken = token.split(" ")[1];
+    //                     if (token) {
+    //                         const jwtToken = token.split(" ")[1];
 
-                            localStorage.setItem("accessToken", jwtToken);
+    //                         localStorage.setItem("accessToken", jwtToken);
 
-                            // navigate('/');
-                            window.location.reload();
-                        } else {
-                            alert("reissue 오류");
-                        }
-                    }
+    //                         // navigate('/');
+    //                         window.location.reload();
+    //                     } else {
+    //                         alert("reissue 오류");
+    //                     }
+    //                 }
 
-                }
+    //             }
 
-                if (response.ok) {
-                    const apiResponse = await response.json();
-                    console.log("API 응답:", apiResponse);
+    //             if (response.ok) {
+    //                 const apiResponse = await response.json();
+    //                 console.log("API 응답:", apiResponse);
 
-                    const memberData = apiResponse.payload;
-                    setUser({
-                        email: memberData.email,
-                        nickname: memberData.nickname,
-                        profileImageUrl: memberData.profileImageUrl,
-                    });
-                    setIsLoggedIn(true);
-                } else {
-                    console.error("회원정보 요청 오류:", response.status);
-                }
-            } catch (error) {
-                console.error("서버에 연결할 수 없습니다:", error);
-            }
-        };
+    //                 const memberData = apiResponse.payload;
 
-        fetchMemberInfo();
-    }, [setUser, setIsLoggedIn]);
+    //                 updateAuthState(
+    //                     {
+    //                         userId: memberData.id,
+    //                         email: memberData.email,
+    //                         nickname: memberData.nickname,
+    //                         profileImageUrl: memberData.profileImageUrl,
+    //                         loginType: memberData.loginType,
+    //                     },
+    //                     true
+    //                 );
+    //             } else {
+    //                 console.error("회원정보 요청 오류:", response.status);
+    //             }
+    //         } catch (error) {
+    //             console.error("서버에 연결할 수 없습니다:", error);
+    //         }
+    //     };
+
+    //     fetchMemberInfo();
+    // }, [setUser, setIsLoggedIn]);
 
     const handleTeamNameChange = (e) => {
         setTeamName(e.target.value);

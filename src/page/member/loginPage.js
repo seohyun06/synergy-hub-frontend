@@ -35,13 +35,13 @@ const LoginPage = () => {
         const token = response.headers.get("Authorization"); // Authorization 헤더에서 토큰 가져오기
 
         if (token) {
-        
+
           const jwtToken = token.split(" ")[1]; // "Bearer " 부분제거
 
           // 토큰을 로컬 스토리지에 저장
           localStorage.setItem('accessToken', jwtToken);
 
-          navigate(ROUTES.HOME); 
+          navigate(ROUTES.TEAM_HOME);
         } else {
           alert("로그인 오류");
         }
@@ -116,14 +116,7 @@ const LoginPage = () => {
                         <label htmlFor="password" className="form-label">Password</label>
                       </div>
                     </div>
-                    <div className="col-12">
-                      <div className="form-check">
-                        <input className="form-check-input" type="checkbox" name="remember_me" id="remember_me" />
-                        <label className="form-check-label text-secondary" htmlFor="remember_me">
-                          Keep me logged in
-                        </label>
-                      </div>
-                    </div>
+                   
                     <div className="col-12">
                       <div className="d-grid">
                         <button className="btn btn-primary btn-lg card-custom rounded-input" type="submit">Log in now</button>
@@ -141,8 +134,8 @@ const LoginPage = () => {
                         <hr className="border-black" style={{ flex: 1, margin: '0 10px', borderColor: 'black' }} />
                       </div>
                     </div>
-                    <div className="text-center">
-                      <a href={ROUTE.GOOGLEURL.link} className="btn btn-custom rounded-input">
+                    <div className="text-center google-wrapper">
+                      <a href={ROUTE.GOOGLEURL.link} className="btn btn-google">
                         <i className="fa fa-google"></i>
                         Sign in with <b>Google</b>
                       </a>

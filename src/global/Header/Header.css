@@ -128,10 +128,12 @@
   background-color: white;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
-  width: 250px;
+  width: 300px; /* 너비를 늘려서 여유 공간 확보 */
   padding: 15px;
   z-index: 10;
+  text-align: center; /* 텍스트 중앙 정렬 */
 }
+
 
 .profile-dropdown h4 {
   margin-bottom: 10px;
@@ -142,32 +144,47 @@
 .profile-info {
   display: flex;
   flex-direction: column; /* 세로 정렬 */
-  align-items: center;
-  text-align: center; /* 중앙 정렬 */
+  align-items: center; /* 가운데 정렬 */
+  text-align: center; /* 텍스트 중앙 정렬 */
 }
 
 .profile-img-circle,
 .profile-img {
-  width: 130px; /* 크기 키움 */
-  height: 130px; /* 크기 키움 */
+  width: 200px; /* 크기 조정 */
+  height: 200px; /* 크기 조정 */
   border-radius: 50%;
-  margin-bottom: 15px; /* 간격 추가 */
+  margin-top:17px;
+  margin-bottom: 10px; /* 간격 조정 */
+  border: 2px solid #ddd; /* 테두리 추가 */
+  transition: transform 0.3s; /* 호버 효과 추가 */
+  cursor: pointer;
+}
+
+.profile-img-circle:hover,
+.profile-img:hover {
+  transform: scale(1.05); /* 호버 시 확대 효과 */
 }
 
 .profile-details {
-  margin-top: 5px;
+  margin-top: 20px; /* 간격 조정 */
 }
 
 .profile-nickname {
   font-size: 1.5rem;
   font-weight: bold;
-  margin-bottom: 10px; /* 간격 추가 */
+  margin-bottom: 20px; /* 간격 추가 */
 }
 
-.profile-email {
-  color: #888;
-  font-size: 1.2rem;
-  margin-bottom: 20px; /* 간격 추가 */
+.nickname-actions button {
+  margin: 0 5px; /* 버튼 간격 조정 */
+  padding: 5px 10px; /* 패딩 조정 */
+  font-size: 0.9rem; /* 폰트 크기 조정 */
+  border-radius: 4px; /* 모서리 둥글게 */
+  cursor: pointer; /* 커서 포인터로 변경 */
+}
+
+.nickname-actions button:hover {
+  background-color: #f0f0f0; /* 호버 시 배경색 변경 */
 }
 
 .logout-button {
@@ -177,6 +194,7 @@
   color: white;
   border-radius: 5px;
   cursor: pointer;
+  margin-top: 20px;
 }
 
 .logout-button:hover {
@@ -194,4 +212,18 @@
 
 .login-button:hover {
   background-color: #303f9f;
+}
+
+.edit-button {
+  background: none; /* 배경 제거 */
+  border: none; /* 테두리 제거 */
+  cursor: pointer; /* 커서 포인터로 변경 */
+  margin-left: 5px; /* 아이콘과 이름 간격 조정 */
+  color: #743779; /* 아이콘 색상 */
+  font-size: 1.2rem; /* 아이콘 크기 조정 */
+  transition: color 0.3s; /* 색상 변화에 부드러운 효과 추가 */
+}
+
+.edit-button:hover {
+  color: #0056b3; /* 호버 시 색상 변화 */
 }

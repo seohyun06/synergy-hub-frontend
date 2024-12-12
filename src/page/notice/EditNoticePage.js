@@ -189,13 +189,13 @@ function EditNoticePage() {
                 <Form onSubmit={(e) => e.preventDefault()}>
                   <Form.Group className="mb-3">
                     <Form.Control
-                        type="text"
-                        placeholder="제목을 입력하세요"
-                        className="p-3 border-2"
-                        value={notice.title}
-                        onChange={(e) =>
-                            setNotice({ ...notice, title: e.target.value })
-                        }
+                      type="text"
+                      placeholder="제목을 입력하세요"
+                      className="p-3 border-2 bold-text"
+                      value={notice.title}
+                       onChange={(e) =>
+                       setNotice({ ...notice, title: e.target.value })
+                      }
                     />
                   </Form.Group>
 
@@ -220,36 +220,34 @@ function EditNoticePage() {
                             className="img-fluid mb-2"
                         />
                         <Button
-                            variant="danger"
-                            onClick={handleImageDelete}
-                            className="mt-2"
-                        >
-                          이미지 삭제
-                        </Button>
-                      </div>
-                  ) : (
-                      <Form.Group className="mb-3">
-                        <Form.Control
-                            type="file"
-                            onChange={(e) => setNewImage(e.target.files[0])}
-                        />
-                        <Button
-                            variant="success"
-                            onClick={handleImageUpload}
-                            className="mt-2"
-                        >
-                          이미지 추가
-                        </Button>
-                      </Form.Group>
-                  )}
+                              className="image-delete-button mt-2" // 보라색 스타일로 변경된 클래스
+                              onClick={handleImageDelete}
+                            >
+                              이미지 삭제
+                            </Button>
+                          </div>
+                        ) : (
+                          <Form.Group className="mb-3">
+                            <Form.Control
+                              type="file"
+                              onChange={(e) => setNewImage(e.target.files[0])}
+                            />
+                            <Button
+                              className="image-upload-button mt-2" // 보라색 스타일로 변경된 클래스
+                              onClick={handleImageUpload}
+                            >
+                              이미지 추가
+                            </Button>
+                          </Form.Group>
+                        )}
 
                   <Button
-                      variant="dark"
-                      className="float-end px-4"
-                      onClick={handleSave}
+                    className="float-end px-4 submit-button"  // submit-button 클래스 추가
+                    onClick={handleSave}
                   >
                     수정 저장
                   </Button>
+
                 </Form>
               </Card>
             </Col>

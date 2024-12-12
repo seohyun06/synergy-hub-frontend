@@ -1,5 +1,6 @@
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { ROUTES } from "../../global/Links";
+import { ROUTES as ROUTE } from "../../global/Links";
+import { ROUTES } from "../../routes";
 
 const OAuth2Redirect = () => {
     const navigate = useNavigate();
@@ -7,7 +8,7 @@ const OAuth2Redirect = () => {
     const OAuth2JwtHeaderFetch = async () => {
         const [queryParams] = useSearchParams();
         try {
-            const response = await fetch(ROUTES.JWTHEADER.link, {
+            const response = await fetch(ROUTE.JWTHEADER.link, {
                 method: "POST",
                 credentials: "include",
             });
@@ -21,7 +22,7 @@ const OAuth2Redirect = () => {
             } else {
                 alert('접근할 수 없는 페이지입니다.');
             }
-            navigate('/', { replace: true });
+            navigate(ROUTES.TEAM_HOME);
         } catch (error) {
             console.log("error: ", error);
         }

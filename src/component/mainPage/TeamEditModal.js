@@ -7,7 +7,7 @@ const TeamEditModal = ({ team, onClose, onSave }) => {
     const [teamName, setTeamName] = useState(team?.name || "");
     const [labels, setLabels] = useState(team?.labels || []);
     const [newLabelName, setNewLabelName] = useState("");
-    const [selectedColor, setSelectedColor] = useState("#FF5733");
+    const [selectedColor, setSelectedColor] = useState("#D6C1E6");
 
     // 색상 선택 옵션 (5가지 색상)
     const colorOptions = ["#D6C1E6", "#FADADD", "#F7A9B7", "#B3E5FC", "#A2D2FF"];
@@ -42,7 +42,7 @@ const TeamEditModal = ({ team, onClose, onSave }) => {
             const newLabel = response.data;
             setLabels([...labels, newLabel]);
             setNewLabelName("");
-            setSelectedColor("#FF5733");
+            setSelectedColor("#D6C1E6");
         } catch (error) {
             console.error("라벨 추가 실패:", error);
             alert("라벨 추가 중 오류가 발생했습니다.");

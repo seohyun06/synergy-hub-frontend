@@ -1,4 +1,3 @@
-// src/routes.js
 import React from "react";
 import { createBrowserRouter } from "react-router-dom";
 import MainPage from "./page/mainPage/MainPage";
@@ -16,11 +15,12 @@ import NoticeDetailsPage from "./page/notice/NoticeDetailsPage";
 import EditNoticePage from "./page/notice/EditNoticePage";
 import OAuth2Redirect from "./page/member/Oauth2Redirect";
 import Comment from "./page/notice/Comment";
-import ProtectedTeamRoute from "./global/ProtectedTeamRoute"; // 추가된 보호 라우트
+import { PreventLoggedInAccess } from "./ProtectedRoute";
 
 // 라우트 상수 정의
 export const ROUTES = {
     HOME: '/',
+    TEAM_HOME: '/team/home',
     LOGIN: '/login',
     SIGNUP: '/signup',
     TEAM_MAIN: '/team/main',
@@ -32,9 +32,9 @@ export const ROUTES = {
     NOTICE_DETAILS: '/notice/details',
     NOTICE_EDIT: '/notice/edit',
     OAUTH2_REDIRECT: '/oauth2-jwt-header',
-    COMMENTS: '/comments/:noticeId'
+    COMMENTS: '/comments/:noticeId',
+    MY_CALENDAR: '/my-calendar'
 };
-
 
 // 공통 레이아웃 정의
 const Layout = ({ children }) => (
@@ -55,36 +55,44 @@ const HeaderLayout = ({ children }) => (
     </div>
 );
 
-//스크롤 안되게 
+// 스크롤 안되게 설정
 const ChatLayout = ({ children }) => (
     <div className="app">
         <Header />
         <div className="app-body">
             <Sidebar />
             <div className="main-chat">{children}</div>
+            <MyCalendar />
         </div>
     </div>
 );
 
-
 // 라우터 정의
 const router = createBrowserRouter([
     // 메인 페이지
-    { path: ROUTES.HOME, element: <HeaderLayout><MainPage /></HeaderLayout> },
+    { path: ROUTES.TEAM_HOME, element: <HeaderLayout><MainPage /></HeaderLayout> },
 
     // 로그인 및 회원가입
-    { path: ROUTES.LOGIN, element: <LoginPage /> },
-    { path: ROUTES.SIGNUP, element: <SignUpPage /> },
+    {
+        path: ROUTES.HOME,
+        element: (
+            <PreventLoggedInAccess>
+                <LoginPage />
+            </PreventLoggedInAccess>
+        ),
+    },
+    {
+        path: ROUTES.SIGNUP,
+        element: (
+            <PreventLoggedInAccess>
+                <SignUpPage />
+            </PreventLoggedInAccess>
+        ),
+    },
 
     // 팀 관련 경로
-    {
-        path: ROUTES.TEAM_VIEW,
-        element: (
-            <ProtectedTeamRoute>
-                <Layout><TeamPage /></Layout>
-            </ProtectedTeamRoute>
-        )
-    },
+    { path: ROUTES.TEAM_MAIN, element: <Layout><MainPage /></Layout> },
+    { path: ROUTES.TEAM_VIEW, element: <Layout><TeamPage /></Layout> },
 
     // 캘린더 관련 경로
     { path: ROUTES.CALENDAR, element: <Layout><TeamCalendar /></Layout> },
@@ -103,7 +111,8 @@ const router = createBrowserRouter([
 
     // OAuth2 리다이렉트
     { path: ROUTES.OAUTH2_REDIRECT, element: <OAuth2Redirect /> },
-]);
 
+    {path: ROUTES.MY_CALENDAR, element: <Layout><MyCalendar /></Layout>,},
+]);
 
 export default router;
