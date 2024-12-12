@@ -102,7 +102,7 @@ function EditNoticePage() {
     const formData = new FormData();
     formData.append("image", newImage);
 
-    fetch(" ${process.env.REACT_APP_API_URL}/images/upload", {
+    fetch(`${process.env.REACT_APP_API_URL}/images/upload`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,

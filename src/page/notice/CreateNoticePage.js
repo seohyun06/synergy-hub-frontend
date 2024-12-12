@@ -29,7 +29,7 @@ function CreateNoticePage() {
     formData.append("image", file);
 
     try {
-      const response = await fetch("http://localhost:8080/images/upload", {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/images/upload`, {
         method: "POST",
         body: formData,
       });
