@@ -31,7 +31,7 @@ function EditNoticePage() {
       return;
     }
 
-    fetch(`http://localhost:8080/notices/${noticeId}?team=${teamId}`, {
+    fetch(` ${process.env.REACT_APP_API_URL}/notices/${noticeId}?team=${teamId}`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -67,7 +67,7 @@ function EditNoticePage() {
       return;
     }
 
-    fetch(`http://localhost:8080/images/delete?imageAddress=${notice.imageUrl}`, {
+    fetch(` ${process.env.REACT_APP_API_URL}/images/delete?imageAddress=${notice.imageUrl}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -102,7 +102,7 @@ function EditNoticePage() {
     const formData = new FormData();
     formData.append("image", newImage);
 
-    fetch("http://localhost:8080/images/upload", {
+    fetch(" ${process.env.REACT_APP_API_URL}/images/upload", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -144,7 +144,7 @@ function EditNoticePage() {
       imageUrl: notice.imageUrl, // 이미지 URL 포함
     };
 
-    fetch(`http://localhost:8080/notices/${noticeId}?team=${teamId}`, {
+    fetch(` ${process.env.REACT_APP_API_URL}/notices/${noticeId}?team=${teamId}`, {
       method: "PUT",
       headers: {
         Authorization: `Bearer ${token}`,

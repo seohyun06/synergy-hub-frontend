@@ -39,7 +39,7 @@ function NoticeDetailsPage() {
     //     }
     //
     //     // 공지사항 상세 데이터 가져오기
-    //     fetch(`http://localhost:8080/notices/${noticeId}?team=${teamId}`)
+    //     fetch(` ${process.env.REACT_APP_API_URL}/notices/${noticeId}?team=${teamId}`)
     //         .then((response) => {
     //             if (!response.ok) {
     //                 if (response.status === 404) {
@@ -69,7 +69,7 @@ function NoticeDetailsPage() {
             }
 
             try {
-                const response = await fetch(`http://localhost:8080/notices/${noticeId}?team=${teamId}`, {
+                const response = await fetch(` ${process.env.REACT_APP_API_URL}/notices/${noticeId}?team=${teamId}`, {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
                     },
@@ -107,7 +107,7 @@ function NoticeDetailsPage() {
     // 댓글 리스트 가져오기
     useEffect(() => {
         if (noticeId) {
-            fetch(`http://localhost:8080/comments/notice/${noticeId}`)
+            fetch(` ${process.env.REACT_APP_API_URL}/comments/notice/${noticeId}`)
                 .then((response) => {
                     if (!response.ok) {
                         throw new Error("댓글 데이터를 불러오는 중 오류가 발생했습니다.");
@@ -148,7 +148,7 @@ function NoticeDetailsPage() {
             return;
         }
 
-        fetch(`http://localhost:8080/comments/notice/${noticeId}`, {
+        fetch(` ${process.env.REACT_APP_API_URL}/comments/notice/${noticeId}`, {
             method: "POST",
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -192,7 +192,7 @@ function NoticeDetailsPage() {
         }
 
         if (window.confirm("정말로 삭제하시겠습니까?")) {
-            fetch(`http://localhost:8080/notices/${noticeId}?team=${teamId}`, {
+            fetch(` ${process.env.REACT_APP_API_URL}/notices/${noticeId}?team=${teamId}`, {
                 method: "DELETE",
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -227,7 +227,7 @@ function NoticeDetailsPage() {
         }
 
         if (window.confirm("정말로 이 댓글을 삭제하시겠습니까?")) {
-            fetch(`http://localhost:8080/comments/${commentId}`, {
+            fetch(` ${process.env.REACT_APP_API_URL}/comments/${commentId}`, {
                 method: "DELETE",
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -268,7 +268,7 @@ function NoticeDetailsPage() {
             return;
         }
 
-        fetch(`http://localhost:8080/comments/${commentId}`, {
+        fetch(` ${process.env.REACT_APP_API_URL}/comments/${commentId}`, {
             method: "PUT",
             headers: {
                 Authorization: `Bearer ${token}`,

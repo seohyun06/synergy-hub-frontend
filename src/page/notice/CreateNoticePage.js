@@ -59,6 +59,11 @@ function CreateNoticePage() {
     }
   };
 
+  const handleImageRemove = () => {
+    setImageFile(null); // 파일 초기화
+    setImagePreview(""); // 미리 보기 초기화
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -87,7 +92,7 @@ function CreateNoticePage() {
     };
 
     try {
-      const response = await fetch(`http://localhost:8080/notices/${teamId}`, {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/notices/${teamId}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -153,8 +158,15 @@ function CreateNoticePage() {
                   </Form.Group>
 
                   {imagePreview && (
-                      <div className="image-preview mb-3">
+                      <div className="image-preview mb-3 text-center">
                         <Image src={imagePreview} thumbnail fluid />
+                        <Button
+                            variant="danger"
+                            className="mt-2"
+                            onClick={handleImageRemove}
+                        >
+                          이미지 삭제
+                        </Button>
                       </div>
                   )}
 
