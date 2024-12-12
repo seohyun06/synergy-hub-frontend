@@ -4,7 +4,7 @@ import "./LabelCreationForm.css";
 
 const LabelCreationForm = ({ onAddLabel }) => {
     const [labelName, setLabelName] = useState(""); // 라벨 이름 상태
-    const [selectedColor, setSelectedColor] = useState("#FF5733"); // 기본 색상
+    const [selectedColor, setSelectedColor] = useState("#D6C1E6"); // 기본 색상
     const [isLoading, setIsLoading] = useState(false); // 로딩 상태
 
     // 라벨 이름 변경 핸들러
@@ -36,7 +36,7 @@ const LabelCreationForm = ({ onAddLabel }) => {
             console.log("라벨 생성 성공:", response.data);
             onAddLabel(response.data); // 부모 컴포넌트에 새 라벨 전달
             setLabelName(""); // 입력 필드 초기화
-            setSelectedColor("#FF5733"); // 기본 색상으로 초기화
+            setSelectedColor("#D6C1E6"); // 기본 색상으로 초기화
         } catch (error) {
             console.error("라벨 생성 실패:", error);
             alert("라벨 생성 중 오류가 발생했습니다.");
