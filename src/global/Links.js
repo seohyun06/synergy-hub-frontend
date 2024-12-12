@@ -44,7 +44,9 @@ export const ROUTES = {
     DELETE_EVENT: (calendarEventId) => `${process.env.REACT_APP_API_URL}/calendar/events/${calendarEventId}`,
 
     /* 개인 캘린더 */
-   GET_USER_EVENTS: (memberId) => `${process.env.REACT_APP_API_URL}/calendar/my-events`,
+  GET_TEAM_COLORS: `${process.env.REACT_APP_API_URL}/member-teams/all-color`,
+  GET_USER_EVENTS: `${process.env.REACT_APP_API_URL}/calendar/my-events`,
+
 
 
 };

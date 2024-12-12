@@ -1,6 +1,6 @@
 .combined-page-container {
   display: flex;
-  height: 85vh; /
+  height: 85vh;
   gap: 10px;
   box-sizing: border-box;
   overflow: hidden; /* 드래그 방지 */
