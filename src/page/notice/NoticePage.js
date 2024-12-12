@@ -34,7 +34,7 @@ function NoticePage() {
       }
 
       fetch(
-        `http://localhost:8080/notices/teams/${teamId}/notices?page=${page}&size=${size}&sortField=${sortField}&sortDirection=${sortDirection}`,
+        ` ${process.env.REACT_APP_API_URL}/notices/teams/${teamId}/notices?page=${page}&size=${size}&sortField=${sortField}&sortDirection=${sortDirection}`,
         {
           method: 'GET',
           headers: {
@@ -76,7 +76,7 @@ function NoticePage() {
         return;
       }
 
-      fetch(`http://localhost:8080/notices/${id}`, {
+      fetch(` ${process.env.REACT_APP_API_URL}/notices/${id}`, {
         method: "DELETE",
         headers: {
           'Authorization': `Bearer ${token}`, // 인증 토큰 추가

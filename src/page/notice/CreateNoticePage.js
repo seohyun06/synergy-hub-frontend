@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Card, Form, Button, Container, Row, Col, Image } from "react-bootstrap";
 import { useNavigate, useLocation } from "react-router-dom";
 import "./CreateNoticePage.css";
@@ -9,6 +9,7 @@ function CreateNoticePage() {
   const [imageFile, setImageFile] = useState(null);
   const [imagePreview, setImagePreview] = useState("");
   const [teamId, setTeamId] = useState(null);
+  const fileInputRef = useRef(null); // 파일 input 참조 생성
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -28,7 +29,7 @@ function CreateNoticePage() {
     formData.append("image", file);
 
     try {
-      const response = await fetch("http://localhost:8080/images/upload", {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/images/upload`, {
         method: "POST",
         body: formData,
       });
@@ -56,6 +57,14 @@ function CreateNoticePage() {
       setImageFile(file);
       const previewUrl = URL.createObjectURL(file);
       setImagePreview(previewUrl);
+    }
+  };
+
+  const handleImageRemove = () => {
+    setImageFile(null); // 파일 상태 초기화
+    setImagePreview(""); // 미리보기 초기화
+    if (fileInputRef.current) {
+      fileInputRef.current.value = ""; // 파일 input 값 초기화
     }
   };
 
@@ -87,7 +96,7 @@ function CreateNoticePage() {
     };
 
     try {
-      const response = await fetch(`http://localhost:8080/notices/${teamId}`, {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/notices/${teamId}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -148,13 +157,21 @@ function CreateNoticePage() {
                     <Form.Control
                         type="file"
                         className="p-3 border-2"
+                        ref={fileInputRef} // input 참조 연결
                         onChange={handleImageChange}
                     />
                   </Form.Group>
 
                   {imagePreview && (
-                      <div className="image-preview mb-3">
+                      <div className="image-preview mb-3 text-center">
                         <Image src={imagePreview} thumbnail fluid />
+                        <Button
+                            variant="danger"
+                            className="mt-2"
+                            onClick={handleImageRemove}
+                        >
+                          이미지 삭제
+                        </Button>
                       </div>
                   )}
 
