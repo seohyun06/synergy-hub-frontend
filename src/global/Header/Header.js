@@ -205,8 +205,8 @@ const Header = () => {
 
         setIsLoggedIn(false);
         setUser({ email: "", nickname: "", profileImageUrl: "", userId: "" });
-        localStorage.removeItem("user");
-        localStorage.removeItem("isLoggedIn");
+        sessionStorage.removeItem("user");
+        sessionStorage.removeItem("isLoggedIn");
         localStorage.removeItem("accessToken");
 
         navigate("/"); // /login 경로로 이동
