@@ -4,6 +4,7 @@ import "react-calendar/dist/Calendar.css";
 import "./MyCalendar.css";
 import moment from "moment";
 import axios from "axios";
+import { ROUTES } from '../../global/Links';
 
 const MyCalendar = () => {
   const [selectedDate, setSelectedDate] = useState(new Date()); // 선택된 날짜 상태
@@ -13,7 +14,7 @@ const MyCalendar = () => {
 
 const fetchTeamColors = async () => {
     try {
-        const response = await axios.get('http://localhost:8080/member-teams/all-color', {
+        const response = await axios.get(ROUTES.GET_TEAM_COLORS, {
             headers: { Authorization: `Bearer ${localStorage.getItem('accessToken')}` },
         });
 
@@ -29,7 +30,7 @@ const fetchTeamColors = async () => {
   // 이벤트 데이터를 가져오는 함수
   const fetchEvents = async () => {
     try {
-      const apiUrl = `http://localhost:8080/calendar/my-events`;
+      const apiUrl = ROUTES.GET_USER_EVENTS;
       const response = await axios.get(apiUrl, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`, // JWT 인증 토큰
