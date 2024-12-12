@@ -40,7 +40,7 @@ const Header = () => {
         return;
       }
 
-      const response = await fetch("http://localhost:8080/teams/member", {
+      var response = await fetch(`${process.env.REACT_APP_API_URL}/teams/member`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

@@ -32,7 +32,7 @@ const ChatRoom4 = () => {
         console.log("액세스 토큰 : ", authToken);
 
         const stompClient = new Client({
-            webSocketFactory: () => new SockJS('http://localhost:8080/ws'), // WebSocket 엔드포인트
+            webSocketFactory: () => new SockJS(`${process.env.REACT_APP_API_URL}/ws`), // WebSocket 엔드포인트
 
             debug: (str) => console.log(str), // 디버그 메시지 출력
 

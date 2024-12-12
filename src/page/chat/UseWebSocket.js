@@ -21,7 +21,7 @@ const useWebSocket = (chatRoomId, onMessageReceived, onMessageDeleted) => {
         console.log("액세드 토큰 : ", authToken);
 
         const stompClient = new Client({
-            webSocketFactory: () => new SockJS('http://localhost:8080/ws'), // WebSocket 엔드포인트
+            webSocketFactory: () => new SockJS(`${process.env.REACT_APP_API_URL}/ws`), // WebSocket 엔드포인트
             debug: (str) => console.log(str), // 디버그 메시지 출력
             connectHeaders: {
                 Authorization: `Bearer ${authToken}`, // 헤더에 인증 토큰 추가
@@ -86,7 +86,7 @@ const useWebSocket = (chatRoomId, onMessageReceived, onMessageDeleted) => {
     //                     client.deactivate();
     //                 }
     //                 const newClient = new Client({
-    //                     webSocketFactory: () => new SockJS('http://localhost:8080/ws'),
+    //                     webSocketFactory: () => new SockJS('${process.env.REACT_APP_API_URL}/ws'),
     //                     debug: (str) => console.log(str),
     //                     connectHeaders: {
     //                         Authorization: `Bearer ${newToken}`, // 새로운 토큰 사용
