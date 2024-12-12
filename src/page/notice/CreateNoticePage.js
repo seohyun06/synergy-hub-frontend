@@ -1,18 +1,18 @@
 import { useState, useEffect } from "react";
-import { Card, Form, Button, Container, Row, Col } from "react-bootstrap";
+import { Card, Form, Button, Container, Row, Col, Image } from "react-bootstrap";
 import { useNavigate, useLocation } from "react-router-dom";
 import "./CreateNoticePage.css";
 
 function CreateNoticePage() {
-  const [content, setContent] = useState(""); // 내용 상태
-  const [title, setTitle] = useState(""); // 제목 상태
-  const [imageFile, setImageFile] = useState(null); // 이미지 파일 상태
-  const [teamId, setTeamId] = useState(null); // teamId 상태
+  const [content, setContent] = useState("");
+  const [title, setTitle] = useState("");
+  const [imageFile, setImageFile] = useState(null);
+  const [imagePreview, setImagePreview] = useState("");
+  const [teamId, setTeamId] = useState(null);
   const navigate = useNavigate();
   const location = useLocation();
 
   useEffect(() => {
-    // 쿼리스트링에서 teamId 추출
     const queryParams = new URLSearchParams(location.search);
     const teamIdFromQuery = queryParams.get("team");
     if (!teamIdFromQuery) {
@@ -20,7 +20,7 @@ function CreateNoticePage() {
       navigate("/notices");
       return;
     }
-    setTeamId(teamIdFromQuery); // teamId 설정
+    setTeamId(teamIdFromQuery);
   }, [location, navigate]);
 
   const handleImageUpload = async (file) => {
@@ -42,11 +42,20 @@ function CreateNoticePage() {
 
       const imageUrl = await response.text();
       console.log("이미지 업로드 성공:", imageUrl);
-      return imageUrl; // 업로드된 이미지 URL 반환
+      return imageUrl;
     } catch (error) {
       console.error("이미지 업로드 중 오류 발생:", error);
       alert("이미지 업로드 중 오류가 발생했습니다.");
       return null;
+    }
+  };
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setImageFile(file);
+      const previewUrl = URL.createObjectURL(file);
+      setImagePreview(previewUrl);
     }
   };
 
@@ -61,21 +70,20 @@ function CreateNoticePage() {
     const token = localStorage.getItem("accessToken");
     if (!token) {
       alert("로그인이 필요합니다.");
-      navigate("/login"); // 로그인 페이지로 리디렉션
+      navigate("/login");
       return;
     }
 
-    // 이미지 업로드 후 공지사항 생성
     let uploadedImageUrl = "";
     if (imageFile) {
       uploadedImageUrl = await handleImageUpload(imageFile);
-      if (!uploadedImageUrl) return; // 이미지 업로드 실패 시 중단
+      if (!uploadedImageUrl) return;
     }
 
     const requestBody = {
       title,
       content,
-      imageUrl: uploadedImageUrl, // 업로드된 이미지 URL
+      imageUrl: uploadedImageUrl,
     };
 
     try {
@@ -83,7 +91,7 @@ function CreateNoticePage() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`, // 인증 토큰 추가
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(requestBody),
       });
@@ -110,48 +118,55 @@ function CreateNoticePage() {
           <h1 className="h1">공지사항</h1>
         </div>
 
-      <Container fluid>
-        <Row>
-          <Col xs={9}>
-            <Card className="p-4">
-              <Form onSubmit={handleSubmit}>
-                <Form.Group className="mb-3">
-                  <Form.Control
-                    type="text"
-                    placeholder="제목을 입력하세요"
-                    className="p-3 border-2 bold-text"
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                  />
-                </Form.Group>
+        <Container fluid>
+          <Row>
+            <Col xs={9}>
+              <Card className="p-4">
+                <Form onSubmit={handleSubmit}>
+                  <Form.Group className="mb-3">
+                    <Form.Control
+                        type="text"
+                        placeholder="제목을 입력하세요"
+                        className="p-3 border-2 bold-text"
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
+                    />
+                  </Form.Group>
 
-                <Form.Group className="mb-3">
-                  <Form.Control
-                    as="textarea"
-                    rows={6}
-                    placeholder="내용을 입력하세요"
-                    className="p-3 border-2"
-                    value={content}
-                    onChange={(e) => setContent(e.target.value)}
-                  />
-                </Form.Group>
+                  <Form.Group className="mb-3">
+                    <Form.Control
+                        as="textarea"
+                        rows={6}
+                        placeholder="내용을 입력하세요"
+                        className="p-3 border-2"
+                        value={content}
+                        onChange={(e) => setContent(e.target.value)}
+                    />
+                  </Form.Group>
 
-                <Form.Group className="mb-3">
-                  <Form.Control
-                    type="file"
-                    className="p-3 border-2"
-                    onChange={(e) => setImageFile(e.target.files[0])}
-                  />
-                </Form.Group>
-                <Button variant="dark" className="submit-button float-end px-4" type="submit">
-                  등록
-                </Button>
-              </Form>
-            </Card>
-          </Col>
-        </Row>
-      </Container>
-    </div>
+                  <Form.Group className="mb-3">
+                    <Form.Control
+                        type="file"
+                        className="p-3 border-2"
+                        onChange={handleImageChange}
+                    />
+                  </Form.Group>
+
+                  {imagePreview && (
+                      <div className="image-preview mb-3">
+                        <Image src={imagePreview} thumbnail fluid />
+                      </div>
+                  )}
+
+                  <Button variant="dark" className="submit-button float-end px-4" type="submit">
+                    등록
+                  </Button>
+                </Form>
+              </Card>
+            </Col>
+          </Row>
+        </Container>
+      </div>
   );
 }
 
