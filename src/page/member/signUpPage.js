@@ -49,7 +49,7 @@ const SignUpPage = () => {
 
             if (response.ok) {  //회원가입 성공
                 alert("회원 가입에 성공하셨습니다.")
-                navigate('/login');
+                navigate('/');
             } else {  //회원가입 실패 
                 const errorData = await response.json();
                 alert(errorData.message || "회원 가입에 실패했습니다.");
@@ -167,7 +167,7 @@ const SignUpPage = () => {
                                 <div className="row mt-4">
                                     <div className="col-12">
                                         <div className="text-center">
-                                            <a href='/login' className="btn btn-custom rounded-input">
+                                            <a href='/' className="btn btn-custom rounded-input">
                                                 <i className="fa fa-google"></i>
                                                 뒤로 가기
                                             </a>

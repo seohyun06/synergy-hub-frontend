@@ -102,7 +102,7 @@ const MainPage = () => {
     // 라벨 삭제
     const handleDeleteLabel = async (labelId) => {
         try {
-            await axios.delete(`http://localhost:8080/api/labels/${labelId}`);
+            await axios.delete(`${process.env.REACT_APP_API_URL}/api/labels/${labelId}`);
             setLabels(labels.filter((label) => label.id !== labelId));
         } catch (error) {
             console.error("라벨 삭제 실패:", error);

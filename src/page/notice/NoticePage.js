@@ -29,12 +29,12 @@ function NoticePage() {
 
       if (!token) {
         alert("로그인이 필요합니다.");
-        navigate("/login"); // 로그인 페이지로 리디렉션
+        navigate("/"); // 로그인 페이지로 리디렉션
         return;
       }
 
       fetch(
-        `http://localhost:8080/notices/teams/${teamId}/notices?page=${page}&size=${size}&sortField=${sortField}&sortDirection=${sortDirection}`,
+        ` ${process.env.REACT_APP_API_URL}/notices/teams/${teamId}/notices?page=${page}&size=${size}&sortField=${sortField}&sortDirection=${sortDirection}`,
         {
           method: 'GET',
           headers: {
@@ -57,7 +57,7 @@ function NoticePage() {
         .catch((error) => {
           console.error("공지사항 데이터를 불러오는 중 오류 발생:", error);
           alert("로그인 정보가 유효하지 않거나 인증에 실패했습니다.");
-          navigate("/login"); // 인증 실패시 로그인 페이지로 리디렉션
+          navigate("/"); // 인증 실패시 로그인 페이지로 리디렉션
         });
     };
 
@@ -72,11 +72,11 @@ function NoticePage() {
 
       if (!token) {
         alert("로그인이 필요합니다.");
-        navigate("/login"); // 로그인 페이지로 리디렉션
+        navigate("/"); // 로그인 페이지로 리디렉션
         return;
       }
 
-      fetch(`http://localhost:8080/notices/${id}`, {
+      fetch(` ${process.env.REACT_APP_API_URL}/notices/${id}`, {
         method: "DELETE",
         headers: {
           'Authorization': `Bearer ${token}`, // 인증 토큰 추가
