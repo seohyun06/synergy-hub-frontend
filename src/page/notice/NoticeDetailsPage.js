@@ -29,37 +29,6 @@ function NoticeDetailsPage() {
                     ${String(hour).padStart(2, "0")}:${String(minute).padStart(2, "0")}:${String(second).padStart(2, "0")}`;
         };
 
-    // 공지사항 상세 데이터 가져오기
-    // useEffect(() => {
-    //     // 유효하지 않은 쿼리스트링 값 처리
-    //     if (!teamId || !noticeId) {
-    //         setError("유효하지 않은 팀 ID 또는 공지사항 ID입니다.");
-    //         setIsLoading(false);
-    //         return;
-    //     }
-    //
-    //     // 공지사항 상세 데이터 가져오기
-    //     fetch(` ${process.env.REACT_APP_API_URL}/notices/${noticeId}?team=${teamId}`)
-    //         .then((response) => {
-    //             if (!response.ok) {
-    //                 if (response.status === 404) {
-    //                     throw new Error("공지사항을 찾을 수 없습니다.");
-    //                 }
-    //                 throw new Error("서버에서 데이터를 불러오는 중 문제가 발생했습니다.");
-    //             }
-    //             return response.json();
-    //         })
-    //         .then((data) => {
-    //             setNotice(data);
-    //             setError(null); // 오류 상태 초기화
-    //         })
-    //         .catch((err) => {
-    //             console.error("공지사항 데이터 불러오기 오류:", err.message);
-    //             setError(err.message);
-    //         })
-    //         .finally(() => setIsLoading(false)); // 로딩 상태 해제
-    // }, [teamId, noticeId]);
-
     useEffect(() => {
         const fetchNoticeDetails = async () => {
             if (!teamId || !noticeId) {
