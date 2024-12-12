@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // 환경 변수에서 baseURL 가져오기
-const baseURL = process.env.REACT_APP_BASE_URL || "http://localhost:8080";
+const baseURL = 'http://34.64.235.3:8080';
 
 // Axios 인스턴스 생성
 const apiClient = axios.create({

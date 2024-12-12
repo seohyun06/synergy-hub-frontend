@@ -4,6 +4,7 @@ import TeamList from "../../component/mainPage/TeamList";
 import LabelCreationForm from "../../component/mainPage/LabelCreationForm"; // 라벨 생성 폼 추가
 import "./MainPage.css";
 import { useAuth } from "../../global/AuthContext";
+import apiClient from "../../api/axiosInstance";
 
 const MainPage = () => {
     const [isCreatingTeam, setIsCreatingTeam] = useState(false);
