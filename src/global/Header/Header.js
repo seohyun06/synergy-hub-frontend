@@ -134,6 +134,14 @@ const Header = () => {
           } else {
             alert("reissue 오류");
           }
+        } else {  //refresh 토큰 만료 로그아웃 
+          setIsLoggedIn(false);
+          setUser({ email: "", nickname: "", profileImageUrl: "", userId: "" });
+          sessionStorage.removeItem("user");
+          sessionStorage.removeItem("isLoggedIn");
+          localStorage.removeItem("accessToken");
+  
+          navigate("/"); // /login 경로로 이동
         }
 
       }

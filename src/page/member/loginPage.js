@@ -134,9 +134,9 @@ const LoginPage = () => {
                         <hr className="border-black" style={{ flex: 1, margin: '0 10px', borderColor: 'black' }} />
                       </div>
                     </div>
-                    <div className="text-center google-wrapper">
+                    <div className="text-center">
                       <a href={ROUTE.GOOGLEURL.link} className="btn btn-google">
-                        <i className="fa fa-google"></i>
+                        {/* <i className="fa fa-google"></i> */}
                         Sign in with <b>Google</b>
                       </a>
                     </div>

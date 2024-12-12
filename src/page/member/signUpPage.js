@@ -1,7 +1,7 @@
-import React, { useState}  from 'react';
+import React, { useState } from 'react';
 import { Row, Col, Card, Form, Button } from 'react-bootstrap';
 import logo from './img/logo5.jpeg';
-import './css/style.css'
+import './css/style.css';
 import { Link, useNavigate } from "react-router-dom";
 import { ROUTES } from '../../global/Links';
 
@@ -14,6 +14,8 @@ const SignUpPage = () => {
         confirmPassword: ''
     });
 
+    const [errors, setErrors] = useState({}); // 유효성 검사 오류 메시지 저장
+
     const navigate = useNavigate(); // useNavigate 훅 사용
 
     const handleChange = (event) => {
@@ -22,10 +24,29 @@ const SignUpPage = () => {
             ...form,
             [name]: value
         });
+
+        // 비밀번호 길이 유효성 검사
+        if (name === 'password' || name === 'confirmPassword') {
+            if (value.length < 8) {
+                setErrors((prev) => ({ ...prev, [name]: '비밀번호는 최소 8자리 이상이어야 합니다.' }));
+            } else {
+                setErrors((prev) => {
+                    const updatedErrors = { ...prev };
+                    delete updatedErrors[name];
+                    return updatedErrors;
+                });
+            }
+        }
     };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+
+        // 최종적으로 비밀번호 일치 확인 및 길이 검사
+        if (form.password.length < 8) {
+            alert("비밀번호는 최소 8자리 이상이어야 합니다.");
+            return;
+        }
 
         if (form.password !== form.confirmPassword) {
             alert("비밀번호가 일치하지 않습니다.");
@@ -48,7 +69,7 @@ const SignUpPage = () => {
             });
 
             if (response.ok) {  //회원가입 성공
-                alert("회원 가입에 성공하셨습니다.")
+                alert("회원 가입에 성공하셨습니다.");
                 navigate('/');
             } else {  //회원가입 실패 
                 const errorData = await response.json();
@@ -58,8 +79,6 @@ const SignUpPage = () => {
             alert("서버에 연결할 수 없습니다.");
         }
     };
-
-
 
     return (
         <section className="bg-custom py-3 py-md-5 py-xl-8">
@@ -137,6 +156,7 @@ const SignUpPage = () => {
                                                     onChange={handleChange}
                                                     required
                                                 />
+                                                {errors.password && <small className="text-danger">{errors.password}</small>}
                                                 <label htmlFor="password" className="form-label">비밀번호</label>
                                             </div>
                                         </div>
@@ -152,6 +172,7 @@ const SignUpPage = () => {
                                                     onChange={handleChange}
                                                     required
                                                 />
+                                                {errors.confirmPassword && <small className="text-danger">{errors.confirmPassword}</small>}
                                                 <label htmlFor="confirm_password" className="form-label">비밀번호 확인</label>
                                             </div>
                                         </div>
@@ -168,7 +189,6 @@ const SignUpPage = () => {
                                     <div className="col-12">
                                         <div className="text-center">
                                             <a href='/' className="btn btn-custom rounded-input">
-                                                <i className="fa fa-google"></i>
                                                 뒤로 가기
                                             </a>
                                         </div>
@@ -182,6 +202,5 @@ const SignUpPage = () => {
         </section>
     );
 }
-
 
 export default SignUpPage;
